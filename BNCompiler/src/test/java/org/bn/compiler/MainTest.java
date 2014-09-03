@@ -30,6 +30,7 @@ public class MainTest extends TestCase {
      * @see Main#start(String[])
      */
     public void testJava() throws Exception {
+        new File("testworkdir" + File.separator + "output").mkdirs();
         new Main().start(new String[] {
             "--modulesPath", "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules",
             "--moduleName", "java",
@@ -40,6 +41,7 @@ public class MainTest extends TestCase {
     }
     
     public void testCS() throws Exception {
+        new File("testworkdir" + File.separator + "output-cs").mkdirs();
         new Main().start(new String[] {
             "--modulesPath", "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules",
             "--moduleName", "cs",

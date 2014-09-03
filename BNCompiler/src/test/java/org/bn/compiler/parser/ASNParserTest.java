@@ -47,7 +47,7 @@ public class ASNParserTest extends TestCase {
         ASN1Model model = createFromStream();
         model.runtimeArguments = new String[]{"-inputFileName", "test.asn"};
         model.moduleDirectory = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules" + File.separator + "java";
-        model.outputDirectory = "output";
+        model.outputDirectory = "testworkdir" + File.separator + "output";
         model.moduleNS = "test_asn";
         
         Marshaller marshaller = JAXBContext.newInstance("org.bn.compiler.parser.model").createMarshaller();
