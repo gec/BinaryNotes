@@ -19,7 +19,6 @@ package org.bn.compiler.parser;
 import org.bn.compiler.parser.model.ASN1Model;
 import org.bn.compiler.parser.model.ASNModule;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -45,18 +44,16 @@ public class ASNParserTest extends TestCase {
     }
 
     public void testJaxb() throws Exception {
-        JAXBContext jc = JAXBContext.newInstance("org.bn.compiler.parser.model");
-        Marshaller marshaller = jc.createMarshaller();
         ASN1Model model = createFromStream();
-
         model.runtimeArguments = new String[]{"-inputFileName", "test.asn"};
-        model.moduleDirectory = "modules" + File.separator + "java";
+        model.moduleDirectory = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules" + File.separator + "java";
         model.outputDirectory = "output";
         model.moduleNS = "test_asn";
+        
+        Marshaller marshaller = JAXBContext.newInstance("org.bn.compiler.parser.model").createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         marshaller.marshal(model, System.out);
-
-        marshaller.marshal(model, new FileOutputStream("temp.xml"));
+        //marshaller.marshal(model, new FileOutputStream("temp.xml"));
     }
 
     /**

@@ -29,27 +29,23 @@ public class MainTest extends TestCase {
     /**
      * @see Main#start(String[])
      */
-    public void testStart() throws Exception {
-        Main compiler = new Main();
-
-        compiler.start(new String[] {
-            "--modulesPath", "xslsrc" + File.separator + "modules",
-            "--moduleName", "java", 
+    public void testJava() throws Exception {
+        new Main().start(new String[] {
+            "--modulesPath", "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules",
+            "--moduleName", "java",
             "--outputDir", "testworkdir" + File.separator + "output", 
-            "--fileName", "testworkdir" + File.separator + "test.asn",
-            "-ns", "test.org.bn.coders.test_asn"
+            "--fileName", "src" + File.separator + "test" + File.separator + "resources" + File.separator + "test.asn",
+            "-ns", "test_asn"
         });
     }
     
-    public void testCSStart() throws Exception {
-        Main compiler = new Main();
-
-        compiler.start(new String[] {
-            "--modulesPath", "xslsrc" + File.separator + "modules",
-            "--moduleName", "cs", 
-            "--outputDir", "testworkdir" + File.separator + "output-cs", 
-            "--fileName", "testworkdir" + File.separator + "test.asn",
-            "-ns", "test.org.bn.coders.test_asn"
+    public void testCS() throws Exception {
+        new Main().start(new String[] {
+            "--modulesPath", "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules",
+            "--moduleName", "cs",
+            "--outputDir", "testworkdir" + File.separator + "output-cs",
+            "--fileName", "src" + File.separator + "test" + File.separator + "resources" + File.separator + "test.asn",
+            "-ns", "test_asn"
         });
     }
     
