@@ -14,60 +14,49 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+package org.bn.compiler.parser;
 
-package test.org.bn.compiler.parser;
-
-import junit.framework.TestCase;
-
-import org.bn.compiler.parser.ASNLexer;
-import org.bn.compiler.parser.ASNParser;
 import org.bn.compiler.parser.model.ASN1Model;
 import org.bn.compiler.parser.model.ASNModule;
-
-//~--- JDK imports ------------------------------------------------------------
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import junit.framework.TestCase;
 
 public class ASNParserTest extends TestCase {
+
     public ASNParserTest(String sTestName) {
         super(sTestName);
     }
 
     private ASN1Model createFromStream() throws Exception {
-        InputStream stream = getClass().getResourceAsStream(
-                                 "/test/org/bn/compiler/parser/test.asn");
-        ASNLexer  lexer  = new ASNLexer(stream);
+        InputStream stream = getClass().getResourceAsStream("/test.asn");
+        ASNLexer lexer = new ASNLexer(stream);
         ASNParser parser = new ASNParser(lexer);
         ASNModule module = new ASNModule();
 
         parser.module_definition(module);
 
         ASN1Model model = new ASN1Model();
-
         model.module = module;
-
         return model;
     }
 
     public void testJaxb() throws Exception {
-        JAXBContext jc =
-            JAXBContext.newInstance("org.bn.compiler.parser.model");
+        JAXBContext jc = JAXBContext.newInstance("org.bn.compiler.parser.model");
         Marshaller marshaller = jc.createMarshaller();
-        ASN1Model  model      = createFromStream();
+        ASN1Model model = createFromStream();
 
-        model.runtimeArguments = new String[] { "-inputFileName", "test.asn" };
-        model.moduleDirectory  = "modules" + File.separator + "java";
-        model.outputDirectory  = "output";
+        model.runtimeArguments = new String[]{"-inputFileName", "test.asn"};
+        model.moduleDirectory = "modules" + File.separator + "java";
+        model.outputDirectory = "output";
         model.moduleNS = "test_asn";
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         marshaller.marshal(model, System.out);
 
-        marshaller.marshal(model,new FileOutputStream("temp.xml"));
+        marshaller.marshal(model, new FileOutputStream("temp.xml"));
     }
 
     /**

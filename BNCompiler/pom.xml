@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cz.drasil</groupId>
+    <artifactId>bncompiler</artifactId>
+    <version>1.5.3</version>
+    <packaging>jar</packaging>
+
+    <name>BinaryNotes ASN.1 Compiler</name>
+    <description>BinaryNotes ASN.1 Compiler generating Java or C# classes</description>
+    <url>https://github.com/drasil/BinaryNotes</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/drasil/BinaryNotes.git</connection>
+        <developerConnection>scm:git:git@github.com:drasil/BinaryNotes.git</developerConnection>
+        <url>git@github.com:drasil/BinaryNotes.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>abdulla</id>
+            <name>Abdulla G. Abdurakhmanov</name>
+            <email>abdulla@latestbit.com</email>
+        </developer>
+        <developer>
+            <id>drasil</id>
+            <name>Pavel Drasil</name>
+            <email>pavel.drasil@gmail.com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lineargs</groupId>
+            <artifactId>LineArgs</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            
+            <!-- compilation settings -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <!--<compilerArgument>-Xlint:unchecked</compilerArgument>-->
+                </configuration>
+            </plugin>
+            
+            <!-- adds classpath and main class to the JAR manifest -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.bn.compiler.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

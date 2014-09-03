@@ -14,7 +14,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-
 package org.bn.compiler;
 
 import org.bn.compiler.parser.*;
@@ -36,44 +35,41 @@ import javax.xml.bind.PropertyException;
 
 import org.lineargs.LineArgsParser;
 
-
 public class Main {
+
     private final static String version = "1.5.3";
-    private LineArgsParser     parser    = new LineArgsParser();
+    private LineArgsParser parser = new LineArgsParser();
     private CompilerArgs arguments = null;
-    
 
     public Main() {
     }
 
-    private void createModel(OutputStream outputXml, String[] args,
-                             Module module)
-            throws PropertyException, Exception, JAXBException {
-        JAXBContext jc =
-            JAXBContext.newInstance("org.bn.compiler.parser.model");
+    private void createModel(OutputStream outputXml, String[] args, Module module) throws PropertyException, Exception, JAXBException {
+        JAXBContext jc = JAXBContext.newInstance("org.bn.compiler.parser.model");
         Marshaller marshaller = jc.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        ASN1Model  model      = createModelFromStream();
+        ASN1Model model = createModelFromStream();
 
         model.runtimeArguments = args;
-        
-        if(module!=null) {
-            model.moduleDirectory  = module.getModulesPath() + File.separator
-                                     + module.getModuleName();
+
+        if (module != null) {
+            model.moduleDirectory = module.getModulesPath() + File.separator
+                    + module.getModuleName();
             model.outputDirectory = module.getOutputDir();
-            if(arguments.getNamespace() !=null)
+            if (arguments.getNamespace() != null) {
                 model.moduleNS = arguments.getNamespace();
-            else
+            } else {
                 model.moduleNS = model.module.moduleIdentifier.name.toLowerCase();
+            }
         }
         marshaller.marshal(model, outputXml);
-        
+
     }
 
     private ASN1Model createModelFromStream() throws Exception {
-        InputStream stream =
-            new FileInputStream(arguments.getInputFileName());
-        ASNLexer  lexer  = new ASNLexer(stream);
+        InputStream stream
+                = new FileInputStream(arguments.getInputFileName());
+        ASNLexer lexer = new ASNLexer(stream);
         ASNParser parser = new ASNParser(lexer);
         ASNModule module = new ASNModule();
 
@@ -88,7 +84,7 @@ public class Main {
 
     public static void main(String args[]) {
         try {
-            System.out.println("BinaryNotes compiler v"+version);
+            System.out.println("BinaryNotes compiler v" + version);
             System.out.println("        (c) 2006-2011 Abdulla G. Abdurakhmanov");
             new Main().start(args);
         } catch (Exception ex) {
@@ -97,32 +93,29 @@ public class Main {
     }
 
     public void start(String[] args) throws Exception {
-        if(args.length > 0 ) {
-            arguments = parser.parse(CompilerArgs.class,args);
-    
+        if (args.length > 0) {
+            arguments = parser.parse(CompilerArgs.class, args);
+
             Module module = new Module(arguments.getModulesPath(),
-                                       arguments.getModuleName(),
-                                       arguments.getOutputDir());
+                    arguments.getModuleName(),
+                    arguments.getOutputDir());
             startForModule(module, args);
-        }
-        else {
-            parser.printHelp(CompilerArgs.class,System.out);
+        } else {
+            parser.printHelp(CompilerArgs.class, System.out);
         }
     }
 
     private void startForModule(Module module, String[] args) throws Exception {
-        if(!arguments.getGenerateModelOnly()) {
-            System.out.println("Current directory: "+new File (".").getCanonicalPath());
-            System.out.println("Compiling file: "+arguments.getInputFileName());
+        if (!arguments.getGenerateModelOnly()) {
+            System.out.println("Current directory: " + new File(".").getCanonicalPath());
+            System.out.println("Compiling file: " + arguments.getInputFileName());
             ByteArrayOutputStream outputXml = new ByteArrayOutputStream(65535);
             createModel(outputXml, args, module);
             InputStream stream = new ByteArrayInputStream(outputXml.toByteArray());
             module.translate(stream);
-        }
-        else {
+        } else {
             createModel(System.out, args, null);
         }
     }
 
 }
-

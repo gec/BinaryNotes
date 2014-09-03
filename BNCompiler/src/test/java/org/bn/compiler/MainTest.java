@@ -15,15 +15,13 @@
  limitations under the License.
  */
 
-package test.org.bn.compiler;
+package org.bn.compiler;
 
+import java.io.File;
 import junit.framework.TestCase;
 
-import org.bn.compiler.Main;
-import org.bn.compiler.Module;
-import java.io.File;
-
 public class MainTest extends TestCase {
+    
     public MainTest(String sTestName) {
         super(sTestName);
     }
