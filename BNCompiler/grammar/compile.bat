@@ -1,0 +1,1 @@
+java -cp antlr.jar antlr.Tool %1 %2 %3
