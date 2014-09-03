@@ -1,2 +1,6 @@
 /JavaLibrary/target
 /JavaLibrary/nbproject
+/BinaryNotes.NET/*.suo
+/BinaryNotes.NET/obj
+/BinaryNotes.NET/Tests/bin
+/BinaryNotes.NET/Tests/obj
