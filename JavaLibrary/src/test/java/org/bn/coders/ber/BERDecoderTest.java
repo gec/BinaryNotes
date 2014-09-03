@@ -18,26 +18,23 @@ package org.bn.coders.ber;
 
 import org.bn.CoderFactory;
 import org.bn.IDecoder;
-
-import org.bn.IEncoder;
-
 import org.bn.coders.CoderTestUtilities;
 import org.bn.coders.DecoderTest;
 
 public class BERDecoderTest extends DecoderTest {
+
     protected CoderFactory coderFactory = new CoderFactory();
 
-
-    public BERDecoderTest(String sTestName) {
-        super(sTestName, new BERCoderTestUtils());
-    }   
-    
-    public BERDecoderTest(String sTestName, CoderTestUtilities coderUtils) {
-        super(sTestName, coderUtils);
+    public BERDecoderTest() {
+        super(new BERCoderTestUtils());
     }
-    
-    
+
+    protected BERDecoderTest(CoderTestUtilities coderUtils) {
+        super(coderUtils);
+    }
+
+    @Override
     protected IDecoder newDecoder() throws Exception {
         return coderFactory.newDecoder("BER");
-    }    
+    }
 }

@@ -22,15 +22,15 @@ import org.bn.coders.CoderTestUtilities;
 import org.bn.coders.EncoderTest;
 
 public class BEREncoderTest extends EncoderTest {
-    
+
     protected CoderFactory coderFactory = new CoderFactory();
-    
-    public BEREncoderTest(String sTestName) {
-        super(sTestName, new BERCoderTestUtils());
+
+    public BEREncoderTest() {
+        super(new BERCoderTestUtils());
     }
 
-    public BEREncoderTest(String sTestName, CoderTestUtilities coderUtils) {
-        super(sTestName, coderUtils);
+    protected BEREncoderTest(CoderTestUtilities coderUtils) {
+        super(coderUtils);
     }
 
     @Override

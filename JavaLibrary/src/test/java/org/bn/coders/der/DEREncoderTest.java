@@ -17,15 +17,16 @@
 package org.bn.coders.der;
 
 import org.bn.IEncoder;
-
 import org.bn.coders.ber.BEREncoderTest;
 
-public class DEREncoderTest extends BEREncoderTest{
-    public DEREncoderTest(String sTestName) {
-        super(sTestName, new DERCoderTestUtils());
+public class DEREncoderTest extends BEREncoderTest {
+    
+    public DEREncoderTest() {
+        super(new DERCoderTestUtils());
     }
     
-    protected IEncoder newEncoder() throws Exception {
+    @Override
+    protected <T> IEncoder<T> newEncoder() throws Exception {
         return coderFactory.newEncoder("DER");
     }
 }

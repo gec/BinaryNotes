@@ -17,21 +17,22 @@
 package org.bn.coders;
 
 import java.io.ByteArrayOutputStream;
-import junit.framework.TestCase;
 import org.bn.IEncoder;
 import org.bn.coders.test_asn.*;
 import org.bn.utils.ByteTools;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
-public abstract class EncoderTest extends TestCase {
+public abstract class EncoderTest {
     
-    private CoderTestUtilities coderTestUtils;
+    private final CoderTestUtilities coderTestUtils;
     
-    public EncoderTest(String sTestName, CoderTestUtilities coderTestUtils) {
-        super(sTestName);
+    public EncoderTest(CoderTestUtilities coderTestUtils) {
         this.coderTestUtils = coderTestUtils;
     }        
     
-    protected void printEncoded(String details,IEncoder encoder, Object obj) throws Exception {
+    @SuppressWarnings("unchecked")
+    protected void printEncoded(String details, IEncoder encoder, Object obj) throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         encoder.encode(obj, outputStream);
         System.out.println("Encoded by "+encoder.getClass()+" ("+details+") : " + ByteTools.byteArrayToHexString(outputStream.toByteArray()));        
@@ -42,6 +43,7 @@ public abstract class EncoderTest extends TestCase {
     /**
      * @see Encoder#encode(T,OutputStream)
      */
+    @Test
     public void testEncodeChoice() throws Exception {
         IEncoder<Data> encoder = newEncoder();
         assertNotNull(encoder);
@@ -76,6 +78,7 @@ public abstract class EncoderTest extends TestCase {
     /**
      * @see Encoder#encode(T,OutputStream)
      */
+    @Test
     public void testEncode() throws Exception {
         IEncoder<DataSeq> encoder = newEncoder();
         assertNotNull(encoder);
@@ -84,12 +87,12 @@ public abstract class EncoderTest extends TestCase {
     
         printEncoded("Sequence test",encoder, coderTestUtils.createDataSeq());
         checkEncoded(encoder, coderTestUtils.createDataSeq(), coderTestUtils.createDataSeqBytes());
-        
     }
 
     /**
      * @see Encoder#encode(T,OutputStream)
      */
+    @Test
     public void testITUEncode() throws Exception {
         IEncoder<ITUSequence> encoder = newEncoder();
         assertNotNull(encoder);
@@ -97,6 +100,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createITUSeq(), coderTestUtils.createITUSeqBytes());
     }
 
+    @SuppressWarnings("unchecked")
     protected void checkEncoded(IEncoder encoder, Object obj, byte[] standard) throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         encoder.encode(obj, outputStream);
@@ -107,6 +111,7 @@ public abstract class EncoderTest extends TestCase {
         }
     }
     
+    @Test
     public void testNullEncode() throws Exception {
         IEncoder<NullSequence> encoder = newEncoder();
         assertNotNull(encoder);
@@ -114,6 +119,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createNullSeq(), coderTestUtils.createNullSeqBytes());
     }
     
+    @Test
     public void testTaggedNullEncode() throws Exception {
         IEncoder<TaggedNullSequence> encoder = newEncoder();
         assertNotNull(encoder);
@@ -121,6 +127,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTaggedNullSeq(), coderTestUtils.createTaggedNullSeqBytes());        
     }
    
+    @Test
     public void testEnum() throws Exception {
         IEncoder<ContentSchema> encoder = newEncoder();
         assertNotNull(encoder);
@@ -128,6 +135,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createEnum(), coderTestUtils.createEnumBytes());
     }    
 
+    @Test
     public void testSequenceWithEnum() throws Exception {
         IEncoder<SequenceWithEnum> encoder = newEncoder();
         assertNotNull(encoder);
@@ -135,6 +143,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createSequenceWithEnum(), coderTestUtils.createSequenceWithEnumBytes());
     }
     
+    @Test
     public void testSequenceOfString() throws Exception {
         IEncoder<StringArray> encoder = newEncoder();
         assertNotNull(encoder);
@@ -142,7 +151,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createStringArray(), coderTestUtils.createStringArrayBytes());
     }
     
-    
+    @Test
     public void testRecursiveDefinition() throws Exception {
         IEncoder<TestRecursiveDefinetion> encoder = newEncoder();
         assertNotNull(encoder);
@@ -150,7 +159,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestRecursiveDefinition(), coderTestUtils.createTestRecursiveDefinitionBytes());
     }
     
-    
+    @Test
     public void testEncodeInteger() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -169,12 +178,11 @@ public abstract class EncoderTest extends TestCase {
         printEncoded("Integer2 test",encoder, coderTestUtils.createTestInteger2());
         checkEncoded(encoder, coderTestUtils.createTestInteger2(), coderTestUtils.createTestInteger2Bytes());
 
-        
         printEncoded("Integer1 test",encoder, coderTestUtils.createTestInteger1());
         checkEncoded(encoder, coderTestUtils.createTestInteger1(), coderTestUtils.createTestInteger1Bytes());        
-                
     }
-    
+
+    @Test
     public void testEncodeString() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -185,6 +193,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestOCT(), coderTestUtils.createTestOCTBytes());        
     }
     
+    @Test
     public void testEncodeNegativeInteger() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -194,6 +203,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestNI2(), coderTestUtils.createTestNI2Bytes());        
     }
     
+    @Test
     public void testEncodeSet() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -201,6 +211,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createSet(), coderTestUtils.createSetBytes());
     }
     
+    @Test
     public void testEncodeBitString() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -208,6 +219,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestBitStr(), coderTestUtils.createTestBitStrBytes());
     }
 
+    @Test
     public void testEncodeBitStringSmall() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -215,6 +227,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestBitStrSmall(), coderTestUtils.createTestBitStrSmallBytes());
     }
 
+    @Test
     public void testEncodeBitStringBnd() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -222,6 +235,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestBitStrBnd(), coderTestUtils.createTestBitStrBndBytes());
     }
     
+    @Test
     public void testEncodeUnicodeString() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -229,6 +243,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createUnicodeStr(), coderTestUtils.createUnicodeStrBytes());
     }
     
+    @Test
     public void testEncodeVersion1_2() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -236,6 +251,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestSequenceV12(), coderTestUtils.createTestSequenceV12Bytes());        
     }
     
+    @Test
     public void testEncodeChoiceInChoice() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -243,6 +259,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createChoiceInChoice(), coderTestUtils.createChoiceInChoiceBytes());        
     }
 
+    @Test
     public void testEncodeChoiceInChoice2() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -250,6 +267,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createChoiceInChoice2(), coderTestUtils.createChoiceInChoice2Bytes());        
     }
 
+    @Test
     public void testEncodeChoiceInChoice3() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -257,6 +275,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createChoiceInChoice3(), coderTestUtils.createChoiceInChoice3Bytes());        
     }
 
+    @Test
     public void testEncodeTaggedSeqInSeq() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -264,6 +283,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTaggedSeqInSeq(), coderTestUtils.createTaggedSeqInSeqBytes());        
     }
 
+    @Test
     public void testEncodeReals() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -275,9 +295,9 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestReal2(), coderTestUtils.createTestReal2Bytes());        
         printEncoded("EncodeTestRealBig: ",encoder, coderTestUtils.createTestRealBig());            
         checkEncoded(encoder, coderTestUtils.createTestRealBig(), coderTestUtils.createTestRealBigBytes());        
-        
     }
     
+    @Test
     public void testSequenceWithNull() throws Exception {
         IEncoder<SequenceWithNull> encoder = newEncoder();
         assertNotNull(encoder);
@@ -285,6 +305,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createSeqWithNull(), coderTestUtils.createSeqWithNullBytes());
     }
     
+    @Test
     public void testEncodeLongTag() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -292,6 +313,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestLongTag(), coderTestUtils.createTestLongTagBytes());                
     }    
     
+    @Test
     public void testEncodeLongTag2() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -299,6 +321,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestLongTag2(), coderTestUtils.createTestLongTag2Bytes());                
     }
 
+    @Test
     public void testSequenceOfUTFString() throws Exception {
         IEncoder<UTF8StringArray> encoder = newEncoder();
         assertNotNull(encoder);
@@ -306,6 +329,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createUTF8StringArray(), coderTestUtils.createUTF8StringArrayBytes());
     }
     
+    @Test
     public void testEncodeOID() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
@@ -327,6 +351,7 @@ public abstract class EncoderTest extends TestCase {
         checkEncoded(encoder, coderTestUtils.createTestOID4(), coderTestUtils.createTestOID4Bytes());
     }
     
+    @Test
     public void testEncodeTaggedSet() throws Exception {
     	IEncoder<?> encoder = newEncoder();
         assertNotNull(encoder);
@@ -334,13 +359,13 @@ public abstract class EncoderTest extends TestCase {
         Config taggedSet = coderTestUtils.createTaggedSet();
         printEncoded("TaggedSet",encoder, taggedSet);
         checkEncoded(encoder, coderTestUtils.createTaggedSet(), coderTestUtils.createTaggedSetBytes());
-        
     }
 
+    @Test
     public void testEncodeTaggedSetInSet() throws Exception {
     	IEncoder<?> encoder = newEncoder();
         assertNotNull(encoder);
-        //
+        
         TestTaggedSetInSet taggedSet = coderTestUtils.createTaggedSetInSet();
         printEncoded("TaggedSetInSet",encoder, taggedSet);
         checkEncoded(encoder, coderTestUtils.createTaggedSetInSet(), coderTestUtils.createTaggedSetInSetBytes());
@@ -349,5 +374,4 @@ public abstract class EncoderTest extends TestCase {
         printEncoded("Set7",encoder, set7);
         checkEncoded(encoder, coderTestUtils.createSet7(), coderTestUtils.createSet7Bytes());
     }
-    
 }

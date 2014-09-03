@@ -18,26 +18,28 @@ package org.bn.coders.per;
 
 import org.bn.CoderFactory;
 import org.bn.IEncoder;
-
 import org.bn.coders.EncoderTest;
 
 public class PERUnalignedEncoderTest extends EncoderTest {
+
     protected CoderFactory coderFactory = new CoderFactory();
-    
-    public PERUnalignedEncoderTest(String sTestName) {
-        super(sTestName, new PERUnalignedCoderTestUtils());
+
+    public PERUnalignedEncoderTest() {
+        super(new PERUnalignedCoderTestUtils());
     }
-    
+
+    @Override
     protected <T> IEncoder<T> newEncoder() throws Exception {
         return coderFactory.newEncoder("PER/Unaligned");
     }
-    
+
+    @Override
     public void testTaggedNullEncode() throws Exception {
         // PER does not encode NULL value
     }
 
-     public void testNullEncode() {
-         // PER does not encode NULL value        
-     }
-
+    @Override
+    public void testNullEncode() {
+        // PER does not encode NULL value        
+    }
 }

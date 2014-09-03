@@ -14,17 +14,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
- package org.bn.coders.der;
+package org.bn.coders.der;
 
 import org.bn.coders.ber.BERCoderTestUtils;
 
 public class DERCoderTestUtils extends BERCoderTestUtils {
+
     public DERCoderTestUtils() {
     }
 
-
+    @Override
     public byte[] createSetBytes() {
-        return new byte[] { 0x31,0x10, (byte)0x81, 0x04,0x61,0x61,0x61,0x61, (byte)0x82, 0x02,0x00, (byte)0xAA, (byte)0x83, 
-                0x04,0x62,0x62,0x62,0x62 } ;
+        return new byte[]{0x31, 0x10, (byte) 0x81, 0x04, 0x61, 0x61, 0x61, 0x61, (byte) 0x82, 0x02, 0x00, (byte) 0xAA, (byte) 0x83,
+            0x04, 0x62, 0x62, 0x62, 0x62};
     }
 }

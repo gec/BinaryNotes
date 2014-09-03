@@ -20,17 +20,16 @@ import org.bn.CoderFactory;
 import org.bn.IDecoder;
 import org.bn.coders.DecoderTest;
 
-
 public class PERAlignedDecoderTest extends DecoderTest {
+
     protected CoderFactory coderFactory = new CoderFactory();
-    
-    public PERAlignedDecoderTest(String sTestName) {
-        super(sTestName, new PERAlignedCoderTestUtils());
+
+    public PERAlignedDecoderTest() {
+        super(new PERAlignedCoderTestUtils());
     }
-       
+
+    @Override
     protected IDecoder newDecoder() throws Exception {
         return coderFactory.newDecoder("PER/Aligned");
     }
-        
 }
-

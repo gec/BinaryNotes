@@ -16,37 +16,33 @@
  */
 package org.bn.coders;
 
-import junit.framework.TestCase;
-
-import org.bn.coders.CoderUtils;
 import org.bn.types.BitString;
-
 import org.bn.utils.ByteTools;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
-public class CoderUtilsTest extends TestCase {
-    public CoderUtilsTest(String sTestName) {
-        super(sTestName);
-    }
+public class CoderUtilsTest {
 
     /**
      * @see CoderUtils#defStringToOctetString(String)
      */
+    @Test
     public void testDefStringToOctetString() {
         BitString result = CoderUtils.defStringToOctetString("'FFAABBEE'H");
-        ByteTools.checkBuffers(result.getValue(), new byte[] { (byte)0xFF, (byte)0xAA, (byte)0xBB, (byte)0xEE });
+        ByteTools.checkBuffers(result.getValue(), new byte[]{(byte) 0xFF, (byte) 0xAA, (byte) 0xBB, (byte) 0xEE});
 
         result = CoderUtils.defStringToOctetString("'FFAABBEEC'H");
-        ByteTools.checkBuffers(result.getValue(), new byte[] { (byte)0xFF, (byte)0xAA, (byte)0xBB, (byte)0xEE, (byte)0xC0 });
-        
+        ByteTools.checkBuffers(result.getValue(), new byte[]{(byte) 0xFF, (byte) 0xAA, (byte) 0xBB, (byte) 0xEE, (byte) 0xC0});
+
         result = CoderUtils.defStringToOctetString("'111100001111000010011001'B");
-        ByteTools.checkBuffers(result.getValue(), new byte[] { (byte)0xF0, (byte)0xF0, (byte)0x99});        
-        
+        ByteTools.checkBuffers(result.getValue(), new byte[]{(byte) 0xF0, (byte) 0xF0, (byte) 0x99});
+
         result = CoderUtils.defStringToOctetString("'1111000011110000100110011'B");
-        ByteTools.checkBuffers(result.getValue(), new byte[] { (byte)0xF0, (byte)0xF0, (byte)0x99, (byte)0x80});        
-        
+        ByteTools.checkBuffers(result.getValue(), new byte[]{(byte) 0xF0, (byte) 0xF0, (byte) 0x99, (byte) 0x80});
     }
-    
+
+    @Test
     public void testIntegerLengthCalc() {
-        assertEquals(CoderUtils.getIntegerLength(0xF0F0F0),4);
+        assertEquals(CoderUtils.getIntegerLength(0xF0F0F0), 4);
     }
 }

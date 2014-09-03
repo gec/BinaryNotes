@@ -18,7 +18,6 @@ package org.bn.performance;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import junit.framework.TestCase;
 import org.bn.CoderFactory;
 import org.bn.IDecoder;
 import org.bn.IEncoder;
@@ -27,15 +26,13 @@ import org.bn.coders.ber.BERCoderTestUtils;
 import org.bn.coders.per.PERAlignedCoderTestUtils;
 import org.bn.coders.per.PERUnalignedCoderTestUtils;
 import org.bn.coders.test_asn.*;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
-public class DummyPerformanceTest extends TestCase {
-    
-    public DummyPerformanceTest(String sTestName) {
-        super(sTestName);
-    }
+public class DummyPerformanceTest {
     
     protected void runEncoderPerfTest(String encoding) throws Exception {
-        IEncoder encoder = CoderFactory.getInstance().newEncoder(encoding);
+        IEncoder<DataSeq> encoder = CoderFactory.getInstance().newEncoder(encoding);
         assertNotNull(encoder);
         // Create test structure
         DataSeq dt = new BERCoderTestUtils().createDataSeq();
@@ -68,12 +65,14 @@ public class DummyPerformanceTest extends TestCase {
         System.out.println("Decode elapsed time for " + encoding + ": " + interval/1000.0 );
     }
     
+    @Test
     public void testEncodePerf() throws Exception {
         runEncoderPerfTest("BER");
         runEncoderPerfTest("PER");
         runEncoderPerfTest("PER/Unaligned");
     }
 
+    @Test
     public void testDecodePerf() throws Exception {
         runDecoderPerfTest("BER", new BERCoderTestUtils());
         runDecoderPerfTest("PER", new PERAlignedCoderTestUtils());

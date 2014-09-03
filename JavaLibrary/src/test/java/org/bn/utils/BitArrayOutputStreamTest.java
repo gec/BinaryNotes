@@ -14,27 +14,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-
 package org.bn.utils;
 
-import java.io.ByteArrayOutputStream;
-
 import java.io.IOException;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-
-import org.bn.utils.BitArrayOutputStream;
-
-
-public class BitArrayOutputStreamTest extends TestCase {
-   
-    public BitArrayOutputStreamTest(String sTestName) {
-        super(sTestName);
-    }
+public class BitArrayOutputStreamTest {
 
     /**
      * @see BitArrayOutputStream#write(int)
      */
+    @Test
     public void testWrite() throws IOException {
         BitArrayOutputStream stream = new BitArrayOutputStream();
         stream.write(0xFF);
@@ -48,36 +38,32 @@ public class BitArrayOutputStreamTest extends TestCase {
         stream.writeBit(true);
         stream.writeBit(true);
         stream.writeBit(true);
-        System.out.println ("Write " + ByteTools.byteArrayToHexString(stream));
-        ByteTools.checkBuffers(stream.toByteArray(),new byte[] { 
-            (byte)0xFF, (byte)0xAF, (byte)0xF0, (byte)0xFF}
-        );
+        System.out.println("Write " + ByteTools.byteArrayToHexString(stream));
+        ByteTools.checkBuffers(stream.toByteArray(), new byte[]{
+                (byte) 0xFF, (byte) 0xAF, (byte) 0xF0, (byte) 0xFF
+            });
 
         stream.writeBit(true);
         stream.writeBit(false);
         stream.writeBit(true);
         stream.writeBit(false);
-        stream.write ( new byte[]{ (byte)0xCC, (byte)0xFF, (byte)0xFF, (byte)0xBB });
-        System.out.println ("After buf write " + ByteTools.byteArrayToHexString(stream));
-        ByteTools.checkBuffers(stream.toByteArray(),new byte[] { 
-                (byte)0xFF, (byte)0xAF, (byte)0xF0, (byte)0xFF,
-                (byte)0xAC, (byte)0xCF, (byte)0xFF,(byte)0xFB, (byte)0xB0
-            }
-        );
+        stream.write(new byte[]{(byte) 0xCC, (byte) 0xFF, (byte) 0xFF, (byte) 0xBB});
+        System.out.println("After buf write " + ByteTools.byteArrayToHexString(stream));
+        ByteTools.checkBuffers(stream.toByteArray(), new byte[]{
+                (byte) 0xFF, (byte) 0xAF, (byte) 0xF0, (byte) 0xFF,
+                (byte) 0xAC, (byte) 0xCF, (byte) 0xFF, (byte) 0xFB, (byte) 0xB0
+            });
         stream.align();
         stream.writeBit(true);
         stream.writeBit(true);
         stream.align();
         stream.write(0xFF);
-        
-        System.out.println ("After align " + ByteTools.byteArrayToHexString(stream));
-        ByteTools.checkBuffers(stream.toByteArray(),new byte[] { 
-                (byte)0xFF, (byte)0xAF, (byte)0xF0, (byte)0xFF,
-                (byte)0xAC, (byte)0xCF, (byte)0xFF,(byte)0xFB, (byte)0xB0,
-                (byte)0xC0, (byte)0xFF
-            }
-        );
-        
+
+        System.out.println("After align " + ByteTools.byteArrayToHexString(stream));
+        ByteTools.checkBuffers(stream.toByteArray(), new byte[]{
+                (byte) 0xFF, (byte) 0xAF, (byte) 0xF0, (byte) 0xFF,
+                (byte) 0xAC, (byte) 0xCF, (byte) 0xFF, (byte) 0xFB, (byte) 0xB0,
+                (byte) 0xC0, (byte) 0xFF
+            });
     }
-        
 }
