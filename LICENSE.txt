@@ -1,0 +1,11 @@
+* The BinaryNotes v1.5.3 or greater licensed under Apache Licence v2  http://www.apache.org/licenses/LICENSE-2.0.html
+(Older versions were licensed under LGPL/GPL)
+
+(c) 2006-2011 Abdulla G. Abdurakhmanov (abdulla.abdurakhmanov@gmail.com)
+http://bnotes.sourceforge.net
+
+
+-- 3rd-party licenses --
+
+* The first version of the ASN.1 grammar was based upon the one posted by Vivek Gupta
+  Tue Nov 11, 2003 14:29 on the ANTLR site. (ASN1_grammar.zip)
