@@ -18,17 +18,14 @@
 package org.bn.compiler;
 
 import java.io.File;
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class MainTest extends TestCase {
+public class MainTest {
     
-    public MainTest(String sTestName) {
-        super(sTestName);
-    }
-
     /**
      * @see Main#start(String[])
      */
+    @Test
     public void testJava() throws Exception {
         new File("testworkdir" + File.separator + "output").mkdirs();
         new Main().start(new String[] {
@@ -40,6 +37,7 @@ public class MainTest extends TestCase {
         });
     }
     
+    @Test
     public void testCS() throws Exception {
         new File("testworkdir" + File.separator + "output-cs").mkdirs();
         new Main().start(new String[] {
@@ -50,5 +48,4 @@ public class MainTest extends TestCase {
             "-ns", "test_asn"
         });
     }
-    
 }

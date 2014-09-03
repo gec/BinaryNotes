@@ -16,19 +16,16 @@
  */
 package org.bn.compiler.parser;
 
-import org.bn.compiler.parser.model.ASN1Model;
-import org.bn.compiler.parser.model.ASNModule;
 import java.io.File;
 import java.io.InputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import junit.framework.TestCase;
+import org.bn.compiler.parser.model.ASN1Model;
+import org.bn.compiler.parser.model.ASNModule;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
-public class ASNParserTest extends TestCase {
-
-    public ASNParserTest(String sTestName) {
-        super(sTestName);
-    }
+public class ASNParserTest {
 
     private ASN1Model createFromStream() throws Exception {
         InputStream stream = getClass().getResourceAsStream("/test.asn");
@@ -43,6 +40,7 @@ public class ASNParserTest extends TestCase {
         return model;
     }
 
+    @Test
     public void testJaxb() throws Exception {
         ASN1Model model = createFromStream();
         model.runtimeArguments = new String[]{"-inputFileName", "test.asn"};
@@ -59,6 +57,7 @@ public class ASNParserTest extends TestCase {
     /**
      * @see ASNParser#module_definition(ASNModule)
      */
+    @Test
     public void testModule_definition() throws Exception {
         ASN1Model model = createFromStream();
 
