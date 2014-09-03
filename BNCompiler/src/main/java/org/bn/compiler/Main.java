@@ -38,11 +38,8 @@ import org.lineargs.LineArgsParser;
 public class Main {
 
     private final static String version = "1.5.3";
-    private LineArgsParser parser = new LineArgsParser();
+    private final LineArgsParser parser = new LineArgsParser();
     private CompilerArgs arguments = null;
-
-    public Main() {
-    }
 
     private void createModel(OutputStream outputXml, String[] args, Module module) throws PropertyException, Exception, JAXBException {
         JAXBContext jc = JAXBContext.newInstance("org.bn.compiler.parser.model");
@@ -53,8 +50,7 @@ public class Main {
         model.runtimeArguments = args;
 
         if (module != null) {
-            model.moduleDirectory = module.getModulesPath() + File.separator
-                    + module.getModuleName();
+            model.moduleDirectory = module.getModulesPath() + File.separator + module.getModuleName();
             model.outputDirectory = module.getOutputDir();
             if (arguments.getNamespace() != null) {
                 model.moduleNS = arguments.getNamespace();
@@ -63,12 +59,10 @@ public class Main {
             }
         }
         marshaller.marshal(model, outputXml);
-
     }
 
     private ASN1Model createModelFromStream() throws Exception {
-        InputStream stream
-                = new FileInputStream(arguments.getInputFileName());
+        InputStream stream = new FileInputStream(arguments.getInputFileName());
         ASNLexer lexer = new ASNLexer(stream);
         ASNParser parser = new ASNParser(lexer);
         ASNModule module = new ASNModule();
@@ -76,9 +70,7 @@ public class Main {
         parser.module_definition(module);
 
         ASN1Model model = new ASN1Model();
-
         model.module = module;
-
         return model;
     }
 
@@ -95,10 +87,7 @@ public class Main {
     public void start(String[] args) throws Exception {
         if (args.length > 0) {
             arguments = parser.parse(CompilerArgs.class, args);
-
-            Module module = new Module(arguments.getModulesPath(),
-                    arguments.getModuleName(),
-                    arguments.getOutputDir());
+            Module module = new Module(arguments.getModulesPath(), arguments.getModuleName(), arguments.getOutputDir());
             startForModule(module, args);
         } else {
             parser.printHelp(CompilerArgs.class, System.out);
@@ -117,5 +106,4 @@ public class Main {
             createModel(System.out, args, null);
         }
     }
-
 }

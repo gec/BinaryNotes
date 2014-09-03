@@ -14,31 +14,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-
 package org.bn.compiler;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
-import java.util.ArrayList;
-
 import javax.xml.transform.ErrorListener;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 public class Module {
+
     private File[] moduleFiles = null;
     private String moduleName, outputDir, modulesPath;
 
-
-    public Module(String modulesPath, String name, String outputDir)
-            throws Exception {
+    public Module(String modulesPath, String name, String outputDir) throws Exception {
         setModuleName(name);
         setOutputDir(outputDir);
         setModulesPath(modulesPath);
@@ -46,18 +39,12 @@ public class Module {
     }
 
     private File createOutputFileForInput(File input) {
-        String fileName = input.getName().substring(0,
-                              input.getName().lastIndexOf(".")) + "."
-                                  + getModuleName();
-        File result = new File(getOutputDir(), fileName);
-
-        return result;
+        String fileName = input.getName().substring(0, input.getName().lastIndexOf(".")) + "." + getModuleName();
+        return new File(getOutputDir(), fileName);
     }
 
     private void loadTransformations() throws Exception {
-        File basePath = new File(getModulesPath() + File.separator
-                                 + getModuleName());
-
+        File basePath = new File(getModulesPath() + File.separator + getModuleName());
         if (basePath.isDirectory()) {
             moduleFiles = basePath.listFiles();
         } else {
@@ -70,25 +57,26 @@ public class Module {
 
         for (File file : moduleFiles) {
             if (file.isFile()) {
-                Transformer transformer =
-                    factory.newTransformer(new StreamSource(file));
-
+                Transformer transformer = factory.newTransformer(new StreamSource(file));
                 transformer.setErrorListener(new ErrorListener() {
+                    @Override
                     public void warning(TransformerException exception) {
                         System.err.println("[W] Warning:" + exception);
                     }
+
+                    @Override
                     public void error(TransformerException exception) {
                         System.err.println("[!] Error:" + exception);
                     }
+
+                    @Override
                     public void fatalError(TransformerException exception) {
                         System.err.println("[!!!] Fatal error:" + exception);
                     }
                 });
 
                 File outputFile = createOutputFileForInput(file);
-
-                transformer.transform(new StreamSource(stream),
-                                      new StreamResult(outputFile));
+                transformer.transform(new StreamSource(stream), new StreamResult(outputFile));
             }
         }
     }
@@ -117,4 +105,3 @@ public class Module {
         this.outputDir = outputDir;
     }
 }
-
