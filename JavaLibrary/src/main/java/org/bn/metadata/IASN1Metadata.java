@@ -19,14 +19,16 @@ package org.bn.metadata;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import org.bn.coders.DecodedObject;
 import org.bn.coders.ElementInfo;
 import org.bn.coders.IASN1TypesDecoder;
 import org.bn.coders.IASN1TypesEncoder;
 
 public interface IASN1Metadata {
+    
     String getName();
+    
     int encode(IASN1TypesEncoder encoder, Object object, OutputStream stream, ElementInfo elementInfo) throws Exception;
+    
     DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
 }
