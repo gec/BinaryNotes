@@ -85,17 +85,41 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
-                    <!-- Exclude ASN.1 grammar -->
+                    <!-- Exclude modules and ASN.1 grammar -->
                     <excludes>
                         <exclude>grammar/**</exclude>
+                        <exclude>modules/**</exclude>
                     </excludes>
                     <archive>
                         <manifest>
                             <mainClass>org.bn.compiler.Main</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>./lib/</classpathPrefix>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+            
+            <!-- prepares folder structure ready for distribution -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <attach>false</attach>
+                    <descriptors>
+                        <descriptor>src/main/assembly/src.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
         </plugins>
     </build>
 </project>
