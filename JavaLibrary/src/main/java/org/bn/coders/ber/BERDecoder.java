@@ -247,7 +247,7 @@ public class BERDecoder extends Decoder {
             }
         }
         CoderUtils.checkConstraints(len, elementInfo);
-        return new DecodedObject(anyStream.toByteArray(), len);
+        return new DecodedObject<byte[]>(anyStream.toByteArray(), len);
     }
 
     @Override
@@ -388,7 +388,7 @@ public class BERDecoder extends Decoder {
         CoderUtils.checkConstraints(len.getValue(), elementInfo);
         byte[] byteBuf = new byte[len.getValue()];
         stream.read(byteBuf);
-        return new DecodedObject(byteBuf, len.getValue() + len.getSize());
+        return new DecodedObject<byte[]>(byteBuf, len.getValue() + len.getSize());
     }
 
     @Override

@@ -368,15 +368,9 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
     @Override
     public DecodedObject decodeBoxedType(DecodedObject decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         Object resultObj = createInstanceForElement(objectClass, elementInfo);
+        DecodedObject<Object> result = new DecodedObject<Object>(resultObj);
 
-        DecodedObject result = new DecodedObject(resultObj);
-
-        Field field = null;
-        if (elementInfo.hasPreparedInfo()) {
-            field = elementInfo.getPreparedInfo().getValueField();
-        } else {
-            field = objectClass.getDeclaredField("value");
-        }
+        Field field = elementInfo.hasPreparedInfo() ? elementInfo.getPreparedInfo().getValueField() : objectClass.getDeclaredField("value");
         elementInfo.setAnnotatedClass(field);
         elementInfo.setGenericInfo(field.getGenericType());
         //if(field.getType().isMemberClass()) {
@@ -384,7 +378,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
             elementInfo.setParentObject(resultObj);
         }
 
-        boolean isNull = false;
+        boolean isNull;
         if (elementInfo.hasPreparedInfo()) {
             isNull = elementInfo.getPreparedInfo().getTypeMetadata() instanceof ASN1NullMetadata;
         } else {
@@ -404,12 +398,11 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
                             elementInfo.getASN1ElementInfo().hasDefaultValue()
                     );
                     elementInfo.setPreparedASN1ElementInfo(elData);
-                };
+                }
             }
-
         }
 
-        DecodedObject value = null;
+        DecodedObject value;
         if (isNull) {
             value = decodeNull(decodedTag, field.getType(), elementInfo, stream);
         } else {
