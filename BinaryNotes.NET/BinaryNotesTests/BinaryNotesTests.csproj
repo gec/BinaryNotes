@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8776B434-A39C-445E-B989-CCC9E09F9E73}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BinaryNotesTests</RootNamespace>
+    <AssemblyName>BinaryNotesTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="org\bn\coders\ber\BERCoderTestUtils.cs" />
+    <Compile Include="org\bn\coders\ber\BERDecoderTest.cs" />
+    <Compile Include="org\bn\coders\ber\BEREncoderTest.cs" />
+    <Compile Include="org\bn\coders\CoderTestUtilities.cs" />
+    <Compile Include="org\bn\coders\CoderUtilsTest.cs" />
+    <Compile Include="org\bn\coders\DecoderTest.cs" />
+    <Compile Include="org\bn\coders\der\DERCoderUtils.cs" />
+    <Compile Include="org\bn\coders\der\DERDecoderTest.cs" />
+    <Compile Include="org\bn\coders\der\DEREncoderTest.cs" />
+    <Compile Include="org\bn\coders\EncoderTest.cs" />
+    <Compile Include="org\bn\coders\per\PERAlignedCoderTestUtils.cs" />
+    <Compile Include="org\bn\coders\per\PERAlignedDecoderTest.cs" />
+    <Compile Include="org\bn\coders\per\PERAlignedEncoderTest.cs" />
+    <Compile Include="org\bn\coders\per\PERUnalignedCoderTestUtils.cs" />
+    <Compile Include="org\bn\coders\per\PERUnalignedDecoderTest.cs" />
+    <Compile Include="org\bn\coders\per\PERUnalignedEncoderTest.cs" />
+    <Compile Include="org\bn\coders\test_asn\BugEnum.cs" />
+    <Compile Include="org\bn\coders\test_asn\BugList.cs" />
+    <Compile Include="org\bn\coders\test_asn\BugPrimitive.cs" />
+    <Compile Include="org\bn\coders\test_asn\BugSequenceType.cs" />
+    <Compile Include="org\bn\coders\test_asn\BugValueType.cs" />
+    <Compile Include="org\bn\coders\test_asn\Config.cs" />
+    <Compile Include="org\bn\coders\test_asn\Config2.cs" />
+    <Compile Include="org\bn\coders\test_asn\ContentPartHeader.cs" />
+    <Compile Include="org\bn\coders\test_asn\ContentPartHeaders.cs" />
+    <Compile Include="org\bn\coders\test_asn\ContentSchema.cs" />
+    <Compile Include="org\bn\coders\test_asn\ContentType.cs" />
+    <Compile Include="org\bn\coders\test_asn\Data.cs" />
+    <Compile Include="org\bn\coders\test_asn\DataArray.cs" />
+    <Compile Include="org\bn\coders\test_asn\DataSeq.cs" />
+    <Compile Include="org\bn\coders\test_asn\DataSeqArray.cs" />
+    <Compile Include="org\bn\coders\test_asn\DataSeqMO.cs" />
+    <Compile Include="org\bn\coders\test_asn\FQDN.cs" />
+    <Compile Include="org\bn\coders\test_asn\ITUSequence.cs" />
+    <Compile Include="org\bn\coders\test_asn\ITUType1.cs" />
+    <Compile Include="org\bn\coders\test_asn\ITUType2.cs" />
+    <Compile Include="org\bn\coders\test_asn\ITUType3.cs" />
+    <Compile Include="org\bn\coders\test_asn\ITUType4.cs" />
+    <Compile Include="org\bn\coders\test_asn\ITUType5.cs" />
+    <Compile Include="org\bn\coders\test_asn\ITUType6.cs" />
+    <Compile Include="org\bn\coders\test_asn\LstVersion.cs" />
+    <Compile Include="org\bn\coders\test_asn\main.cs" />
+    <Compile Include="org\bn\coders\test_asn\Major.cs" />
+    <Compile Include="org\bn\coders\test_asn\Minor.cs" />
+    <Compile Include="org\bn\coders\test_asn\NullSequence.cs" />
+    <Compile Include="org\bn\coders\test_asn\OctetStringArray.cs" />
+    <Compile Include="org\bn\coders\test_asn\PlainParamsMap.cs" />
+    <Compile Include="org\bn\coders\test_asn\SequenceWithDefault.cs" />
+    <Compile Include="org\bn\coders\test_asn\SequenceWithEnum.cs" />
+    <Compile Include="org\bn\coders\test_asn\SequenceWithNull.cs" />
+    <Compile Include="org\bn\coders\test_asn\Set1.cs" />
+    <Compile Include="org\bn\coders\test_asn\Set2.cs" />
+    <Compile Include="org\bn\coders\test_asn\Set3.cs" />
+    <Compile Include="org\bn\coders\test_asn\Set4.cs" />
+    <Compile Include="org\bn\coders\test_asn\Set5.cs" />
+    <Compile Include="org\bn\coders\test_asn\Set6.cs" />
+    <Compile Include="org\bn\coders\test_asn\Set7.cs" />
+    <Compile Include="org\bn\coders\test_asn\SetOfTest.cs" />
+    <Compile Include="org\bn\coders\test_asn\SetWithDefault.cs" />
+    <Compile Include="org\bn\coders\test_asn\StringArray.cs" />
+    <Compile Include="org\bn\coders\test_asn\TaggedNullSequence.cs" />
+    <Compile Include="org\bn\coders\test_asn\TaggedSeqInSeq.cs" />
+    <Compile Include="org\bn\coders\test_asn\TaggedSequence.cs" />
+    <Compile Include="org\bn\coders\test_asn\Test128Tag.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestBitStr.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestBitStrBnd.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestChild2.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestChild3.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestGT.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestI.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestI14.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestI16.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestI32.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestI8.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestIR.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestLong.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestLongTag.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestLongTag2.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestLongTag2Choice.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestNI.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestNI2.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestOCT.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestOID.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestParent.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestParent2.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestPRN.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestReal.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestRecursiveDefinetion.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestSeqOID.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestSequenceV12.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestSequenceWithNonames.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestSeqV13.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestSimpleSequence.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestTaggedSetInSet.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestTParent.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestTParent2.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestUnicodeStr.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestUnicodeStrBnd.cs" />
+    <Compile Include="org\bn\coders\test_asn\TestUTC.cs" />
+    <Compile Include="org\bn\coders\test_asn\TEST_ASN.cs" />
+    <Compile Include="org\bn\coders\test_asn\UTF8StringArray.cs" />
+    <Compile Include="org\bn\coders\test_asn\ValueWithParams.cs" />
+    <Compile Include="org\bn\coders\test_asn\Version.cs" />
+    <Compile Include="org\bn\performance\DummyPerformanceTest.cs" />
+    <Compile Include="org\bn\utils\BitArrayInputStreamTest.cs" />
+    <Compile Include="org\bn\utils\BitArrayOutputStreamTest.cs" />
+    <Compile Include="org\bn\utils\ByteTools.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BinaryNotes\BinaryNotes.csproj">
+      <Project>{7bb91554-ca9a-4f6e-91cb-e34410f215a7}</Project>
+      <Name>BinaryNotes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

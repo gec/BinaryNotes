@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryNotes", "BinaryNotes.csproj", "{7BB91554-CA9A-4F6E-91CB-E34410F215A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryNotes", "BinaryNotes\BinaryNotes.csproj", "{7BB91554-CA9A-4F6E-91CB-E34410F215A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8D701C15-B34F-4F9D-B70A-8188BCF13232}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryNotesTests", "BinaryNotesTests\BinaryNotesTests.csproj", "{8776B434-A39C-445E-B989-CCC9E09F9E73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{7BB91554-CA9A-4F6E-91CB-E34410F215A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BB91554-CA9A-4F6E-91CB-E34410F215A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BB91554-CA9A-4F6E-91CB-E34410F215A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D701C15-B34F-4F9D-B70A-8188BCF13232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D701C15-B34F-4F9D-B70A-8188BCF13232}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D701C15-B34F-4F9D-B70A-8188BCF13232}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D701C15-B34F-4F9D-B70A-8188BCF13232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8776B434-A39C-445E-B989-CCC9E09F9E73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8776B434-A39C-445E-B989-CCC9E09F9E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8776B434-A39C-445E-B989-CCC9E09F9E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8776B434-A39C-445E-B989-CCC9E09F9E73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

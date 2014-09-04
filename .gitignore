@@ -2,6 +2,7 @@
 /BNCompiler/target/
 /BNCompiler/testworkdir
 /BinaryNotes.NET/*.suo
-/BinaryNotes.NET/obj
-/BinaryNotes.NET/Tests/bin
-/BinaryNotes.NET/Tests/obj
+/BinaryNotes.NET/BinaryNotes/bin
+/BinaryNotes.NET/BinaryNotes/obj
+/BinaryNotes.NET/BinaryNotesTests/bin
+/BinaryNotes.NET/BinaryNotesTests/obj
