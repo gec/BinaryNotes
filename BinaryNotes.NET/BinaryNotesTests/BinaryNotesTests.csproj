@@ -163,7 +163,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BinaryNotes\BinaryNotes.csproj">
+    <ProjectReference Include="..\BinaryNotes\BinaryNotes.csproj">
       <Project>{7bb91554-ca9a-4f6e-91cb-e34410f215a7}</Project>
       <Name>BinaryNotes</Name>
     </ProjectReference>
