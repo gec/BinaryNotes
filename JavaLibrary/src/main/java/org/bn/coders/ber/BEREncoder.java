@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -97,13 +96,11 @@ public class BEREncoder<T> extends Encoder<T> {
 
     @Override
     public int encodeAny(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0, sizeOfString = 0;
         byte[] buffer = (byte[]) object;
         stream.write(buffer);
-        sizeOfString = buffer.length;
-        CoderUtils.checkConstraints(sizeOfString, elementInfo);
-        resultSize += sizeOfString;
-        return resultSize;
+        
+        CoderUtils.checkConstraints(buffer.length, elementInfo);
+        return buffer.length;
     }
 
     protected int encodeIntegerValue(long value, OutputStream stream) throws Exception {
@@ -182,30 +179,28 @@ public class BEREncoder<T> extends Encoder<T> {
 
     @Override
     public int encodeOctetString(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0, sizeOfString = 0;
         byte[] buffer = (byte[]) object;
         stream.write(buffer);
-        sizeOfString = buffer.length;
 
-        resultSize += sizeOfString;
-        CoderUtils.checkConstraints(sizeOfString, elementInfo);
-        resultSize += encodeLength(sizeOfString, stream);
+        CoderUtils.checkConstraints(buffer.length, elementInfo);
+        
+        int resultSize = buffer.length;
+        resultSize += encodeLength(buffer.length, stream);
         resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.OctetString), stream);
         return resultSize;
     }
 
     @Override
     public int encodeBitString(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0, sizeOfString = 0;
         BitString str = (BitString) object;
         CoderUtils.checkConstraints(str.getLengthInBits(), elementInfo);
 
         byte[] buffer = str.getValue();
         stream.write(buffer);
         stream.write(str.getTrailBitsCnt());
-        sizeOfString = buffer.length + 1;
+        int sizeOfString = buffer.length + 1;
 
-        resultSize += sizeOfString;
+        int resultSize = sizeOfString;
         resultSize += encodeLength(sizeOfString, stream);
         resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Bitstring), stream);
         return resultSize;
@@ -213,13 +208,13 @@ public class BEREncoder<T> extends Encoder<T> {
 
     @Override
     public int encodeString(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0, sizeOfString = 0;
         byte[] strBuf = CoderUtils.ASN1StringToBuffer(object, elementInfo);
         stream.write(strBuf);
-        sizeOfString = strBuf.length;
+        int sizeOfString = strBuf.length;
 
-        resultSize += sizeOfString;
         CoderUtils.checkConstraints(sizeOfString, elementInfo);
+        
+        int resultSize = sizeOfString;
         resultSize += encodeLength(sizeOfString, stream);
         resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, CoderUtils.getStringTagForElement(elementInfo)), stream);
         return resultSize;
@@ -230,7 +225,6 @@ public class BEREncoder<T> extends Encoder<T> {
         @SuppressWarnings("unchecked")
         Object[] collection = ((java.util.Collection<Object>) object).toArray();
         
-        int resultSize = 0;
         int sizeOfCollection = 0;
         for (int i = 0; i < collection.length; i++) {
             Object obj = collection[collection.length - 1 - i];
@@ -243,10 +237,11 @@ public class BEREncoder<T> extends Encoder<T> {
             }
             sizeOfCollection += encodeClassType(obj, stream, info);
         }
-        resultSize += sizeOfCollection;
+        
         CoderUtils.checkConstraints(collection.length, elementInfo);
+        
+        int resultSize = sizeOfCollection;
         resultSize += encodeLength(sizeOfCollection, stream);
-
         if (!CoderUtils.isSequenceSetOf(elementInfo)) {
             resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Constructed, UniversalTag.Sequence), stream);
         } else {

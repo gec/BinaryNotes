@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -18,7 +17,6 @@ package org.bn.coders.per;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.lang.reflect.*;
 import java.util.*;
 import org.bn.annotations.*;
@@ -34,6 +32,7 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
     public PERAlignedEncoder() {
     }
 
+    @Override
     public void encode(T object, OutputStream stream) throws Exception {
         BitArrayOutputStream bitStream = new BitArrayOutputStream();
         super.encode(object, bitStream);
@@ -228,8 +227,8 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
         return result;
     }
 
-    public int encodeInteger(Object object, OutputStream stream,
-            ElementInfo elementInfo) throws Exception {
+    @Override
+    public int encodeInteger(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         int result = 0;
         boolean hasConstraint = false;
         long min = 0, max = 0;
@@ -269,13 +268,12 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
         return result;
     }
 
-    public int encodeReal(Object object, OutputStream stream,
-            ElementInfo elementInfo) throws Exception {
+    @Override
+    public int encodeReal(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         int result = 0;
         BitArrayOutputStream bitStream = (BitArrayOutputStream) stream;
         Double value = (Double) object;
         //CoderUtils.checkConstraints(value,elementInfo);
-        int szOfInt = 0;
         long asLong = Double.doubleToLongBits(value);
         if (asLong == 0x7ff0000000000000L) { // positive infinity
             result += encodeLengthDeterminant(1, bitStream);
@@ -372,8 +370,8 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
         return (resultBitSize / 8) + (resultBitSize % 8 > 0 ? 1 : 0);
     }
 
-    public int encodeSequence(Object object, OutputStream stream,
-            ElementInfo elementInfo) throws Exception {
+    @Override
+    public int encodeSequence(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         int resultSize = 0;
         if (!CoderUtils.isSequenceSet(elementInfo)) {
             resultSize += encodeSequencePreamble(object, elementInfo.getFields(object.getClass()), elementInfo, stream);
@@ -469,20 +467,16 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
 
     @Override
     public int encodeAny(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0, sizeOfString = 0;
         byte[] buffer = (byte[]) object;
         stream.write(buffer);
-        sizeOfString = buffer.length;
-        resultSize += sizeOfString;
-        return resultSize;
+        return buffer.length;
     }
 
     @Override
     public int encodeOctetString(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0, sizeOfString = 0;
         byte[] buffer = (byte[]) object;
-        sizeOfString = buffer.length;
-        resultSize += encodeLength(sizeOfString, elementInfo, stream);
+        int sizeOfString = buffer.length;
+        int resultSize = encodeLength(sizeOfString, elementInfo, stream);
         doAlign(stream);
         if (sizeOfString > 0) {
             stream.write(buffer);
@@ -497,13 +491,12 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
          there is no explicit length encoding, otherwise a length encoding is included which can take any of the forms specified earlier for
          length encodings, including fragmentation for large bit strings.*/
 
-        int resultSize = 0, sizeOfString = 0;
         BitString str = (BitString) object;
         byte[] buffer = str.getValue();
-        sizeOfString = str.getLengthInBits();
+        int sizeOfString = str.getLengthInBits();
 
         BitArrayOutputStream bitStream = (BitArrayOutputStream) stream;
-        resultSize += encodeLength(sizeOfString, elementInfo, stream);
+        int resultSize = encodeLength(sizeOfString, elementInfo, stream);
         doAlign(stream);
         if (sizeOfString > 0) {
 
@@ -523,9 +516,8 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
 
     @Override
     public int encodeString(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0;
         byte[] value = CoderUtils.ASN1StringToBuffer(object, elementInfo);
-        resultSize = encodeLength(value.length, elementInfo, stream);
+        int resultSize = encodeLength(value.length, elementInfo, stream);
         doAlign(stream);
         resultSize += value.length;
         if (value.length > 0) {
@@ -537,10 +529,10 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
     @Override
     public int encodeSequenceOf(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         @SuppressWarnings("unchecked")
-        Collection<Object> collection = (Collection<Object>)object;
-        
+        Collection<Object> collection = (Collection<Object>) object;
+
         int resultSize = encodeLength(collection.size(), elementInfo, stream);
-        for (Object obj: collection) {
+        for (Object obj : collection) {
             ElementInfo info = new ElementInfo();
             info.setAnnotatedClass(obj.getClass());
             info.setParentAnnotated(elementInfo.getAnnotatedClass());
@@ -560,20 +552,18 @@ public class PERAlignedEncoder<T> extends Encoder<T> {
     }
 
     protected int encodeSet(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0;
-        Field[] fields = null;
+        Field[] fields;
         if (elementInfo.hasPreparedInfo()) {
             fields = elementInfo.getPreparedInfo().getFields();
         } else {
             SortedMap<Integer, Field> fieldOrder = CoderUtils.getSetOrder(object.getClass());
-            fields = new Field[0];
-            fields = fieldOrder.values().toArray(fields);
+            fields = fieldOrder.values().toArray(new Field[0]);
         }
-        resultSize += encodeSequencePreamble(object, fields, elementInfo, stream);
-
+        
+        int resultSize = encodeSequencePreamble(object, fields, elementInfo, stream);
         int fieldIdx = 0;
-        for (int i = 0; i < fields.length; i++) {
-            resultSize += encodeSequenceField(object, fieldIdx++, fields[i], stream, elementInfo);
+        for (Field field: fields) {
+            resultSize += encodeSequenceField(object, fieldIdx++, field, stream, elementInfo);
         }
         return resultSize;
     }
