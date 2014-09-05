@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -18,13 +17,19 @@ package org.bn.coders.ber;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.LinkedList;
-import org.bn.coders.*;
+import org.bn.coders.CoderUtils;
+import org.bn.coders.DecodedObject;
+import org.bn.coders.Decoder;
+import org.bn.coders.ElementInfo;
+import org.bn.coders.ElementType;
+import org.bn.coders.TagClass;
+import org.bn.coders.UniversalTag;
 import org.bn.metadata.ASN1SequenceOfMetadata;
-import org.bn.types.*;
+import org.bn.types.BitString;
+import org.bn.types.ObjectIdentifier;
 
 public class BERDecoder extends Decoder {
 
@@ -56,12 +61,11 @@ public class BERDecoder extends Decoder {
 
     @Override
     public DecodedObject decodeTag(InputStream stream) throws Exception {
-        int result = 0;
         int bt = stream.read();
         if (bt == - 1) {
             return null;
         }
-        result = bt;
+        int result = bt;
         int len = 1;
         int tagValue = bt & 31;
         if (tagValue == UniversalTag.LastUniversal) {
@@ -111,7 +115,7 @@ public class BERDecoder extends Decoder {
         DecodedObject<Integer> len = decodeLength(stream);
         int saveMaxAvailableLen = elementInfo.getMaxAvailableLen();
         elementInfo.setMaxAvailableLen(len.getValue());
-        DecodedObject result = null;
+        DecodedObject result;
         if (!isSet) {
             result = super.decodeSequence(decodedTag, objectClass, elementInfo, stream);
         } else {

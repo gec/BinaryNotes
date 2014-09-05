@@ -1,6 +1,5 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -143,17 +142,17 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
 
     protected void initDefaultValues(Object object, ElementInfo elementInfo) throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException {
-        
-        try {
-            if (object instanceof IASN1PreparedElement) {
-                ((IASN1PreparedElement) object).initWithDefaults();
-            } else {
+
+        if (object instanceof IASN1PreparedElement) {
+            ((IASN1PreparedElement) object).initWithDefaults();
+        } else {
+            try {
                 Method method = object.getClass().getMethod("initWithDefaults", (java.lang.Class[]) null);
                 if (method != null) {
                     method.invoke(object, (java.lang.Object[]) null);
                 }
+            } catch (NoSuchMethodException ex) {
             }
-        } catch (NoSuchMethodException ex) {
         }
     }
 
@@ -188,19 +187,16 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
         Object sequence = createInstanceForElement(objectClass, elementInfo);
         initDefaultValues(sequence, elementInfo);
         int maxSeqLen = elementInfo.getMaxAvailableLen();
-        int curFieldIdx = 0;
         int sizeOfSequence = 0;
 
-        DecodedObject<?> fieldTag = null;
         Field[] fields = elementInfo.getFields(objectClass);
-
         if (maxSeqLen == -1 || maxSeqLen > 0) {
-            fieldTag = decodeTag(stream);
+            DecodedObject<?> fieldTag = decodeTag(stream);
             if (fieldTag != null) {
                 sizeOfSequence += fieldTag.getSize();
             }
 
-            for (curFieldIdx = 0; curFieldIdx < fields.length; curFieldIdx++) {
+            for (int curFieldIdx = 0; curFieldIdx < fields.length; curFieldIdx++) {
                 Field field = fields[curFieldIdx];
                 DecodedObject<?> obj = decodeSequenceField(fieldTag, sequence, curFieldIdx, field, stream, elementInfo, true);
                 if (obj != null) {
@@ -226,18 +222,16 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
                         //	break;
                     }
 
-                    if (!isAny) {
-                        if (curFieldIdx < fields.length - 1) {
-                            if (maxSeqLen == -1 || elementInfo.getMaxAvailableLen() > 0) {
-                                fieldTag = decodeTag(stream);
-                                if (fieldTag != null) {
-                                    sizeOfSequence += fieldTag.getSize();
-                                } else {
-                                    break;
-                                }
+                    if (!isAny && curFieldIdx < fields.length-1) {
+                        if (maxSeqLen == -1 || elementInfo.getMaxAvailableLen() > 0) {
+                            fieldTag = decodeTag(stream);
+                            if (fieldTag != null) {
+                                sizeOfSequence += fieldTag.getSize();
                             } else {
-                                fieldTag = null;
+                                break;
                             }
+                        } else {
+                            fieldTag = null;
                         }
                     }
                 }
@@ -338,11 +332,10 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
         }
 
         DecodedObject itemValue = decodeEnumItem(decodedTag, field.getType(), enumClass, elementInfo, stream);
-
-        Field param = null;
         if (itemValue != null) {
             Object result = objectClass.newInstance();
 
+            Field param = null;
             for (Field enumItem : enumClass.getDeclaredFields()) {
                 if (enumItem.isAnnotationPresent(ASN1EnumItem.class)) {
                     ASN1EnumItem meta = enumItem.getAnnotation(ASN1EnumItem.class);
@@ -404,7 +397,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
 
         DecodedObject value;
         if (isNull) {
-            value = decodeNull(decodedTag, field.getType(), elementInfo, stream);
+            decodeNull(decodedTag, field.getType(), elementInfo, stream);
         } else {
             value = decodeClassType(decodedTag, field.getType(), elementInfo, stream);
             if (value != null) {

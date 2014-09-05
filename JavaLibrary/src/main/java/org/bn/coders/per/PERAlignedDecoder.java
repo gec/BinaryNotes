@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -126,7 +125,7 @@ public class PERAlignedDecoder extends Decoder {
      * nonnegative-binary-integer or a 2's-complement-binary-integer encoding.
      */
     protected long decodeConstraintNumber(long min, long max, BitArrayInputStream stream) throws Exception {
-        long result = 0;
+        long result;
         long valueRange = max - min;
         //!!!! int narrowedVal = value - min; !!!
         int maxBitLen = PERCoderUtils.getMaxBitLength(valueRange);
@@ -187,10 +186,9 @@ public class PERAlignedDecoder extends Decoder {
      * (typically a single octet) as specified in later procedures.
      */
     protected int decodeSemiConstraintNumber(int min, BitArrayInputStream stream) throws Exception {
-        int result = 0;
         int intLen = decodeLengthDeterminant(stream);
         skipAlignedBits(stream);
-        result = (int) decodeIntegerValueAsBytes(intLen, stream);
+        int result = (int) decodeIntegerValueAsBytes(intLen, stream);
         result += min;
         return result;
     }
@@ -202,15 +200,13 @@ public class PERAlignedDecoder extends Decoder {
      * presence of an extension marker. An example is a choice index.
      */
     protected int decodeNormallySmallNumber(BitArrayInputStream stream) throws Exception {
-        int result = 0;
-        int bitIndicator = stream.readBit();
-        if (bitIndicator == 0) {
+        if (stream.readBit() == 0) {
             /* 10.6.1 If the non-negative whole number, "n", is less than 
              * or equal to 63, then a single-bit bit-field shall be appended
              * to the field-list with the bit set to 0, and "n" shall be 
              * encoded as a non-negative-binary-integer into a 6-bit bit-field.
              */
-            result = stream.readBits(6);
+            return stream.readBits(6);
         } else {
             /* If "n" is greater than or equal to 64, a single-bit 
              * bit-field with the bit set to 1 shall be appended to the field-list.
@@ -219,9 +215,8 @@ public class PERAlignedDecoder extends Decoder {
              * 10.9 shall be invoked to add it to the field-list preceded 
              * by a length determinant.
              */
-            result = decodeSemiConstraintNumber(0, stream);
+            return decodeSemiConstraintNumber(0, stream);
         }
-        return result;
     }
 
     /**
@@ -278,7 +273,7 @@ public class PERAlignedDecoder extends Decoder {
         
         Object choice = createInstanceForElement(objectClass, elementInfo);
         skipAlignedBits(stream);
-        Field[] fields = null;
+        Field[] fields;
         if (elementInfo.hasPreparedInfo()) {
             fields = elementInfo.getPreparedInfo().getFields();
         } else {
@@ -340,13 +335,12 @@ public class PERAlignedDecoder extends Decoder {
         skipAlignedBits(stream);
         Object sequence = createInstanceForElement(objectClass, elementInfo);
         initDefaultValues(sequence, elementInfo);
-        Field[] fields = null;
+        Field[] fields;
         if (!CoderUtils.isSequenceSet(elementInfo) || elementInfo.hasPreparedInfo()) {
             fields = elementInfo.getFields(objectClass);
         } else {
             SortedMap<Integer, Field> fieldOrder = CoderUtils.getSetOrder(objectClass);
-            fields = new Field[0];
-            fields = fieldOrder.values().toArray(fields);
+            fields = fieldOrder.values().toArray(new Field[0]);
         }
         int idx = 0;
         ElementInfo info = new ElementInfo();
@@ -454,31 +448,19 @@ public class PERAlignedDecoder extends Decoder {
         if (objectClass.equals(Integer.class)) {
             DecodedObject<Integer> result = new DecodedObject<Integer>();
             BitArrayInputStream bitStream = (BitArrayInputStream) stream;
-            int value = 0;
+            int value;
             if (hasConstraint) {
-                value = (int) decodeConstraintNumber(
-                        (int) min,
-                        (int) max,
-                        bitStream
-                );
+                value = (int) decodeConstraintNumber((int) min, (int) max, bitStream);
             } else {
                 value = (int) decodeUnconstraintNumber(bitStream);
             }
             result.setValue(value);
             return result;
         } else {
-            DecodedObject<Long> result = new DecodedObject<Long>();
             BitArrayInputStream bitStream = (BitArrayInputStream) stream;
-            long value = 0;
-            if (hasConstraint) {
-                value = decodeConstraintNumber(
-                        min,
-                        max,
-                        bitStream
-                );
-            } else {
-                value = decodeUnconstraintNumber(bitStream);
-            }
+            long value = hasConstraint ? decodeConstraintNumber(min, max, bitStream) : decodeUnconstraintNumber(bitStream);
+            
+            DecodedObject<Long> result = new DecodedObject<Long>();
             result.setValue(value);
             return result;
         }
