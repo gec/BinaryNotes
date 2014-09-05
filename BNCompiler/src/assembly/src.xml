@@ -28,7 +28,7 @@
             <directory>src/main/scripts</directory>
             <outputDirectory />
             <includes>
-                <include>*</include>
+                <include>**</include>
             </includes>
         </fileSet>
         
