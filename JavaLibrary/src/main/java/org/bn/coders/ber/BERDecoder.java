@@ -362,7 +362,6 @@ public class BERDecoder extends Decoder {
     }
 
     public DecodedObject<Long> decodeLongValue(InputStream stream, DecodedObject<Integer> len) throws Exception {
-        DecodedObject<Long> result = new DecodedObject<Long>();
         long value = 0;
         for (int i = 0; i < len.getValue(); i++) {
             int bt = stream.read();
@@ -376,9 +375,8 @@ public class BERDecoder extends Decoder {
 
             value = (value << 8) | bt;
         }
-        result.setValue(value);
-        result.setSize(len.getValue() + len.getSize());
-        return result;
+        
+        return new DecodedObject<Long>(value, len.getValue() + len.getSize());
     }
 
     @Override

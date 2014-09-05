@@ -1,6 +1,5 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,12 +13,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
- package org.bn.coders.der;
+package org.bn.coders.der;
 
 import org.bn.coders.ber.BERDecoder;
 
-
 public class DERDecoder extends BERDecoder {
+
     public DERDecoder() {
     }
 }

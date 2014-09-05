@@ -403,10 +403,7 @@ public class PERAlignedDecoder extends Decoder {
     public DecodedObject decodeBoolean(DecodedObject decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        DecodedObject<Boolean> result = new DecodedObject<Boolean>();
-        BitArrayInputStream bitStream = (BitArrayInputStream) stream;
-        result.setValue(bitStream.readBit() == 1);
-        return result;
+        return new DecodedObject<Boolean>(((BitArrayInputStream)stream).readBit() == 1);
     }
 
     @Override
@@ -446,7 +443,6 @@ public class PERAlignedDecoder extends Decoder {
         }
 
         if (objectClass.equals(Integer.class)) {
-            DecodedObject<Integer> result = new DecodedObject<Integer>();
             BitArrayInputStream bitStream = (BitArrayInputStream) stream;
             int value;
             if (hasConstraint) {
@@ -454,15 +450,11 @@ public class PERAlignedDecoder extends Decoder {
             } else {
                 value = (int) decodeUnconstraintNumber(bitStream);
             }
-            result.setValue(value);
-            return result;
+            return new DecodedObject<Integer>(value);
         } else {
             BitArrayInputStream bitStream = (BitArrayInputStream) stream;
             long value = hasConstraint ? decodeConstraintNumber(min, max, bitStream) : decodeUnconstraintNumber(bitStream);
-            
-            DecodedObject<Long> result = new DecodedObject<Long>();
-            result.setValue(value);
-            return result;
+            return new DecodedObject<Long>(value);
         }
     }
 

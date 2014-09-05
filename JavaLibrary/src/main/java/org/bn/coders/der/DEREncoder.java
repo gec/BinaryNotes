@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -14,41 +13,44 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
- package org.bn.coders.der;
+package org.bn.coders.der;
 
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.util.*;
-import org.bn.coders.*;
-import org.bn.coders.ber.*;
+import java.util.SortedMap;
+import org.bn.coders.CoderUtils;
+import org.bn.coders.ElementInfo;
+import org.bn.coders.ElementType;
+import org.bn.coders.TagClass;
+import org.bn.coders.UniversalTag;
+import org.bn.coders.ber.BERCoderUtils;
+import org.bn.coders.ber.BEREncoder;
 
 public class DEREncoder<T> extends BEREncoder<T> {
+
     public DEREncoder() {
     }
 
-    public int encodeSequence(Object object, OutputStream stream, 
-                                 ElementInfo elementInfo) throws Exception {
+    @Override
+    public int encodeSequence(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         // ASN1Sequence seqInfo = elementInfo.getAnnotatedClass().getAnnotation(ASN1Sequence.class);
-        if(!CoderUtils.isSequenceSet(elementInfo)) {
+        if (!CoderUtils.isSequenceSet(elementInfo)) {
             return super.encodeSequence(object, stream, elementInfo);
-        }
-        else {
+        } else {
             int resultSize = 0;
-            Field[] fields = null;
-            if(elementInfo.hasPreparedInfo()) {
+            Field[] fields;
+            if (elementInfo.hasPreparedInfo()) {
                 fields = elementInfo.getPreparedInfo().getFields();
+            } else {
+                SortedMap<Integer, Field> fieldOrder = CoderUtils.getSetOrder(object.getClass());
+                fields = fieldOrder.values().toArray(new Field[0]);
             }
-            else {
-                SortedMap<Integer,Field> fieldOrder = CoderUtils.getSetOrder(object.getClass());
-                fields = new Field[0];
-                fields = fieldOrder.values().toArray(fields);
+
+            for (int i = 0; i < fields.length; i++) {
+                resultSize += encodeSequenceField(object, fields.length - 1 - i, fields[fields.length - 1 - i], stream, elementInfo);
             }
-            
-            for(int i=0; i < fields.length; i++) {
-                resultSize+=encodeSequenceField(object, fields.length - 1 - i, fields[fields.length - 1 - i], stream, elementInfo);
-            }
-            resultSize += encodeHeader (BERCoderUtils.getTagValueForElement (elementInfo,TagClass.Universal, ElementType.Constructed, UniversalTag.Set), resultSize, stream );
-            return resultSize;            
+            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Constructed, UniversalTag.Set), resultSize, stream);
+            return resultSize;
         }
     }
 }

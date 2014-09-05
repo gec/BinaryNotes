@@ -17,16 +17,15 @@
 package org.bn.coders;
 
 import java.lang.reflect.AnnotatedElement;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-
 import org.bn.annotations.ASN1Element;
 import org.bn.metadata.ASN1ElementMetadata;
 
 public final class ElementInfo {
+
     private ASN1Element element;
-    private AnnotatedElement  annotatedClass, parentAnnotated;
+    private AnnotatedElement annotatedClass, parentAnnotated;
     private Type genericInfo;
     private Object parentObject;
     private IASN1PreparedElementData preparedInfo;
@@ -34,9 +33,9 @@ public final class ElementInfo {
     private ASN1ElementMetadata preparedElementMetadata;
     private int maxAvailableLen = -1;
 
-    public ElementInfo() {            
+    public ElementInfo() {
     }
-       
+
     public ASN1Element getASN1ElementInfo() {
         return element;
     }
@@ -44,23 +43,23 @@ public final class ElementInfo {
     public void setASN1ElementInfo(ASN1Element element) {
         this.element = element;
     }
-    
+
     public void setASN1ElementInfoForClass(AnnotatedElement anElement) {
         this.element = anElement.getAnnotation(ASN1Element.class);
     }
 
-    public AnnotatedElement  getAnnotatedClass() {
+    public AnnotatedElement getAnnotatedClass() {
         return this.annotatedClass;
     }
-    
+
     public void setAnnotatedClass(AnnotatedElement cls) {
         this.annotatedClass = cls;
     }
-        
+
     public void setGenericInfo(Type info) {
         this.genericInfo = info;
     }
-    
+
     public Type getGenericInfo() {
         return this.genericInfo;
     }
@@ -87,13 +86,13 @@ public final class ElementInfo {
 
     public void setPreparedInfo(IASN1PreparedElementData preparedInfo) {
         this.preparedInfo = preparedInfo;
-        if(preparedInfo!=null) {
+        if (preparedInfo != null) {
             setPreparedASN1ElementInfo(preparedInfo.getASN1ElementInfo());
-        }       
+        }
     }
-    
+
     public boolean hasPreparedInfo() {
-        return this.preparedInfo !=null;
+        return this.preparedInfo != null;
     }
 
     public Object getPreparedInstance() {
@@ -103,17 +102,13 @@ public final class ElementInfo {
     public void setPreparedInstance(Object preparedInstance) {
         this.preparedInstance = preparedInstance;
     }
-    
+
     public boolean hasPreparedInstance() {
-        return this.preparedInstance!=null;
+        return this.preparedInstance != null;
     }
-    
+
     public Field[] getFields(Class objClass) {
-        if(hasPreparedInfo()) {
-            return getPreparedInfo().getFields();
-        }
-        else
-            return objClass.getDeclaredFields();
+        return this.hasPreparedInfo() ? this.getPreparedInfo().getFields() : objClass.getDeclaredFields();
     }
 
     public ASN1ElementMetadata getPreparedASN1ElementInfo() {
@@ -123,7 +118,7 @@ public final class ElementInfo {
     public void setPreparedASN1ElementInfo(ASN1ElementMetadata value) {
         this.preparedElementMetadata = value;
     }
-    
+
     public boolean hasPreparedASN1ElementInfo() {
         return this.preparedElementMetadata != null;
     }
