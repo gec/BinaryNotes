@@ -107,7 +107,7 @@
                 <configuration>
                     <attach>false</attach>
                     <descriptors>
-                        <descriptor>src/main/assembly/src.xml</descriptor>
+                        <descriptor>src/assembly/src.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>
