@@ -27,7 +27,6 @@ public class MainTest {
      */
     @Test
     public void testJava() throws Exception {
-        new File("testworkdir" + File.separator + "output").mkdirs();
         new Main().start(new String[] {
             "--modulesPath", "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules",
             "--moduleName", "java",
@@ -39,7 +38,6 @@ public class MainTest {
     
     @Test
     public void testCS() throws Exception {
-        new File("testworkdir" + File.separator + "output-cs").mkdirs();
         new Main().start(new String[] {
             "--modulesPath", "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules",
             "--moduleName", "cs",

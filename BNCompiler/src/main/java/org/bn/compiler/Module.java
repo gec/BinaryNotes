@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -28,36 +27,33 @@ import javax.xml.transform.stream.StreamSource;
 
 public class Module {
 
-    private File[] moduleFiles = null;
-    private String moduleName, outputDir, modulesPath;
+    private final String moduleName;
+    private final String outputDir;
+    private final String modulesPath;
+    private final File[] moduleFiles;
 
-    public Module(String modulesPath, String name, String outputDir) throws Exception {
-        setModuleName(name);
-        setOutputDir(outputDir);
-        setModulesPath(modulesPath);
-        loadTransformations();
-    }
-
-    private File createOutputFileForInput(File input) {
-        String fileName = input.getName().substring(0, input.getName().lastIndexOf(".")) + "." + getModuleName();
-        return new File(getOutputDir(), fileName);
-    }
-
-    private void loadTransformations() throws Exception {
-        File basePath = new File(getModulesPath() + File.separator + getModuleName());
-        if (basePath.isDirectory()) {
-            moduleFiles = basePath.listFiles();
-        } else {
-            throw new FileNotFoundException("Modules must be directory!");
+    public Module(String modulesPath, String moduleName, String outputDir) throws FileNotFoundException {
+        if (!new File(modulesPath).isDirectory()) {
+            throw new FileNotFoundException("modulesPath must be an existing directory!");
         }
+        if (!new File(modulesPath, moduleName).isDirectory()) {
+            throw new FileNotFoundException("modulesPath directory does not contain directory for given moduleName!");
+        }
+        
+        this.modulesPath = modulesPath;
+        this.moduleName = moduleName;
+        this.outputDir = outputDir;
+        this.moduleFiles = new File(modulesPath, moduleName).listFiles();
     }
-
-    public void translate(InputStream stream) throws Exception {
+    
+    public void translate(InputStream stream) throws TransformerException {
+        new File(this.outputDir).mkdirs();
+        
         TransformerFactory factory = TransformerFactory.newInstance();
 
-        for (File file : moduleFiles) {
-            if (file.isFile()) {
-                Transformer transformer = factory.newTransformer(new StreamSource(file));
+        for (File xslFile : this.moduleFiles) {
+            if (xslFile.isFile()) {
+                Transformer transformer = factory.newTransformer(new StreamSource(xslFile));
                 transformer.setErrorListener(new ErrorListener() {
                     @Override
                     public void warning(TransformerException exception) {
@@ -75,33 +71,26 @@ public class Module {
                     }
                 });
 
-                File outputFile = createOutputFileForInput(file);
+                File outputFile = createOutputFileForInput(xslFile);
                 transformer.transform(new StreamSource(stream), new StreamResult(outputFile));
             }
         }
     }
+    
+    private File createOutputFileForInput(File input) {
+        String fileName = input.getName().substring(0, input.getName().lastIndexOf(".")) + "." + getModuleName();
+        return new File(getOutputDir(), fileName);
+    }
 
     public String getModuleName() {
-        return moduleName;
+        return this.moduleName;
     }
 
     public String getModulesPath() {
-        return modulesPath;
+        return this.modulesPath;
     }
 
     public String getOutputDir() {
-        return outputDir;
-    }
-
-    private void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    private void setModulesPath(String modulesPath) {
-        this.modulesPath = modulesPath;
-    }
-
-    private void setOutputDir(String outputDir) {
-        this.outputDir = outputDir;
+        return this.outputDir;
     }
 }

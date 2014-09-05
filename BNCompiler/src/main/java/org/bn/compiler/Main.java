@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -16,67 +15,34 @@
  */
 package org.bn.compiler;
 
-import org.bn.compiler.parser.*;
-import org.bn.compiler.parser.model.ASN1Model;
-import org.bn.compiler.parser.model.ASNModule;
-
+import antlr.ANTLRException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
-
 import java.io.OutputStream;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
-
+import javax.xml.transform.TransformerException;
+import org.bn.compiler.parser.ASNLexer;
+import org.bn.compiler.parser.ASNParser;
+import org.bn.compiler.parser.model.ASN1Model;
+import org.bn.compiler.parser.model.ASNModule;
 import org.lineargs.LineArgsParser;
 
 public class Main {
 
-    private final static String version = "1.5.3";
-    private final LineArgsParser parser = new LineArgsParser();
+    private static final String VERSION = "1.5.3";
+    
     private CompilerArgs arguments = null;
-
-    private void createModel(OutputStream outputXml, String[] args, Module module) throws PropertyException, Exception, JAXBException {
-        JAXBContext jc = JAXBContext.newInstance("org.bn.compiler.parser.model");
-        Marshaller marshaller = jc.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        ASN1Model model = createModelFromStream();
-
-        model.runtimeArguments = args;
-
-        if (module != null) {
-            model.moduleDirectory = module.getModulesPath() + File.separator + module.getModuleName();
-            model.outputDirectory = module.getOutputDir();
-            if (arguments.getNamespace() != null) {
-                model.moduleNS = arguments.getNamespace();
-            } else {
-                model.moduleNS = model.module.moduleIdentifier.name.toLowerCase();
-            }
-        }
-        marshaller.marshal(model, outputXml);
-    }
-
-    private ASN1Model createModelFromStream() throws Exception {
-        InputStream stream = new FileInputStream(arguments.getInputFileName());
-        ASNLexer lexer = new ASNLexer(stream);
-        ASNParser parser = new ASNParser(lexer);
-        ASNModule module = new ASNModule();
-
-        parser.module_definition(module);
-
-        ASN1Model model = new ASN1Model();
-        model.module = module;
-        return model;
-    }
 
     public static void main(String args[]) {
         try {
-            System.out.println("BinaryNotes compiler v" + version);
+            System.out.println("BinaryNotes compiler v" + VERSION);
             System.out.println("        (c) 2006-2011 Abdulla G. Abdurakhmanov");
             new Main().start(args);
         } catch (Exception ex) {
@@ -85,6 +51,7 @@ public class Main {
     }
 
     public void start(String[] args) throws Exception {
+        LineArgsParser parser = new LineArgsParser();
         if (args.length > 0) {
             arguments = parser.parse(CompilerArgs.class, args);
             Module module = new Module(arguments.getModulesPath(), arguments.getModuleName(), arguments.getOutputDir());
@@ -94,16 +61,48 @@ public class Main {
         }
     }
 
-    private void startForModule(Module module, String[] args) throws Exception {
+    private void startForModule(Module module, String[] args) throws TransformerException, JAXBException, IOException, ANTLRException {
         if (!arguments.getGenerateModelOnly()) {
             System.out.println("Current directory: " + new File(".").getCanonicalPath());
             System.out.println("Compiling file: " + arguments.getInputFileName());
+            
             ByteArrayOutputStream outputXml = new ByteArrayOutputStream(65535);
             createModel(outputXml, args, module);
-            InputStream stream = new ByteArrayInputStream(outputXml.toByteArray());
-            module.translate(stream);
+            module.translate(new ByteArrayInputStream(outputXml.toByteArray()));
         } else {
             createModel(System.out, args, null);
         }
+    }
+    
+    private void createModel(OutputStream outputXml, String[] args, Module module) throws JAXBException, FileNotFoundException, ANTLRException {
+        ASN1Model model = createModelFromStream();
+        model.runtimeArguments = args;
+        if (module != null) {
+            model.moduleDirectory = module.getModulesPath() + File.separator + module.getModuleName();
+            model.outputDirectory = module.getOutputDir();
+            if (arguments.getNamespace() != null) {
+                model.moduleNS = arguments.getNamespace();
+            } else {
+                model.moduleNS = model.module.moduleIdentifier.name.toLowerCase();
+            }
+        }
+        
+        JAXBContext jc = JAXBContext.newInstance("org.bn.compiler.parser.model");
+        Marshaller marshaller = jc.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.marshal(model, outputXml);
+    }
+
+    private ASN1Model createModelFromStream() throws FileNotFoundException, ANTLRException {
+        InputStream stream = new FileInputStream(arguments.getInputFileName());
+        ASNLexer lexer = new ASNLexer(stream);
+        ASNParser parser = new ASNParser(lexer);
+        
+        ASNModule module = new ASNModule();
+        parser.module_definition(module);
+
+        ASN1Model model = new ASN1Model();
+        model.module = module;
+        return model;
     }
 }

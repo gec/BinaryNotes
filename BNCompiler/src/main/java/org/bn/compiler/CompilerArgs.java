@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -16,8 +15,8 @@
  */
 package org.bn.compiler;
 
-import org.lineargs.*;
-import org.lineargs.constraints.*;
+import org.lineargs.Option;
+import org.lineargs.constraints.RegexConstraint;
 
 public class CompilerArgs {
 
