@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -21,26 +20,26 @@ public class ObjectIdentifier {
     private String oidString;
 
     public ObjectIdentifier(String oidAsStr) {
-        setValue(oidAsStr);
+        this.oidString = oidAsStr;
     }
 
     public ObjectIdentifier() {
-        oidString = null;
+        this.oidString = null;
     }
 
     public String getValue() {
-        return oidString;
+        return this.oidString;
     }
 
     public void setValue(String value) {
-        oidString = value;
+        this.oidString = value;
     }
 
     public int[] getIntArray() {
         String[] sa = oidString.split("\\.");
         int[] ia = new int[sa.length];
         for (int i = 0; i < sa.length; i++) {
-            ia[i] = new Integer(sa[i]).intValue();
+            ia[i] = Integer.parseInt(sa[i]);
         }
         return ia;
     }

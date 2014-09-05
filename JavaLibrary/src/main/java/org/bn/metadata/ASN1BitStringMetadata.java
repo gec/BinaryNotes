@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -14,13 +13,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-
 package org.bn.metadata;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.bn.annotations.ASN1Any;
 import org.bn.annotations.ASN1BitString;
 import org.bn.coders.DecodedObject;
 import org.bn.coders.ElementInfo;
@@ -31,25 +27,23 @@ import org.bn.coders.IASN1TypesEncoder;
  * @author jcfinley@users.sourceforge.net
  */
 public class ASN1BitStringMetadata
-    extends ASN1FieldMetadata
-{
-    public ASN1BitStringMetadata(String name)
-    {
+        extends ASN1FieldMetadata {
+
+    public ASN1BitStringMetadata(String name) {
         super(name);
     }
-    
+
     public ASN1BitStringMetadata(ASN1BitString annotation) {
         this(annotation.name());
     }
-    
-    public int encode(IASN1TypesEncoder encoder, Object object, OutputStream stream, 
-               ElementInfo elementInfo) throws Exception {
+
+    @Override
+    public int encode(IASN1TypesEncoder encoder, Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         return encoder.encodeBitString(object, stream, elementInfo);
     }
-    
+
+    @Override
     public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
-        return decoder.decodeBitString(decodedTag,objectClass,elementInfo,stream);
+        return decoder.decodeBitString(decodedTag, objectClass, elementInfo, stream);
     }
-    
-    
 }

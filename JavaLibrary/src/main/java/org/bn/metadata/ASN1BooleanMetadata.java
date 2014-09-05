@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -19,8 +18,7 @@ package org.bn.metadata;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.bn.annotations.*;
+import org.bn.annotations.ASN1Boolean;
 import org.bn.coders.DecodedObject;
 import org.bn.coders.ElementInfo;
 import org.bn.coders.IASN1TypesDecoder;
@@ -32,11 +30,9 @@ import org.bn.coders.IASN1TypesEncoder;
 public class ASN1BooleanMetadata extends ASN1FieldMetadata {
 
     public ASN1BooleanMetadata() {
-        
     }
     
-    public ASN1BooleanMetadata(String name)
-    {
+    public ASN1BooleanMetadata(String name) {
         super(name);
     }
     
@@ -44,13 +40,13 @@ public class ASN1BooleanMetadata extends ASN1FieldMetadata {
         this(annotation.name());
     }
     
-    public int encode(IASN1TypesEncoder encoder, Object object, OutputStream stream, 
-               ElementInfo elementInfo) throws Exception {
+    @Override
+    public int encode(IASN1TypesEncoder encoder, Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         return encoder.encodeBoolean(object, stream, elementInfo);
     }    
     
+    @Override
     public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeBoolean(decodedTag,objectClass,elementInfo,stream);
     }
-    
 }

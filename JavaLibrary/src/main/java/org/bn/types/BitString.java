@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -22,47 +21,39 @@ package org.bn.types;
  * @todo Need more functional operations for write/read bits
  */
 public class BitString {
-    private byte[] bitStrValue = new byte[0];
-    private int trailBitsCnt = 0; // count of buffer bit's trail
+    
+    private byte[] bitStrValue;
+    
+    /** count of buffer bit's trail */
+    private int trailBitsCnt;
     
     public BitString() {
-    }
-
-    public BitString(byte[] bitStrValue) {
-        setValue(bitStrValue);
-    }
-
-    public BitString(byte[] bitStrValue,int trailBitsCnt) {
-        setValue(bitStrValue, trailBitsCnt);
-    }
-    
-    public BitString(BitString src) {
-        setValue(src.getValue(),src.getTrailBitsCnt());        
-    }
-    
-    public int getLength() {
-        return bitStrValue.length;
-    }
-    
-    public int getTrailBitsCnt() {
-        return trailBitsCnt;
-    }
-
-    public int getLengthInBits() {
-	return getLength()*8 - getTrailBitsCnt();
-    }
-    
-    public byte[] getValue() {
-        return bitStrValue;
-    }
-    
-    public void setValue(byte[] val) {
-        this.bitStrValue = val;
+        this.bitStrValue = new byte[0];
         this.trailBitsCnt = 0;
     }
     
-    public void setValue(byte[] val, int trailBitsCnt) {
-        setValue(val);
+    public BitString(byte[] bitStrValue, int trailBitsCnt) {
+        this.bitStrValue = bitStrValue;
         this.trailBitsCnt = trailBitsCnt;
-    }    
+    }
+
+    public BitString(BitString src) {
+        this(src.getValue(), src.getTrailBitsCnt());
+    }
+    
+    public int getLength() {
+        return this.bitStrValue.length;
+    }
+    
+    public int getTrailBitsCnt() {
+        return this.trailBitsCnt;
+    }
+
+    public int getLengthInBits() {
+	return this.getLength()*8 - this.getTrailBitsCnt();
+    }
+    
+    public byte[] getValue() {
+        return this.bitStrValue;
+    }
 }

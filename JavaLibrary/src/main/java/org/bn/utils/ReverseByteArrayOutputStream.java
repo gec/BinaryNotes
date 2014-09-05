@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -34,29 +33,35 @@ import java.io.UnsupportedEncodingException;
   *
   */
 public class ReverseByteArrayOutputStream extends ByteArrayOutputStream {
+    
     public ReverseByteArrayOutputStream() {
         super(1024);
     }
 
+    @Override
     public synchronized void writeTo(OutputStream out) throws IOException {
         byte[] bufTmp = toByteArray();
         out.write(bufTmp, 0, bufTmp.length);
     }
     
-    public synchronized byte toByteArray()[] {
+    @Override
+    public synchronized byte[] toByteArray() {
         byte newbuf[] = new byte[count];
         System.arraycopy(buf, buf.length - count, newbuf, 0, count);
         return newbuf;
     }
 
+    @Override
     public String toString() {
         return new String(toByteArray());
     }
     
+    @Override
     public String toString(String enc) throws UnsupportedEncodingException {
         return new String(toByteArray(),enc);
     }
     
+    @Override
     public synchronized void write(int b) {
         int newcount = count + 1;
         resizeBuffer(newcount);
@@ -74,6 +79,7 @@ public class ReverseByteArrayOutputStream extends ByteArrayOutputStream {
         }
     }
 
+    @Override
     public synchronized void write(byte b[], int off, int len) {
         if ((off < 0) || (off > b.length) || (len < 0) ||
             ((off + len) > b.length) || ((off + len) < 0)) {
@@ -86,5 +92,4 @@ public class ReverseByteArrayOutputStream extends ByteArrayOutputStream {
         System.arraycopy(b, off, buf, buf.length - count - len, len);
         count = newcount;
     }
-
 }

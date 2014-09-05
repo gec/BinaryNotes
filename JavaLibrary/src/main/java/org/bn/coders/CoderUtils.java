@@ -104,7 +104,7 @@ public class CoderUtils {
 
     public static BitString defStringToOctetString(String bhString) {
         if (bhString.length() < 4) {
-            return new BitString(new byte[0]);
+            return new BitString();
         }
         if (bhString.lastIndexOf('B') == bhString.length() - 1) {
             return bitStringToOctetString(bhString.substring(1, bhString.length() - 2));

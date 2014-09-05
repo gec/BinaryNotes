@@ -544,7 +544,7 @@ public class PERAlignedDecoder extends Decoder {
 
             result.setValue(new BitString(value, trailBits));
         } else {
-            result.setValue(new BitString(new byte[0]));
+            result.setValue(new BitString());
         }
         return result;
     }
