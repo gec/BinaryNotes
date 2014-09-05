@@ -106,7 +106,7 @@ public class BEREncoder<T> extends Encoder<T> {
         return resultSize;
     }
 
-    public int encodeIntegerValue(long value, OutputStream stream) throws Exception {
+    protected int encodeIntegerValue(long value, OutputStream stream) throws Exception {
         int resultSize = CoderUtils.getIntegerLength(value);
         for (int i = 0; i < resultSize; i++) {
             stream.write((byte) value);
@@ -117,7 +117,6 @@ public class BEREncoder<T> extends Encoder<T> {
 
     @Override
     public int encodeInteger(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0;
         int szOfInt = 0;
         if (object instanceof Integer) {
             Integer value = (Integer) object;
@@ -128,11 +127,10 @@ public class BEREncoder<T> extends Encoder<T> {
             CoderUtils.checkConstraints(value, elementInfo);
             szOfInt = encodeIntegerValue(value, stream);
         }
-        resultSize += szOfInt;
+        
+        int resultSize = szOfInt;
         resultSize += encodeLength(szOfInt, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Integer),
-                stream
-        );
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Integer), stream);
         return resultSize;
     }
 

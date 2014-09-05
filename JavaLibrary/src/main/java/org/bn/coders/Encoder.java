@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -17,13 +16,29 @@
 package org.bn.coders;
 
 import java.io.OutputStream;
-
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import org.bn.IEncoder;
-import org.bn.annotations.*;
+import org.bn.annotations.ASN1Any;
+import org.bn.annotations.ASN1BitString;
+import org.bn.annotations.ASN1Boolean;
+import org.bn.annotations.ASN1BoxedType;
+import org.bn.annotations.ASN1Choice;
+import org.bn.annotations.ASN1Element;
+import org.bn.annotations.ASN1Enum;
+import org.bn.annotations.ASN1EnumItem;
+import org.bn.annotations.ASN1Integer;
+import org.bn.annotations.ASN1Null;
+import org.bn.annotations.ASN1ObjectIdentifier;
+import org.bn.annotations.ASN1OctetString;
+import org.bn.annotations.ASN1Real;
+import org.bn.annotations.ASN1Sequence;
+import org.bn.annotations.ASN1SequenceOf;
+import org.bn.annotations.ASN1String;
 import org.bn.metadata.ASN1ElementMetadata;
 import org.bn.metadata.ASN1Metadata;
-import org.bn.types.*;
+import org.bn.types.BitString;
+import org.bn.types.ObjectIdentifier;
 
 public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
 
@@ -32,7 +47,7 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
         ElementInfo elemInfo = new ElementInfo();
         elemInfo.setAnnotatedClass(object.getClass());
         //elemInfo.setASN1ElementInfo(object.getClass().getAnnotation(ASN1Element.class));
-        int sizeOfEncodedBytes = 0;
+        int sizeOfEncodedBytes;
         if (object instanceof IASN1PreparedElement) {
             sizeOfEncodedBytes = encodePreparedElement(object, stream, elemInfo);
         } else {
@@ -147,17 +162,14 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
     @Override
     public int encodeSequence(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         int resultSize = 0;
-
-        Field[] fields = elementInfo.getFields(object.getClass());
         int fieldIdx = 0;
-        for (Field field : fields) {
+        for (Field field : elementInfo.getFields(object.getClass())) {
             resultSize += encodeSequenceField(object, fieldIdx++, field, stream, elementInfo);
         }
         return resultSize;
     }
 
     protected int encodeSequenceField(Object object, int fieldIdx, Field field, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0;
         ElementInfo info = new ElementInfo();
         info.setAnnotatedClass(field);
         if (elementInfo.hasPreparedInfo()) {
@@ -167,37 +179,29 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
         }
 
         if (field.isSynthetic()) {
-            return resultSize;
-        }
-        if (CoderUtils.isNullField(field, info)) {
+            return 0;
+        } else if (CoderUtils.isNullField(field, info)) {
             return encodeNull(object, stream, elementInfo);
         } else {
             Object invokeObjResult = invokeGetterMethodForField(field, object, info);
-
-            if (invokeObjResult != null) {
-                resultSize += encodeClassType(invokeObjResult, stream, info);
-            } else {
+            if (invokeObjResult == null) {
                 CoderUtils.checkForOptionalField(field, info);
+                return 0;
+            } else {
+                return encodeClassType(invokeObjResult, stream, info);
             }
         }
-        return resultSize;
     }
 
     protected boolean isSelectedChoiceItem(Field field, Object object, ElementInfo info) throws Exception {
-        if (invokeSelectedMethodForField(field, object, info)) {
-            return true;
-        } else {
-            return false;
-        }
+        return invokeSelectedMethodForField(field, object, info);
     }
 
     protected ElementInfo getChoiceSelectedElement(Object object, ElementInfo elementInfo) throws Exception {
         ElementInfo info = null;
 
-        Field[] fields = elementInfo.getFields(object.getClass());
-
         int fieldIdx = 0;
-        for (Field field : fields) {
+        for (Field field : elementInfo.getFields(object.getClass())) {
             if (!field.isSynthetic()) {
                 info = new ElementInfo();
                 info.setAnnotatedClass(field);
@@ -215,6 +219,7 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
             }
             fieldIdx++;
         }
+        
         if (info == null) {
             throw new IllegalArgumentException("The choice '" + object.toString() + "' does not have a selected item!");
         }
@@ -223,11 +228,9 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
 
     @Override
     public int encodeChoice(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0;
         ElementInfo info = getChoiceSelectedElement(object, elementInfo);
         Object invokeObjResult = invokeGetterMethodForField((Field) info.getAnnotatedClass(), object, info);
-        resultSize += encodeClassType(invokeObjResult, stream, info);
-        return resultSize;
+        return encodeClassType(invokeObjResult, stream, info);
     }
 
     @Override
@@ -282,13 +285,12 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
                             elementInfo.getASN1ElementInfo().hasDefaultValue()
                     );
                     elementInfo.setPreparedASN1ElementInfo(elData);
-                };
+                }
             }
         }
         if (field.isAnnotationPresent(ASN1Null.class)) {
             return encodeNull(object, stream, elementInfo);
         } else {
-
             return encodeClassType(invokeGetterMethodForField(field, object, elementInfo), stream, elementInfo);
         }
     }
