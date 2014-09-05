@@ -23,6 +23,15 @@
         </dependencySet>
     </dependencySets>
     <fileSets>
+        <!-- scripts go to the root -->
+        <fileSet>
+            <directory>src/main/scripts</directory>
+            <outputDirectory />
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
+        
         <!-- modules go to the modules folder -->
         <fileSet>
             <directory>src/main/resources/modules</directory>
