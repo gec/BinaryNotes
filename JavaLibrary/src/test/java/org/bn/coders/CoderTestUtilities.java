@@ -343,7 +343,7 @@ public abstract class CoderTestUtilities {
         BugValueType valueType = new BugValueType();
         valueType.selectBugPrimitive(primitive);
 
-        List<BugValueType> list = new ArrayList<BugValueType>();
+        List<BugValueType> list = new ArrayList<BugValueType>(1);
         list.add(valueType);
 
         BugList bugList = new BugList();
@@ -360,7 +360,7 @@ public abstract class CoderTestUtilities {
         BugValueType valueType = new BugValueType();
         valueType.selectBugPrimitive(primitive);
 
-        List<BugValueType> list = new ArrayList<BugValueType>();
+        List<BugValueType> list = new ArrayList<BugValueType>(1);
         list.add(valueType);
 
         BugList bugList = new BugList();

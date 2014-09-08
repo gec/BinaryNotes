@@ -26,8 +26,7 @@ import org.bn.coders.IASN1TypesEncoder;
 /**
  * @author jcfinley@users.sourceforge.net
  */
-public class ASN1BitStringMetadata
-        extends ASN1FieldMetadata {
+public class ASN1BitStringMetadata extends ASN1FieldMetadata {
 
     public ASN1BitStringMetadata(String name) {
         super(name);
@@ -43,7 +42,7 @@ public class ASN1BitStringMetadata
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeBitString(decodedTag, objectClass, elementInfo, stream);
     }
 }

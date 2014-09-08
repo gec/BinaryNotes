@@ -151,7 +151,7 @@ public final class ASN1PreparedElementData implements IASN1PreparedElementData {
         Field[] srcFields;
         if (typeMeta != null && typeMeta instanceof ASN1SequenceMetadata && ((ASN1SequenceMetadata) typeMeta).isSet()) {
             SortedMap<Integer, Field> fieldOrder = CoderUtils.getSetOrder(objectClass);
-            srcFields = fieldOrder.values().toArray(new Field[0]);
+            srcFields = fieldOrder.values().toArray(new Field[fieldOrder.size()]);
             count = srcFields.length;
         } else {
             srcFields = objectClass.getDeclaredFields();
@@ -276,7 +276,7 @@ public final class ASN1PreparedElementData implements IASN1PreparedElementData {
         return this.memberClassFlag;
     }
 
-    protected void setupMemberFlag(Class<?> cls) {
+    private void setupMemberFlag(Class<?> cls) {
         this.memberClassFlag = cls.isMemberClass() && !Modifier.isStatic(cls.getModifiers());
     }
 

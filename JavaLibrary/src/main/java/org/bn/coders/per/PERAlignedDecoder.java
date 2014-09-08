@@ -43,7 +43,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeTag(InputStream stream) throws Exception {
+    public DecodedObject<Integer> decodeTag(InputStream stream) throws Exception {
         return null;
     }
 
@@ -268,7 +268,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeChoice(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeChoice(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         Object choice = createInstanceForElement(objectClass, elementInfo);
@@ -323,7 +323,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeSequence(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeSequence(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         // TODO 
@@ -368,7 +368,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeEnumItem(DecodedObject decodedTag, Class objectClass, Class enumClass,
+    public DecodedObject<Integer> decodeEnumItem(DecodedObject<Integer> decodedTag, Class objectClass, Class enumClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         //ASN1EnumItem enumObj = elementInfo.getAnnotatedClass().getAnnotation(ASN1EnumItem.class);
@@ -400,28 +400,28 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeBoolean(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<Boolean> decodeBoolean(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         return new DecodedObject<Boolean>(((BitArrayInputStream)stream).readBit() == 1);
     }
 
     @Override
-    public DecodedObject decodeAny(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeAny(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         return null;
     }
 
     @Override
-    public DecodedObject decodeNull(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeNull(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         return new DecodedObject<Object>(objectClass.newInstance());
     }
 
     @Override
-    public DecodedObject decodeInteger(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<? extends Number> decodeInteger(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
 
         boolean hasConstraint = false;
@@ -459,7 +459,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeReal(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<Double> decodeReal(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         BitArrayInputStream bitStream = (BitArrayInputStream) stream;
@@ -506,7 +506,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeOctetString(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<byte[]> decodeOctetString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         DecodedObject<byte[]> result = new DecodedObject<byte[]>();
@@ -523,7 +523,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeBitString(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<BitString> decodeBitString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         DecodedObject<BitString> result = new DecodedObject<BitString>();
@@ -550,7 +550,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeString(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<String> decodeString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         DecodedObject<String> result = new DecodedObject<String>();
@@ -567,7 +567,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeSequenceOf(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         Collection<Object> result = new LinkedList<Object>();
@@ -594,13 +594,13 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeObjectIdentifier(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<ObjectIdentifier> decodeObjectIdentifier(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         int len = decodeLength(elementInfo, stream);
         byte[] byteBuf = new byte[len];
         stream.read(byteBuf, 0, byteBuf.length);
         String dottedDecimal = org.bn.coders.ber.BERObjectIdentifier.Decode(byteBuf);
-        return new DecodedObject<Object>(new ObjectIdentifier(dottedDecimal));
+        return new DecodedObject<ObjectIdentifier>(new ObjectIdentifier(dottedDecimal));
     }
 }

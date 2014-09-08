@@ -60,7 +60,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeTag(InputStream stream) throws Exception {
+    public DecodedObject<Integer> decodeTag(InputStream stream) throws Exception {
         int bt = stream.read();
         if (bt == - 1) {
             return null;
@@ -86,18 +86,19 @@ public class BERDecoder extends Decoder {
         return new DecodedObject<Integer>(result, len);
     }
 
-    protected boolean checkTagForObject(DecodedObject decodedTag, int tagClass, int elementType, int universalTag,
+    protected boolean checkTagForObject(DecodedObject<Integer> decodedTag, int tagClass, int elementType, int universalTag,
             ElementInfo elementInfo) {
         if (decodedTag == null) {
             return false;
         }
         int definedTag = BERCoderUtils.getTagValueForElement(elementInfo, tagClass, elementType, universalTag).getValue();
-        return definedTag == (Integer) decodedTag.getValue();
+        return definedTag == decodedTag.getValue();
     }
 
     @Override
-    public DecodedObject decodeSequence(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeSequence(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
+        
         boolean isSet = false;
         if (!CoderUtils.isSequenceSet(elementInfo)) {
             if (checkTagForObject(decodedTag, TagClass.Universal, ElementType.Constructed, UniversalTag.Sequence, elementInfo)) {
@@ -129,7 +130,7 @@ public class BERDecoder extends Decoder {
         return result;
     }
 
-    protected DecodedObject decodeSet(DecodedObject decodedTag, Class objectClass,
+    protected DecodedObject decodeSet(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, Integer len, InputStream stream) throws Exception {
         
         Object set = createInstanceForElement(objectClass, elementInfo);
@@ -137,7 +138,7 @@ public class BERDecoder extends Decoder {
         int maxSeqLen = elementInfo.getMaxAvailableLen();
         int sizeOfSet = 0;
 
-        DecodedObject<?> fieldTag = null;
+        DecodedObject<Integer> fieldTag = null;
 
         if (maxSeqLen == -1 || maxSeqLen > 0) {
             fieldTag = decodeTag(stream);
@@ -200,9 +201,9 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeEnumItem(DecodedObject decodedTag, Class objectClass, Class enumClass,
-            ElementInfo elementInfo,
-            InputStream stream) throws Exception {
+    public DecodedObject<Integer> decodeEnumItem(DecodedObject<Integer> decodedTag, Class objectClass, Class enumClass,
+            ElementInfo elementInfo, InputStream stream) throws Exception {
+        
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Enumerated, elementInfo)) {
             return null;
         }
@@ -210,9 +211,9 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeBoolean(DecodedObject decodedTag, Class objectClass,
-            ElementInfo elementInfo,
-            InputStream stream) throws Exception {
+    public DecodedObject<Boolean> decodeBoolean(DecodedObject<Integer> decodedTag, Class objectClass,
+            ElementInfo elementInfo, InputStream stream) throws Exception {
+        
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Boolean, elementInfo)) {
             return null;
         }
@@ -225,7 +226,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeAny(DecodedObject decodedTag, Class objectClass, ElementInfo elementInfo,
+    public DecodedObject<byte[]> decodeAny(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo,
             InputStream stream) throws Exception {
         
         int bufSize = elementInfo.getMaxAvailableLen();
@@ -255,7 +256,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeNull(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeNull(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Null, elementInfo)) {
@@ -266,7 +267,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeInteger(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<? extends Number> decodeInteger(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Integer, elementInfo)) {
@@ -284,7 +285,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeReal(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<Double> decodeReal(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Real, elementInfo)) {
@@ -332,7 +333,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeChoice(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeChoice(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
 
         if ((elementInfo.hasPreparedInfo() && elementInfo.hasPreparedASN1ElementInfo() && elementInfo.getPreparedASN1ElementInfo().hasTag())
@@ -341,7 +342,7 @@ public class BERDecoder extends Decoder {
                 return null;
             }
             DecodedObject<Integer> lenOfChild = decodeLength(stream);
-            DecodedObject childDecodedTag = decodeTag(stream);
+            DecodedObject<Integer> childDecodedTag = decodeTag(stream);
             DecodedObject result = super.decodeChoice(childDecodedTag, objectClass, elementInfo, stream);
             result.setSize(result.getSize() + childDecodedTag.getSize() + lenOfChild.getSize());
             return result;
@@ -380,7 +381,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeOctetString(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<byte[]> decodeOctetString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.OctetString, elementInfo)) {
@@ -394,7 +395,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeBitString(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<BitString> decodeBitString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Bitstring, elementInfo)) {
@@ -410,7 +411,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeString(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<String> decodeString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, CoderUtils.getStringTagForElement(elementInfo), elementInfo)) {
@@ -425,7 +426,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeSequenceOf(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!CoderUtils.isSequenceSetOf(elementInfo)) {
@@ -453,7 +454,7 @@ public class BERDecoder extends Decoder {
                     info.setPreparedInfo(seqOfMeta.getItemClassMetadata());
                 }
 
-                DecodedObject itemTag = decodeTag(stream);
+                DecodedObject<Integer> itemTag = decodeTag(stream);
                 DecodedObject item = decodeClassType(itemTag, paramType, info, stream);
                 if (item != null) {
                     lenOfItems += item.getSize() + itemTag.getSize();
@@ -467,7 +468,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeObjectIdentifier(DecodedObject decodedTag,
+    public DecodedObject<ObjectIdentifier> decodeObjectIdentifier(DecodedObject<Integer> decodedTag,
             Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.ObjectIdentifier, elementInfo)) {
@@ -477,6 +478,6 @@ public class BERDecoder extends Decoder {
         byte[] byteBuf = new byte[len.getValue()];
         stream.read(byteBuf, 0, byteBuf.length);
         String dottedDecimal = BERObjectIdentifier.Decode(byteBuf);
-        return new DecodedObject<Object>(new ObjectIdentifier(dottedDecimal));
+        return new DecodedObject<ObjectIdentifier>(new ObjectIdentifier(dottedDecimal));
     }
 }

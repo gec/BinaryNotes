@@ -54,7 +54,7 @@ public class PERUnalignedDecoder extends PERAlignedDecoder {
     }
 
     @Override
-    public DecodedObject decodeString(DecodedObject decodedTag, Class objectClass,
+    public DecodedObject<String> decodeString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws IOException, Exception {
         
         if (!PERCoderUtils.is7BitEncodedString(elementInfo)) {
