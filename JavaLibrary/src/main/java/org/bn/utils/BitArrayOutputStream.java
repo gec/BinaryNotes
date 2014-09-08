@@ -19,7 +19,7 @@ import java.io.ByteArrayOutputStream;
 
 public class BitArrayOutputStream extends ByteArrayOutputStream {
 
-    int currentBit = 0;
+    private int currentBit = 0;
 
     public BitArrayOutputStream() {
         super(1024);
