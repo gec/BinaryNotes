@@ -45,7 +45,7 @@ public class ASN1OctetStringMetadata extends ASN1FieldMetadata {
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeOctetString(decodedTag, objectClass, elementInfo, stream);
     }
 }

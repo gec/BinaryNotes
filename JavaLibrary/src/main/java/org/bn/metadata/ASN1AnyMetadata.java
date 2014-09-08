@@ -42,7 +42,7 @@ public class ASN1AnyMetadata extends ASN1FieldMetadata {
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeAny(decodedTag, objectClass, elementInfo, stream);
     }
 }

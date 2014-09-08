@@ -256,14 +256,14 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeNull(DecodedObject<Integer> decodedTag, Class objectClass,
+    public <T> DecodedObject<T> decodeNull(DecodedObject<Integer> decodedTag, Class<T> objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Null, elementInfo)) {
             return null;
         }
         stream.read(); // ignore null length
-        return new DecodedObject<Object>(objectClass.newInstance(), 1);
+        return new DecodedObject<T>(objectClass.newInstance(), 1);
     }
 
     @Override

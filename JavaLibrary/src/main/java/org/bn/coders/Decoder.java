@@ -16,11 +16,33 @@
 package org.bn.coders;
 
 import java.io.InputStream;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import org.bn.IDecoder;
-import org.bn.annotations.*;
-import org.bn.metadata.*;
-import org.bn.types.*;
+import org.bn.annotations.ASN1Any;
+import org.bn.annotations.ASN1BitString;
+import org.bn.annotations.ASN1Boolean;
+import org.bn.annotations.ASN1BoxedType;
+import org.bn.annotations.ASN1Choice;
+import org.bn.annotations.ASN1Element;
+import org.bn.annotations.ASN1Enum;
+import org.bn.annotations.ASN1EnumItem;
+import org.bn.annotations.ASN1Integer;
+import org.bn.annotations.ASN1Null;
+import org.bn.annotations.ASN1ObjectIdentifier;
+import org.bn.annotations.ASN1OctetString;
+import org.bn.annotations.ASN1PreparedElement;
+import org.bn.annotations.ASN1Real;
+import org.bn.annotations.ASN1Sequence;
+import org.bn.annotations.ASN1SequenceOf;
+import org.bn.annotations.ASN1String;
+import org.bn.metadata.ASN1ElementMetadata;
+import org.bn.metadata.ASN1NullMetadata;
+import org.bn.types.BitString;
+import org.bn.types.ObjectIdentifier;
 
 public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
 
@@ -40,7 +62,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
     }
 
     @Override
-    public DecodedObject decodeClassType(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decodeClassType(DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         if (objectClass.isAnnotationPresent(ASN1PreparedElement.class)) {
             return decodePreparedElement(decodedTag, objectClass, elementInfo, stream);
         } else if (elementInfo.hasPreparedInfo()) {
@@ -82,7 +104,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
         }
     }
 
-    protected DecodedObject decodeJavaElement(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    protected DecodedObject<?> decodeJavaElement(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         if (elementInfo.getAnnotatedClass().equals(String.class)) {
             return decodeString(decodedTag, objectClass, elementInfo, stream);
         } else if (elementInfo.getAnnotatedClass().equals(Integer.class)) {
@@ -101,7 +123,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
     }
 
     @Override
-    public DecodedObject decodePreparedElement(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decodePreparedElement(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         IASN1PreparedElementData saveInfo = elementInfo.getPreparedInfo();
 
         IASN1PreparedElement preparedInstance = (IASN1PreparedElement) createInstanceForElement(objectClass, elementInfo);
@@ -115,7 +137,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
         if (elementDataSave != null) {
             elementInfo.setPreparedASN1ElementInfo(elementDataSave);
         }
-        DecodedObject result = preparedInstance.getPreparedData().getTypeMetadata().decode(this, decodedTag, objectClass, elementInfo, stream);
+        DecodedObject<?> result = preparedInstance.getPreparedData().getTypeMetadata().decode(this, decodedTag, objectClass, elementInfo, stream);
         elementInfo.setPreparedInfo(saveInfo);
         return result;
     }
@@ -320,7 +342,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
     }
 
     @Override
-    public DecodedObject decodeEnum(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public <T> DecodedObject<T> decodeEnum(DecodedObject<Integer> decodedTag, Class<T> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         Field field = objectClass.getDeclaredField("value");
 
         Class enumClass = null;
@@ -333,7 +355,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
 
         DecodedObject itemValue = decodeEnumItem(decodedTag, field.getType(), enumClass, elementInfo, stream);
         if (itemValue != null) {
-            Object result = objectClass.newInstance();
+            T result = objectClass.newInstance();
 
             Field param = null;
             for (Field enumItem : enumClass.getDeclaredFields()) {
@@ -346,7 +368,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
                 }
             }
             invokeSetterMethodForField(field, result, param.get(null), null);
-            return new DecodedObject<Object>(result, itemValue.getSize());
+            return new DecodedObject<T>(result, itemValue.getSize());
         } else {
             return null;
         }

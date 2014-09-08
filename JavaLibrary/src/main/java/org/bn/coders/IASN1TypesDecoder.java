@@ -22,20 +22,20 @@ import org.bn.types.ObjectIdentifier;
 
 public interface IASN1TypesDecoder {
     DecodedObject<Integer> decodeTag(InputStream stream) throws Exception ;
-    DecodedObject decodeClassType(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
+    DecodedObject<?> decodeClassType(DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
     DecodedObject decodeSequence(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
     DecodedObject decodeChoice(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream)  throws Exception;    
     DecodedObject<Boolean> decodeBoolean(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
-    DecodedObject decodeAny(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
-    DecodedObject decodeNull(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
+    DecodedObject<byte[]> decodeAny(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
+    <T> DecodedObject<T> decodeNull(DecodedObject<Integer> decodedTag, Class<T> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
     DecodedObject decodeInteger(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
     DecodedObject<Double> decodeReal(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
-    DecodedObject decodeOctetString(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
+    DecodedObject<byte[]> decodeOctetString(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
     DecodedObject<BitString> decodeBitString(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
     DecodedObject<ObjectIdentifier> decodeObjectIdentifier(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
     DecodedObject<String> decodeString(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
     DecodedObject decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception ;    
-    DecodedObject decodeEnum(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
+    <T> DecodedObject<T> decodeEnum(DecodedObject<Integer> decodedTag, Class<T> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
     DecodedObject<Integer> decodeEnumItem(DecodedObject<Integer> decodedTag, Class objectClass, Class enumClass, ElementInfo elementInfo, InputStream stream) throws Exception ;
     DecodedObject decodeBoxedType(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;
     DecodedObject decodeElement(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception;

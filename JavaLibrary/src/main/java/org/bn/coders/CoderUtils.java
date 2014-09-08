@@ -39,18 +39,22 @@ import org.bn.metadata.ASN1StringMetadata;
 import org.bn.types.BitString;
 
 public class CoderUtils {
+    
+    // do not create instances of this class
+    private CoderUtils() {
+    }
 
     public static int getIntegerLength(int value) {
         long mask = 0x7f800000L;
         int sizeOfInt = 4;
         if (value < 0) {
             while (((mask & value) == mask) && (sizeOfInt > 1)) {
-                mask = mask >> 8;
+                mask >>= 8;
                 sizeOfInt--;
             }
         } else {
             while (((mask & value) == 0) && (sizeOfInt > 1)) {
-                mask = mask >> 8;
+                mask >>= 8;
                 sizeOfInt--;
             }
         }
@@ -62,12 +66,12 @@ public class CoderUtils {
         int sizeOfInt = 8;
         if (value < 0) {
             while (((mask & value) == mask) && (sizeOfInt > 1)) {
-                mask = mask >> 8;
+                mask >>= 8;
                 sizeOfInt--;
             }
         } else {
             while (((mask & value) == 0) && (sizeOfInt > 1)) {
-                mask = mask >> 8;
+                mask >>= 8;
                 sizeOfInt--;
             }
         }
@@ -79,7 +83,7 @@ public class CoderUtils {
             long mask = 0x7f800000L;
             int sizeOfInt = 4;
             while (((mask & ~value) == mask) && (sizeOfInt > 1)) {
-                mask = mask >> 8;
+                mask >>= 8;
                 sizeOfInt--;
             }
             return sizeOfInt;
@@ -93,7 +97,7 @@ public class CoderUtils {
             long mask = 0x7f80000000000000L;
             int sizeOfInt = 8;
             while (((mask & ~value) == mask) && (sizeOfInt > 1)) {
-                mask = mask >> 8;
+                mask >>= 8;
                 sizeOfInt--;
             }
             return sizeOfInt;

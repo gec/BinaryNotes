@@ -43,7 +43,7 @@ public class ASN1ChoiceMetadata extends ASN1TypeMetadata {
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeChoice(decodedTag, objectClass, elementInfo, stream);
     }
 }

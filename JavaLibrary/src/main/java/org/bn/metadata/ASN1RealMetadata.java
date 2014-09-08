@@ -45,7 +45,7 @@ public class ASN1RealMetadata extends ASN1FieldMetadata {
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeReal(decodedTag, objectClass, elementInfo, stream);
     }
 }

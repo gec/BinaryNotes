@@ -22,9 +22,10 @@ import java.lang.reflect.AnnotatedElement;
  */
 public abstract class ASN1Metadata implements IASN1Metadata {
 
-    private String name;
+    private final String name;
     
     public ASN1Metadata() {
+        this.name = null;
     }
 
     public ASN1Metadata(String name) {

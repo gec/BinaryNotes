@@ -21,8 +21,9 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.SortedMap;
-import org.bn.annotations.*;
-import org.bn.annotations.constraints.*;
+import org.bn.annotations.ASN1EnumItem;
+import org.bn.annotations.constraints.ASN1SizeConstraint;
+import org.bn.annotations.constraints.ASN1ValueRangeConstraint;
 import org.bn.coders.CoderUtils;
 import org.bn.coders.DecodedObject;
 import org.bn.coders.Decoder;
@@ -65,7 +66,7 @@ public class PERAlignedDecoder extends Decoder {
             }
 
             if (i == 0 && (bt & (byte) 0x80) != 0) {
-                bt = bt - 256;
+                bt -= 256;
             }
 
             value = (value << 8) | bt;
@@ -165,10 +166,7 @@ public class PERAlignedDecoder extends Decoder {
              * of the encoding is independent of the value being encoded, 
              * and is not explicitly encoded.
              */
-            int intLen = decodeConstraintLengthDeterminant(
-                    1, CoderUtils.getPositiveIntegerLength(valueRange),
-                    stream
-            );
+            int intLen = decodeConstraintLengthDeterminant(1, CoderUtils.getPositiveIntegerLength(valueRange), stream);
             skipAlignedBits(stream);
             result = (int) decodeIntegerValueAsBytes(intLen, stream);
             result += min;
@@ -304,7 +302,7 @@ public class PERAlignedDecoder extends Decoder {
         }
     }
 
-    protected int getSequencePreambleBitLen(Class objectClass, ElementInfo elementInfo) throws Exception {
+    protected int getSequencePreambleBitLen(Class<?> objectClass, ElementInfo elementInfo) throws Exception {
         int preambleLen = 0;
         ElementInfo info = new ElementInfo();
         int fieldIdx = 0;
@@ -340,7 +338,7 @@ public class PERAlignedDecoder extends Decoder {
             fields = elementInfo.getFields(objectClass);
         } else {
             SortedMap<Integer, Field> fieldOrder = CoderUtils.getSetOrder(objectClass);
-            fields = fieldOrder.values().toArray(new Field[0]);
+            fields = fieldOrder.values().toArray(new Field[fieldOrder.size()]);
         }
         int idx = 0;
         ElementInfo info = new ElementInfo();
@@ -407,17 +405,17 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeAny(DecodedObject<Integer> decodedTag, Class objectClass,
+    public DecodedObject<byte[]> decodeAny(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         return null;
     }
 
     @Override
-    public DecodedObject decodeNull(DecodedObject<Integer> decodedTag, Class objectClass,
+    public <T> DecodedObject<T> decodeNull(DecodedObject<Integer> decodedTag, Class<T> objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        return new DecodedObject<Object>(objectClass.newInstance());
+        return new DecodedObject<T>(objectClass.newInstance());
     }
 
     @Override
@@ -448,7 +446,7 @@ public class PERAlignedDecoder extends Decoder {
             if (hasConstraint) {
                 value = (int) decodeConstraintNumber((int) min, (int) max, bitStream);
             } else {
-                value = (int) decodeUnconstraintNumber(bitStream);
+                value = decodeUnconstraintNumber(bitStream);
             }
             return new DecodedObject<Integer>(value);
         } else {
@@ -532,7 +530,7 @@ public class PERAlignedDecoder extends Decoder {
         int sizeOfString = decodeLength(elementInfo, stream);
         skipAlignedBits(stream);
         int trailBits = 8 - sizeOfString % 8;
-        sizeOfString = sizeOfString / 8;
+        sizeOfString /= 8;
         if (sizeOfString > 0 || (sizeOfString == 0 && trailBits > 0)) {
             byte[] value = new byte[trailBits > 0 ? sizeOfString + 1 : sizeOfString];
             if (sizeOfString > 0) {

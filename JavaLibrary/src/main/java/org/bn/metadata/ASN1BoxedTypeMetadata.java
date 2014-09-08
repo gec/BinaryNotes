@@ -84,7 +84,7 @@ public class ASN1BoxedTypeMetadata extends ASN1FieldMetadata {
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass,
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         //return decoder.decodeBoxedType(decodedTag,objectClass,elementInfo,stream);
@@ -116,7 +116,7 @@ public class ASN1BoxedTypeMetadata extends ASN1FieldMetadata {
             }
 
         }
-        DecodedObject decodedResult = valueFieldMeta.getTypeMetadata().decode(decoder, decodedTag, valueField.getType(), elementInfo, stream);
+        DecodedObject<?> decodedResult = valueFieldMeta.getTypeMetadata().decode(decoder, decodedTag, valueField.getType(), elementInfo, stream);
         if (decodedResult != null) {
             if (!CoderUtils.isNullField(valueField, elementInfo)) {
                 decoder.invokeSetterMethodForField(valueField, instance, decodedResult.getValue(), elementInfo);

@@ -17,16 +17,18 @@ package org.bn.metadata;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import org.bn.annotations.ASN1Element;
-import org.bn.coders.*;
+import org.bn.coders.DecodedObject;
+import org.bn.coders.ElementInfo;
+import org.bn.coders.IASN1TypesDecoder;
+import org.bn.coders.IASN1TypesEncoder;
+import org.bn.coders.TagClass;
 
 /**
  * @author jcfinley@users.sourceforge.net
  */
 public class ASN1ElementMetadata extends ASN1FieldMetadata {
 
-    private String name = "";
     private boolean isOptional = true;
     private boolean hasTag = false;
     private boolean isImplicitTag = false;
@@ -46,13 +48,8 @@ public class ASN1ElementMetadata extends ASN1FieldMetadata {
         );
     }
 
-    public ASN1ElementMetadata(String name,
-            boolean isOptional,
-            boolean hasTag,
-            boolean isImplicitTag,
-            int tagClass,
-            int tag,
-            boolean hasDefaultValue) {
+    public ASN1ElementMetadata(String name, boolean isOptional, boolean hasTag,
+            boolean isImplicitTag, int tagClass, int tag, boolean hasDefaultValue) {
         super(name);
 
         this.isOptional = isOptional;
@@ -93,7 +90,7 @@ public class ASN1ElementMetadata extends ASN1FieldMetadata {
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         //return decoder.decodePreparedElement(decodedTag,objectClass,elementInfo,stream);        
         elementInfo.setPreparedInstance(null);
         return decoder.decodeElement(decodedTag, objectClass, elementInfo, stream);

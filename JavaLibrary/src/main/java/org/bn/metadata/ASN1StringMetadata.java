@@ -28,15 +28,15 @@ import org.bn.coders.UniversalTag;
 /**
  * @author jcfinley@users.sourceforge.net
  */
-public class ASN1StringMetadata
-        extends ASN1FieldMetadata {
+public class ASN1StringMetadata extends ASN1FieldMetadata {
 
-    private boolean isUCS = false;
+    private final boolean isUCS;
     private int stringType = UniversalTag.PrintableString;
-    private boolean hasDefaults = false;
+    private final boolean hasDefaults;
 
     public ASN1StringMetadata() {
-        hasDefaults = true;
+        this.isUCS = false;
+        this.hasDefaults = true;
     }
 
     public ASN1StringMetadata(ASN1String annotation) {
@@ -47,14 +47,15 @@ public class ASN1StringMetadata
         super(name);
         this.isUCS = isUCS;
         this.stringType = stringType;
+        this.hasDefaults = false;
     }
 
     public boolean isUCS() {
-        return isUCS;
+        return this.isUCS;
     }
 
     public int getStringType() {
-        return stringType;
+        return this.stringType;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ASN1StringMetadata
         if (parent != null) {
             if (parent.isAnnotationPresent(ASN1String.class)) {
                 ASN1String value = parent.getAnnotation(ASN1String.class);
-                stringType = value.stringType();
+                this.stringType = value.stringType();
             }
         }
     }
@@ -73,7 +74,7 @@ public class ASN1StringMetadata
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeString(decodedTag, objectClass, elementInfo, stream);
     }
 }

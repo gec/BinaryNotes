@@ -17,7 +17,7 @@ package org.bn.metadata;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.bn.annotations.*;
+import org.bn.annotations.ASN1Null;
 import org.bn.coders.DecodedObject;
 import org.bn.coders.ElementInfo;
 import org.bn.coders.IASN1TypesDecoder;
@@ -42,7 +42,7 @@ public class ASN1NullMetadata extends ASN1FieldMetadata {
     }
 
     @Override
-    public DecodedObject decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decode(IASN1TypesDecoder decoder, DecodedObject<Integer> decodedTag, Class<?> objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         return decoder.decodeNull(decodedTag, objectClass, elementInfo, stream);
     }
 }
