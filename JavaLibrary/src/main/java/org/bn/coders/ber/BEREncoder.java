@@ -18,7 +18,7 @@ package org.bn.coders.ber;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import org.bn.annotations.*;
+import org.bn.annotations.ASN1EnumItem;
 import org.bn.coders.CoderUtils;
 import org.bn.coders.DecodedObject;
 import org.bn.coders.ElementInfo;

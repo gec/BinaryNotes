@@ -43,7 +43,7 @@ public class DEREncoder<T> extends BEREncoder<T> {
                 fields = elementInfo.getPreparedInfo().getFields();
             } else {
                 SortedMap<Integer, Field> fieldOrder = CoderUtils.getSetOrder(object.getClass());
-                fields = fieldOrder.values().toArray(new Field[0]);
+                fields = fieldOrder.values().toArray(new Field[fieldOrder.size()]);
             }
 
             for (int i = 0; i < fields.length; i++) {
