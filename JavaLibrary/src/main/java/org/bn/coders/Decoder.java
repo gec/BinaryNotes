@@ -162,22 +162,6 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
         }
     }
 
-    protected void initDefaultValues(Object object, ElementInfo elementInfo) throws NoSuchMethodException,
-            IllegalAccessException, InvocationTargetException {
-
-        if (object instanceof IASN1PreparedElement) {
-            ((IASN1PreparedElement) object).initWithDefaults();
-        } else {
-            try {
-                Method method = object.getClass().getMethod("initWithDefaults", (java.lang.Class[]) null);
-                if (method != null) {
-                    method.invoke(object, (java.lang.Object[]) null);
-                }
-            } catch (NoSuchMethodException ex) {
-            }
-        }
-    }
-
     protected Object createInstanceForElement(Class objectClass, ElementInfo elementInfo) throws Exception {
         Object result = null;
         if (elementInfo.hasPreparedInstance()) {
@@ -207,7 +191,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
     @Override
     public DecodedObject decodeSequence(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         Object sequence = createInstanceForElement(objectClass, elementInfo);
-        initDefaultValues(sequence, elementInfo);
+        CoderUtils.initDefaultValues(sequence);
         int maxSeqLen = elementInfo.getMaxAvailableLen();
         int sizeOfSequence = 0;
 

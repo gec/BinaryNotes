@@ -332,7 +332,7 @@ public class PERAlignedDecoder extends Decoder {
         int preambleCurrentBit = 32 - preambleLen;
         skipAlignedBits(stream);
         Object sequence = createInstanceForElement(objectClass, elementInfo);
-        initDefaultValues(sequence, elementInfo);
+        CoderUtils.initDefaultValues(sequence);
         Field[] fields;
         if (!CoderUtils.isSequenceSet(elementInfo) || elementInfo.hasPreparedInfo()) {
             fields = elementInfo.getFields(objectClass);

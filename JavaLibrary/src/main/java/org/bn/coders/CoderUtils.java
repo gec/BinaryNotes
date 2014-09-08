@@ -18,6 +18,7 @@ package org.bn.coders;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -220,17 +221,24 @@ public class CoderUtils {
 
     public static boolean isOptionalField(Field field, ElementInfo elementInfo) {
         if (elementInfo.hasPreparedInfo()) {
-            if (elementInfo.hasPreparedASN1ElementInfo()) {
-                return elementInfo.getPreparedASN1ElementInfo().isOptional() || elementInfo.getPreparedASN1ElementInfo().hasDefaultValue();
-            }
-            return false;
+            return elementInfo.hasPreparedASN1ElementInfo() && (elementInfo.getPreparedASN1ElementInfo().isOptional() || elementInfo.getPreparedASN1ElementInfo().hasDefaultValue());
         } else if (field.isAnnotationPresent(ASN1Element.class)) {
             ASN1Element info = field.getAnnotation(ASN1Element.class);
-            if (info.isOptional() || info.hasDefaultValue()) {
-                return true;
-            }
+            return info.isOptional() || info.hasDefaultValue();
+        } else {
+            return false;
         }
-        return false;
+    }
+    
+    /** Returns true when the given field has a default value assigned in given elementInfo */
+    public static boolean isDefaultField(Field field, ElementInfo elementInfo) {
+        if (elementInfo.hasPreparedInfo()) {
+            return elementInfo.hasPreparedASN1ElementInfo() && elementInfo.getPreparedASN1ElementInfo().hasDefaultValue();
+        } else if (field.isAnnotationPresent(ASN1Element.class)) {
+            return field.getAnnotation(ASN1Element.class).hasDefaultValue();
+        } else {
+            return false;
+        }
     }
 
     public static boolean isOptional(ElementInfo elementInfo) {
@@ -241,6 +249,7 @@ public class CoderUtils {
         }
     }
 
+    /** Throws IllegalArgumentException when the given field is not marked as optional in given elementInfo */
     public static void checkForOptionalField(Field field, ElementInfo elementInfo) throws Exception {
         if (isOptionalField(field, elementInfo)) {
             return;
@@ -341,5 +350,15 @@ public class CoderUtils {
             paramType = (Class<?>) tp.getActualTypeArguments()[0];
         }
         return paramType;
+    }
+    
+    /** Sets the default values for the fields of given object */
+    public static void initDefaultValues(Object object) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        if (object instanceof IASN1PreparedElement) {
+            ((IASN1PreparedElement) object).initWithDefaults();
+        } else {
+            Method method = object.getClass().getMethod("initWithDefaults");
+            method.invoke(object);
+        }
     }
 }

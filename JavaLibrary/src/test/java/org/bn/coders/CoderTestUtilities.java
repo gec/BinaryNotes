@@ -278,11 +278,31 @@ public abstract class CoderTestUtilities {
         SetWithDefault result = new SetWithDefault();
         result.setNodefault(0xAAL);
         result.setNodefault2(new TestPRN("aaaa"));
-        result.setDefault3("bbbb");
+        result.setDefault3("bbbb"); // does not equal to the default value
         return result;
     }
 
     public abstract byte[] createSetBytes();
+    
+    public SetWithDefault createSetWithDefaultValue() {
+        SetWithDefault result = new SetWithDefault();
+        result.setNodefault(0xAAL);
+        result.setNodefault2(new TestPRN("aaaa"));
+        result.setDefault3("DDDdd"); // equals to the default value
+        return result;
+    }
+
+    public abstract byte[] createSetWithDefaultValueBytes();
+    
+    public SequenceWithDefault createSequenceWithDefaultValues() {
+        SequenceWithDefault result = new SequenceWithDefault();
+        result.setNodefault(0xAAL);
+        result.setWithDefault("dd"); // equals to the default value
+        result.setWithIntDef(120l); // equals to the default value
+        return result;
+    }
+
+    public abstract byte[] createSequenceWithDefaultValuesBytes();
 
     public TestBitStr createTestBitStr() {
         TestBitStr result = new TestBitStr();

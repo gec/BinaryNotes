@@ -134,7 +134,7 @@ public class BERDecoder extends Decoder {
             ElementInfo elementInfo, Integer len, InputStream stream) throws Exception {
         
         Object set = createInstanceForElement(objectClass, elementInfo);
-        initDefaultValues(set, elementInfo);
+        CoderUtils.initDefaultValues(set);
         int maxSeqLen = elementInfo.getMaxAvailableLen();
         int sizeOfSet = 0;
 

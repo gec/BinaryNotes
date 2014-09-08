@@ -103,11 +103,7 @@ public abstract class EncoderTest {
     protected void checkEncoded(IEncoder encoder, Object obj, byte[] standard) throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         encoder.encode(obj, outputStream);
-        byte[] array = outputStream.toByteArray();
-        assertEquals( array.length , standard. length);
-        for(int i=0;i<array.length;i++) {            
-            assertEquals(array[i],standard[i]);
-        }
+        assertArrayEquals(standard, outputStream.toByteArray());
     }
     
     @Test
@@ -206,8 +202,24 @@ public abstract class EncoderTest {
     public void testEncodeSet() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
-        printEncoded("Set test",encoder, coderTestUtils.createSet());            
+        printEncoded("Set test", encoder, coderTestUtils.createSet());            
         checkEncoded(encoder, coderTestUtils.createSet(), coderTestUtils.createSetBytes());
+    }
+    
+    @Test
+    public void testEncodeSetWithDefaultValue() throws Exception {
+        IEncoder encoder = newEncoder();
+        assertNotNull(encoder);
+        printEncoded("Set test with default value", encoder, coderTestUtils.createSetWithDefaultValue());            
+        checkEncoded(encoder, coderTestUtils.createSetWithDefaultValue(), coderTestUtils.createSetWithDefaultValueBytes());
+    }
+    
+    @Test
+    public void testEncodeSequenceWithDefaultValues() throws Exception {
+        IEncoder encoder = newEncoder();
+        assertNotNull(encoder);
+        printEncoded("Sequence test with default values", encoder, coderTestUtils.createSequenceWithDefaultValues());
+        checkEncoded(encoder, coderTestUtils.createSequenceWithDefaultValues(), coderTestUtils.createSequenceWithDefaultValuesBytes());
     }
     
     @Test

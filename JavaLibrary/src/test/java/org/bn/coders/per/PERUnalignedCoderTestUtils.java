@@ -177,6 +177,16 @@ public class PERUnalignedCoderTestUtils extends CoderTestUtilities {
         return new byte[]{(byte) 0x82, 0x61, (byte) 0xC3, (byte) 0x87, 0x08, 0x10, 0x05, 0x50, 0x26, 0x2C, 0x58, (byte) 0xB1,
             0x00};
     }
+    
+    @Override
+    public byte[] createSetWithDefaultValueBytes() {
+        return new byte[]{(byte) 0x02, 0x61, (byte) 0xC3, (byte) 0x87, 0x08, 0x10, 0x05, 0x50};
+    }
+    
+    @Override
+    public byte[] createSequenceWithDefaultValuesBytes() {
+        return new byte[]{(byte) 0x00, 0x02, 0x00, (byte)0xAA};
+    }
 
     @Override
     public byte[] createTestBitStrBytes() {

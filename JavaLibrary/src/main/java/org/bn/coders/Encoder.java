@@ -169,6 +169,12 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
         return resultSize;
     }
 
+    /**
+     * @param object      The encoded sequence
+     * @param fieldIdx    Index of the sequence field to be encoded
+     * @param field       Field of the encoded sequence to be encoded
+     * @param elementInfo ElementInfo for the encoded sequence
+     */
     protected int encodeSequenceField(Object object, int fieldIdx, Field field, OutputStream stream, ElementInfo elementInfo) throws Exception {
         ElementInfo info = new ElementInfo();
         info.setAnnotatedClass(field);
@@ -187,6 +193,12 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
             if (invokeObjResult == null) {
                 CoderUtils.checkForOptionalField(field, info);
                 return 0;
+            } else if ( CoderUtils.isDefaultField(field, info) ) {
+                // skip the field if the current value equals to the default value (this is optional for BER, but mandatory for DER)
+                Object newSequenceInstance = elementInfo.hasPreparedInfo() ? elementInfo.getPreparedInfo().newInstance() : object.getClass().newInstance();
+                CoderUtils.initDefaultValues(newSequenceInstance);
+                Object defaultFieldValue = invokeGetterMethodForField(field, newSequenceInstance, info);
+                return defaultFieldValue.equals(invokeObjResult) ? 0 : encodeClassType(invokeObjResult, stream, info);
             } else {
                 return encodeClassType(invokeObjResult, stream, info);
             }
