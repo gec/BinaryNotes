@@ -426,7 +426,7 @@ public class BERDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass,
+    public DecodedObject<Collection<Object>> decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!CoderUtils.isSequenceSetOf(elementInfo)) {

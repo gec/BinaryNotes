@@ -565,7 +565,7 @@ public class PERAlignedDecoder extends Decoder {
     }
 
     @Override
-    public DecodedObject decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass,
+    public DecodedObject<Collection<Object>> decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         Collection<Object> result = new LinkedList<Object>();
@@ -582,7 +582,7 @@ public class PERAlignedDecoder extends Decoder {
                     info.setPreparedInfo(seqOfMeta.getItemClassMetadata());
                 }
 
-                DecodedObject item = decodeClassType(null, paramType, info, stream);
+                DecodedObject<?> item = decodeClassType(null, paramType, info, stream);
                 if (item != null) {
                     result.add(item.getValue());
                 }
