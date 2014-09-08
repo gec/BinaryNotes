@@ -375,7 +375,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
     }
 
     @Override
-    public DecodedObject decodeElement(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
+    public DecodedObject<?> decodeElement(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         elementInfo.setAnnotatedClass(objectClass);
         return decodeClassType(decodedTag, objectClass, elementInfo, stream);
     }
@@ -417,7 +417,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
             }
         }
 
-        DecodedObject value;
+        DecodedObject<?> value;
         if (isNull) {
             decodeNull(decodedTag, field.getType(), elementInfo, stream);
         } else {
