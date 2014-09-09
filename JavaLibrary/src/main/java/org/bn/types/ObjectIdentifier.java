@@ -43,4 +43,14 @@ public class ObjectIdentifier {
         }
         return ia;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ObjectIdentifier && (this.oidString == null ? ((ObjectIdentifier)obj).oidString == null : this.oidString.equals(((ObjectIdentifier)obj).oidString));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.oidString == null ? 0 : this.oidString.hashCode();
+    }
 }

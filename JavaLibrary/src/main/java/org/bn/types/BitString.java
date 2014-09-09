@@ -16,6 +16,8 @@
 
 package org.bn.types;
 
+import java.util.Arrays;
+
 /**
  * BitString represents ASN.1 BIT STRING data types
  * @todo Need more functional operations for write/read bits
@@ -55,5 +57,18 @@ public class BitString {
     
     public byte[] getValue() {
         return this.bitStrValue;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof BitString && Arrays.equals(((BitString)obj).bitStrValue, this.bitStrValue) && ((BitString)obj).trailBitsCnt==this.trailBitsCnt;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Arrays.hashCode(this.bitStrValue);
+        hash = 23 * hash + this.trailBitsCnt;
+        return hash;
     }
 }

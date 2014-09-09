@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -15,15 +14,9 @@
  limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace org.bn.types
 {
-    /**
-     * Dummy class declaration for ASN.1 NULL type
-     */
+    /// <summary>Dummy class declaration for ASN.1 NULL type</summary>
     public class NullObject
     {
         public NullObject()
@@ -32,10 +25,12 @@ namespace org.bn.types
 
         public override bool Equals(object obj) 
         {
-            if (obj is NullObject && obj != null)
-                return true;
-            else
-                return false;
+            return obj is NullObject;
+        }
+
+        public override int GetHashCode()
+        {
+            return 0;
         }
     }
 }

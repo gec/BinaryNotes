@@ -15,9 +15,7 @@
  */
 package org.bn.types;
 
-/**
- * Dummy class declaration for ASN.1 NULL type
- */
+/** Dummy class declaration for ASN.1 NULL type */
 public class NullObject {
 
     public NullObject() {
@@ -26,5 +24,10 @@ public class NullObject {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof NullObject;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

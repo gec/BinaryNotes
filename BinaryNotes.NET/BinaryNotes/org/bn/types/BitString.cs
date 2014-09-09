@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -14,48 +13,41 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-using System;
-using System.Collections.Generic;
-using System.Text;
+
+using System.Linq;
 
 namespace org.bn.types
 {
     public class BitString
     {
-        private byte[] bitStrValue = new byte[0];
-
+        private byte[] bitStrValue;
         public byte[] Value
         {
-            get { return bitStrValue; }
-            set { bitStrValue = value; }
+            get { return this.bitStrValue; }
+            set { this.bitStrValue = value; }
         }
-        private int trailBitsCnt = 0; // count of buffer bit's trail
 
+        private int trailBitsCnt; // count of buffer bit's trail
         public int TrailBitsCnt
         {
-            get { return trailBitsCnt; }
-            set { trailBitsCnt = value; }
+            get { return this.trailBitsCnt; }
+            set { this.trailBitsCnt = value; }
         }
 
         public BitString()
         {
-        }
-
-        public BitString(BitString src)
-        {
-            this.Value = src.Value;
-            this.TrailBitsCnt = src.getTrailBitsCnt();
-        }
-
-        public BitString(byte[] bitStrValue)
-        {
-            this.Value = bitStrValue;
+            this.Value = new byte[0];
+            this.TrailBitsCnt = 0;
         }
 
         public BitString(byte[] bitStrValue, int trailBitsCnt)
         {
             this.Value = bitStrValue;
             this.TrailBitsCnt = trailBitsCnt;
+        }
+
+        public BitString(BitString src) : this(src.Value, src.TrailBitsCnt)
+        {
         }
 
         public int getLength()
@@ -68,8 +60,20 @@ namespace org.bn.types
             return this.TrailBitsCnt;
         }
 
-    	public int getLengthInBits() {
-	    return getLength()*8 - getTrailBitsCnt();
+    	public int getLengthInBits()
+        {
+	        return getLength()*8 - getTrailBitsCnt();
     	}
+
+        public override bool Equals(object obj)
+        {
+            return obj is BitString && ((BitString)obj).trailBitsCnt == this.trailBitsCnt
+                && (this.bitStrValue == null ? ((BitString)obj).bitStrValue == null : ((BitString)obj).bitStrValue != null && this.bitStrValue.SequenceEqual(((BitString)obj).bitStrValue));
+        }
+
+        public override int GetHashCode()
+        {
+            return this.bitStrValue == null ? this.trailBitsCnt : this.bitStrValue.GetHashCode() ^ this.trailBitsCnt;
+        }
     }
 }
