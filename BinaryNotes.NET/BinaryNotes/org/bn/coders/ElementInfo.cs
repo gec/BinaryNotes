@@ -69,6 +69,10 @@ namespace org.bn.coders
             get { return preparedInstance; }
             set { preparedInstance = value; }
         }
+        public bool hasPreparedInstance()
+        {
+            return this.preparedInstance != null;
+        }
         
         private ASN1ElementMetadata preparedElementMetadata;
         public ASN1ElementMetadata PreparedASN1ElementInfo

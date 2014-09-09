@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -14,12 +13,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-using System;
-using System.Reflection;
-using System.IO;
+
 using org.bn.attributes;
 using org.bn.metadata;
 using org.bn.types;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace org.bn.coders
 {
@@ -43,11 +43,10 @@ namespace org.bn.coders
 			    sizeOfEncodedBytes = encodeClassType(obj, stream, elemInfo);
             }
 
-
 			if (sizeOfEncodedBytes == 0)
 			{
 				throw new System.ArgumentException("Unable to find any supported annotation for class type: " + obj.GetType().ToString());
-			};
+			}
 		}
 		
 		public virtual int encodeClassType(object obj, System.IO.Stream stream, ElementInfo elementInfo)

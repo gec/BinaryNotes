@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -14,19 +13,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-using System;
-using System.Reflection;
-using System.Collections.Generic;
-using org.bn.utils;
+
 using org.bn.attributes;
 using org.bn.attributes.constraints;
 using org.bn.metadata;
 using org.bn.metadata.constraints;
 using org.bn.types;
+using org.bn.utils;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace org.bn.coders.per
 {
-	
 	public class PERAlignedEncoder:Encoder
 	{
 		public PERAlignedEncoder()
@@ -307,12 +306,7 @@ namespace org.bn.coders.per
             Double value = (Double) obj;
             //CoderUtils.checkConstraints(value,elementInfo);
 
-#if PocketPC
-            byte[] dblValAsBytes =  System.BitConverter.GetBytes(value);
-            long asLong = System.BitConverter.ToInt64(dblValAsBytes, 0);
-#else            
             long asLong = System.BitConverter.DoubleToInt64Bits(value);
-#endif
             if(value == Double.PositiveInfinity ) { // positive infinity
                 result+=encodeLengthDeterminant(1,bitStream);
                 doAlign(stream);

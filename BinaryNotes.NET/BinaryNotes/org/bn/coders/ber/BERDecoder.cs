@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -14,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -24,7 +24,6 @@ using org.bn.types;
 
 namespace org.bn.coders.ber
 {
-	
 	public class BERDecoder:Decoder
 	{
         protected internal virtual DecodedObject<int> decodeLength(System.IO.Stream stream)
@@ -335,12 +334,7 @@ namespace org.bn.coders.ber
                     {
                         lValue = (long)((ulong)lValue | 0x8000000000000000L);
                     }
-#if PocketPC
-                    byte[] dblValAsBytes = System.BitConverter.GetBytes(lValue);
-                    result = System.BitConverter.ToDouble(dblValAsBytes, 0);
-#else            
                     result = System.BitConverter.Int64BitsToDouble(lValue);
-#endif
                 }
             return new DecodedObject<object>(result, len.Value + len.Size);
         }

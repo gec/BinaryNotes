@@ -117,21 +117,6 @@ namespace org.bn.coders
             setupAccessors(parentClass, field);
         }
 
-        /*public ASN1PreparedElementData(Type parentClass, String propertyName)
-        {
-            try
-            {
-                PropertyInfo field = parentClass.GetProperty(propertyName);
-                setupMetadata(field, field.PropertyType);
-                setupAccessors(parentClass, field);
-            }
-            catch (Exception ex)
-            {
-                ex = null;
-            }
-        }*/
-
-
         private void setupMetadata(ICustomAttributeProvider annotated, Type objectClass) {
             if( CoderUtils.isAttributePresent<ASN1SequenceOf>(annotated) ) {
                 typeMeta = new ASN1SequenceOfMetadata( CoderUtils.getAttribute<ASN1SequenceOf> (annotated),
