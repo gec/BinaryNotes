@@ -105,7 +105,7 @@ namespace org.bn.coders.test_asn {
 	private BitString attrBitStrDef_ ;
 	[ASN1BitString( Name = "" )]
     
-        [ASN1Element ( Name = "attrBitStrDef", IsOptional =  false , HasTag =  true, Tag = 4 , HasDefaultValue =  true )  ]
+        [ASN1Element ( Name = "attrBitStrDef", IsOptional =  false , HasTag =  true, Tag = 5 , HasDefaultValue =  true )  ]
     
         public BitString AttrBitStrDef
         {
@@ -127,7 +127,7 @@ namespace org.bn.coders.test_asn {
 		
 		) ]
 	    
-        [ASN1Element ( Name = "attrBitStrBnd", IsOptional =  true , HasTag =  true, Tag = 5 , HasDefaultValue =  false )  ]
+        [ASN1Element ( Name = "attrBitStrBnd", IsOptional =  true , HasTag =  true, Tag = 6 , HasDefaultValue =  false )  ]
     
         public BitString AttrBitStrBnd
         {
@@ -141,7 +141,7 @@ namespace org.bn.coders.test_asn {
 	
         private bool  attrBoxBitStr_present = false ;
 	
-        [ASN1Element ( Name = "attrBoxBitStr", IsOptional =  true , HasTag =  true, Tag = 6 , HasDefaultValue =  false )  ]
+        [ASN1Element ( Name = "attrBoxBitStr", IsOptional =  true , HasTag =  true, Tag = 7 , HasDefaultValue =  false )  ]
     
         public TestBitStrBnd AttrBoxBitStr
         {
@@ -156,7 +156,7 @@ namespace org.bn.coders.test_asn {
     
             [ASN1SizeConstraint ( Max = 4L )]
         
-        [ASN1Element ( Name = "attrStrict", IsOptional =  false , HasTag =  true, Tag = 7 , HasDefaultValue =  false )  ]
+        [ASN1Element ( Name = "attrStrict", IsOptional =  false , HasTag =  true, Tag = 8 , HasDefaultValue =  false )  ]
     
         public byte[] AttrStrict
         {

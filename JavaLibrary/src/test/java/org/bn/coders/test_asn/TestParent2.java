@@ -26,7 +26,7 @@ import org.bn.types.*;
                 
   @ASN1OctetString( name = "" )
     
-        @ASN1Element ( name = "field20", isOptional =  true , hasTag =  true, tag = 1 , hasDefaultValue =  false  )
+        @ASN1Element ( name = "field20", isOptional =  false , hasTag =  true, tag = 1 , hasDefaultValue =  false  )
     
 	private byte[] field20 = null;
                 

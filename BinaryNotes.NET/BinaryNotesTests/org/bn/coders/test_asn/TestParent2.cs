@@ -43,7 +43,7 @@ namespace org.bn.coders.test_asn {
                 
         [ASN1OctetString( Name = "" )]
     
-        [ASN1Element ( Name = "field20", IsOptional =  true , HasTag =  true, Tag = 1 , HasDefaultValue =  false )  ]
+        [ASN1Element ( Name = "field20", IsOptional =  false , HasTag =  true, Tag = 1 , HasDefaultValue =  false )  ]
     
         public byte[] Field20
         {

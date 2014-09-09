@@ -72,7 +72,7 @@ import org.bn.types.*;
                 
   @ASN1BitString( name = "" )
     
-        @ASN1Element ( name = "attrBitStrDef", isOptional =  false , hasTag =  true, tag = 4 , hasDefaultValue =  true  )
+        @ASN1Element ( name = "attrBitStrDef", isOptional =  false , hasTag =  true, tag = 5 , hasDefaultValue =  true  )
     
 	private BitString attrBitStrDef = null;
                 
@@ -85,12 +85,12 @@ import org.bn.types.*;
 		
 	   )
 	   
-        @ASN1Element ( name = "attrBitStrBnd", isOptional =  true , hasTag =  true, tag = 5 , hasDefaultValue =  false  )
+        @ASN1Element ( name = "attrBitStrBnd", isOptional =  true , hasTag =  true, tag = 6 , hasDefaultValue =  false  )
     
 	private BitString attrBitStrBnd = null;
                 
   
-        @ASN1Element ( name = "attrBoxBitStr", isOptional =  true , hasTag =  true, tag = 6 , hasDefaultValue =  false  )
+        @ASN1Element ( name = "attrBoxBitStr", isOptional =  true , hasTag =  true, tag = 7 , hasDefaultValue =  false  )
     
 	private TestBitStrBnd attrBoxBitStr = null;
                 
@@ -98,7 +98,7 @@ import org.bn.types.*;
     
             @ASN1SizeConstraint ( max = 4L )
         
-        @ASN1Element ( name = "attrStrict", isOptional =  false , hasTag =  true, tag = 7 , hasDefaultValue =  false  )
+        @ASN1Element ( name = "attrStrict", isOptional =  false , hasTag =  true, tag = 8 , hasDefaultValue =  false  )
     
 	private byte[] attrStrict = null;
                 
