@@ -66,6 +66,6 @@ public class ASNParserTest {
         assertEquals(2, model.module.asnTypes.enums.size());
         assertEquals(7, model.module.asnTypes.characterStrings.size());
         assertEquals(1, model.module.asnTypes.octetStrings.size());
-        assertEquals(7, model.module.asnTypes.sequenceSetsOf.size());
+        assertEquals(8, model.module.asnTypes.sequenceSetsOf.size());
     }
 }

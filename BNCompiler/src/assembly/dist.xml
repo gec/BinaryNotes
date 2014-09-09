@@ -23,12 +23,19 @@
         </dependencySet>
     </dependencySets>
     <fileSets>
-        <!-- scripts go to the root -->
+        <!-- scripts and the testing ASN.1 grammar go to the root -->
         <fileSet>
             <directory>src/main/scripts</directory>
             <outputDirectory />
             <includes>
                 <include>**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/test/resources</directory>
+            <outputDirectory>examples</outputDirectory>
+            <includes>
+                <include>test.asn</include>
             </includes>
         </fileSet>
         

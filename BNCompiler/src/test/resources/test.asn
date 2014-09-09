@@ -1,17 +1,14 @@
--- test.asn --
-
 TEST_ASN
 
 DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
-EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,ParamsMap,ContentPartHeaders,ContentPartHeader,ContentSchema,Data,DataArray;
-	-- --
+EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,PlainParamsMap,ContentPartHeaders,ContentPartHeader,ContentSchema,Data,DataArray;
 
 	TestIR  ::= INTEGER (1 .. 5)
 	TestI8	::= INTEGER (0 .. 255)
 	TestI14 ::= INTEGER (0 .. 16384)
 	TestI16	::= INTEGER (0 .. 65535)
-	TestI32	::= INTEGER (0 .. 4294967295)	
+	TestI32	::= INTEGER (0 .. 4294967295)
 	TestI	::= INTEGER
 	TestNI  ::= INTEGER (-128 .. 128)
 	TestNI2  ::= INTEGER (-2048 .. 2048)
@@ -28,7 +25,7 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 		simpleOctType	[4] OCTET STRING,
 		booleanType	[5] BOOLEAN,
 		intType		[6] INTEGER,
-		intBndType	[7] INTEGER (0 .. 255)		
+		intBndType	[7] INTEGER (0 .. 255)
 	}
 
 	DataArray ::= SEQUENCE OF Data
@@ -74,6 +71,7 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 
 	DataSeqArray ::= SEQUENCE OF DataSeq
 	StringArray ::= SEQUENCE OF PrintableString
+	UTF8StringArray ::= SEQUENCE OF UTF8String
 	OctetStringArray ::= SEQUENCE OF OCTET STRING
 
 	ITUType1 ::= VisibleString
@@ -110,8 +108,8 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 
 	ValueWithParams ::= SEQUENCE
 	{
-		value		[0]	PrintableString,			-- Значение
-		params		[1]	SEQUENCE OF PlainParamsMap OPTIONAL	-- Текстовые параметры
+		value		[0]	PrintableString,
+		params		[1]	SEQUENCE OF PlainParamsMap OPTIONAL
 	}
 
 	PlainParamsMap ::= SEQUENCE
@@ -122,13 +120,12 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 
 	ContentPartHeader ::= SEQUENCE
 	{
-		name		[0]	PrintableString,		
+		name		[0]	PrintableString,
 		values		[1]	SEQUENCE OF ValueWithParams
 	}
 
 	ContentPartHeaders ::= SEQUENCE OF ContentPartHeader
 
-	-- * Тип контента * --
 	ContentType ::= ENUMERATED {
 		text_any						(100),
 		text_html						(101),
@@ -215,10 +212,10 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 		attrStr2	[2] TestPRN,
 		attrArr		[3] SEQUENCE SIZE(1..5) OF PrintableString,
 		attrBitStr	[4] BIT STRING OPTIONAL,
-		attrBitStrDef	[4] BIT STRING DEFAULT '011'B,
-		attrBitStrBnd	[5] BIT STRING(SIZE(1..36)) OPTIONAL,
-		attrBoxBitStr	[6] TestBitStrBnd OPTIONAL,
-		attrStrict	[7] OCTET STRING(SIZE(4))
+		attrBitStrDef	[5] BIT STRING DEFAULT '011'B,
+		attrBitStrBnd	[6] BIT STRING(SIZE(1..36)) OPTIONAL,
+		attrBoxBitStr	[7] TestBitStrBnd OPTIONAL,
+		attrStrict	[8] OCTET STRING(SIZE(4))
 	}
 
     	BugPrimitive ::= CHOICE
@@ -271,6 +268,7 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 	}
 
 	TestLongTag ::= [APPLICATION 15123] INTEGER
+	Test128Tag ::= [APPLICATION 128] INTEGER
 
 	TestSimpleSequence ::= SEQUENCE
 	{
@@ -308,7 +306,7 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 
 	TestParent2 ::= CHOICE {
 		field10	[0] INTEGER,
-		field20	[1] OCTET STRING OPTIONAL,
+		field20	[1] OCTET STRING,
 		field30	[2] UTF8String,
 		field40	[3] INTEGER
 	}
@@ -337,7 +335,51 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Param
 	)
 	( SIZE (1..255) )
 
+	Minor ::= [APPLICATION 105] IMPLICIT INTEGER
+	Major ::= [APPLICATION 106] IMPLICIT INTEGER
+
+	Version ::= [APPLICATION 74] IMPLICIT SET {
+		minor Minor OPTIONAL,
+		major Major OPTIONAL
+	}
+
+	LstVersion ::= [APPLICATION 75] IMPLICIT SET OF Version
+
+	Config ::=  [APPLICATION 76] IMPLICIT SEQUENCE {
+		lstVersion LstVersion,
+		major_config Major
+	}
+
+	Config2 ::=  [APPLICATION 79] IMPLICIT SEQUENCE {
+		lstVersion LstVersion,
+		major_config Major
+	}
+
+	TestTaggedSetInSet ::= [APPLICATION 77] IMPLICIT SET { 
+		config1 Config, 
+		config2 Config2
+	} 
+
+	Set1 ::= [APPLICATION 55] IMPLICIT SET { 
+		set1ID INTEGER 
+	}
 	
+	Set2 ::= [APPLICATION 128] IMPLICIT SET OF Set1
+	
+	Set3 ::= [APPLICATION 124] IMPLICIT SET{ 
+		set2 Set2
+	}
+	
+	Set4 ::= [APPLICATION 61] IMPLICIT SET OF Set3
 
+	Set5 ::= [APPLICATION 127] IMPLICIT SET OF Set3
 
+	Set6 ::= [APPLICATION 56] IMPLICIT SET {
+		set4 Set4,
+		set5 Set5
+	}
+
+	Set7 ::= [APPLICATION 90] IMPLICIT SET {
+		set6 Set6
+	}
 END
