@@ -101,41 +101,17 @@
             
             <!-- compile ASN.1 grammar into Java source files -->
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <java classname="antlr.Tool" classpathref="maven.compile.classpath" fork="true" failonerror="true">
-                                    <arg line="-o ${project.build.directory}/generated-sources/antlr/org/bn/compiler/parser src/main/antlr/ASN1.G" />
-                                </java>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <!-- add generated Java source files to sources -->
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9</version>
+                <artifactId>antlr-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <grammars>ASN1.G</grammars>
+                </configuration>
                 <executions>
                     <execution>
-                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>add-source</goal>
+                            <goal>generate</goal>
                         </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources/antlr</source>
-                            </sources>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
