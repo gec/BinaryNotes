@@ -577,21 +577,23 @@ namespace org.bn.coders.per
             skipAlignedBits(stream);
             int trailBits = 8 - sizeOfString % 8;
             sizeOfString = sizeOfString / 8;
-            
+
             if (sizeOfString > 0 || (sizeOfString == 0 && trailBits > 0))
             {
                 byte[] value = new byte[trailBits > 0 ? sizeOfString + 1 : sizeOfString];
-                if(sizeOfString>0)
+                if (sizeOfString > 0)
                     stream.Read(value, 0, sizeOfString);
                 if (trailBits > 0)
                 {
-                    value[sizeOfString] = (byte)(bitStream.readBits(trailBits) << (8-trailBits));
+                    value[sizeOfString] = (byte)(bitStream.readBits(trailBits) << (8 - trailBits));
                 }
 
                 result.Value = (new BitString(value, trailBits));
             }
             else
-                result.Value = (new BitString(new byte[0]));
+            {
+                result.Value = new BitString();
+            }
             return result;
         }
 		

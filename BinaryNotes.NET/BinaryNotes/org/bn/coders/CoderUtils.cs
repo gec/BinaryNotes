@@ -137,7 +137,7 @@ namespace org.bn.coders
         {
             if (bhString.Length < 4)
             {
-                return new BitString(new byte[0]);
+                return new BitString();
             }
             else if (bhString.LastIndexOf('B') == bhString.Length - 1)
             {
