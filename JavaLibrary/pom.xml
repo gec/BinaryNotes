@@ -45,6 +45,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>cz.drasil</groupId>
+            <artifactId>bncompiler</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
@@ -54,6 +60,8 @@
     
     <build>
         <plugins>
+            
+            <!-- compilation settings -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -65,6 +73,47 @@
                     <showDeprecation>true</showDeprecation>
                     <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
+            </plugin>
+            
+            <!-- compile test.asn file into Java source files -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <java classname="org.bn.compiler.Main" classpathref="maven.compile.classpath" fork="true" failonerror="true">
+                                    <arg line="-m java -o ${project.build.directory}/generated-test-sources/bncompiler/org/bn/coders/test_asn -ns org.bn.coders.test_asn -mp ../BNCompiler/src/main/resources/modules -f ../BNCompiler/src/test/resources/test.asn" />
+                                </java>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- add generated Java source files to test sources -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9</version>
+                <executions>
+                    <execution>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-test-sources/bncompiler</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
