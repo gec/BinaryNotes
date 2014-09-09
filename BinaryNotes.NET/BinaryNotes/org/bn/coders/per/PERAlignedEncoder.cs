@@ -411,14 +411,31 @@ namespace org.bn.coders.per
 			int resultBitSize = 0;
             ElementInfo info = new ElementInfo();
             int fieldIdx = 0;
-            foreach (PropertyInfo field in fields) // obj.GetType().GetProperties()
+            foreach (PropertyInfo field in fields)
             {
-                if(elementInfo.hasPreparedInfo())
+                if (elementInfo.hasPreparedInfo())
+                {
                     info.PreparedInfo = elementInfo.PreparedInfo.getPropertyMetadata(fieldIdx);
+                }
+
                 if(CoderUtils.isOptionalField(field,info))
 				{
 					object invokeObjResult = invokeGetterMethodForField(field, obj, info);
-					((BitArrayOutputStream) stream).writeBit(invokeObjResult != null);
+                    if (invokeObjResult == null)
+                    {
+                        ((BitArrayOutputStream)stream).writeBit(false);
+                    }
+                    else if (CoderUtils.isDefaultField(field, info))
+                    {
+                        object newSequenceInstance = Activator.CreateInstance(obj.GetType());
+                        CoderUtils.initDefaultValues(newSequenceInstance);
+                        object defaultFieldValue = invokeGetterMethodForField(field, newSequenceInstance, info);
+                        ((BitArrayOutputStream)stream).writeBit(!defaultFieldValue.Equals(invokeObjResult));
+                    }
+                    else
+                    {
+                        ((BitArrayOutputStream)stream).writeBit(true);
+                    }
 					resultBitSize += 1;
 				}
                 fieldIdx++;

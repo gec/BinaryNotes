@@ -215,44 +215,19 @@ namespace org.bn.coders
             }
             else
             {
-                MethodInfo method = CoderUtils.findDoSelectMethodForField(field, obj.GetType());
-                method.Invoke(obj, new object[] { param });
+                CoderUtils.findDoSelectMethodForField(field, obj.GetType()).Invoke(obj, new object[] { param });
             }
-        }
-
-        public virtual void initDefaultValues(object obj)
-        {
-            try {
-                if (obj is IASN1PreparedElement)
-                {
-                    ((IASN1PreparedElement)obj).initWithDefaults();
-                }
-                else
-                {
-                    string methodName = "initWithDefaults";
-                    MethodInfo method = obj.GetType().GetMethod(methodName);
-                    method.Invoke(obj, null);
-                }
-            }
-            catch(Exception ){};
         }
 
         public object createInstanceForElement(Type objectClass, ElementInfo info)
         {
-            if(info.PreparedInstance!=null)
-            {
-                return info.PreparedInstance;
-            }
-            else
-                return Activator.CreateInstance(objectClass);
+            return info.PreparedInstance ?? Activator.CreateInstance(objectClass);
         }
-
-
 
         public virtual DecodedObject<object> decodeSequence(DecodedObject<object> decodedTag, System.Type objectClass, ElementInfo elementInfo, System.IO.Stream stream)
 		{
 			object sequence = createInstanceForElement(objectClass, elementInfo);
-            initDefaultValues(sequence);
+            CoderUtils.initDefaultValues(sequence);
             DecodedObject<object> fieldTag = null;
             int maxSeqLen = elementInfo.MaxAvailableLen;
             int sizeOfSequence = 0;

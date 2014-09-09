@@ -164,6 +164,16 @@ namespace org.bn.coders.per
             return new byte[] { (byte)0x80, 0x04, 0x61, 0x61, 0x61, 0x61, 0x02, 0x00, (byte)0xAA, 0x04, 0x62, 0x62, 0x62, 0x62 };
         }
 
+        public override byte[] createSetWithDefaultValueBytes()
+        {
+            return new byte[]{(byte) 0x00, 0x04, 0x61, 0x61, 0x61, 0x61, 0x02, 0x00, (byte) 0xAA};
+        }
+    
+        public override byte[] createSequenceWithDefaultValuesBytes()
+        {
+            return new byte[] { (byte)0x00, 0x02, 0x00, (byte)0xAA };
+        }
+
         public override byte[] createTestBitStrBytes()
         {
             return new byte[] { 0x24, (byte)0xAA, (byte)0xBB, (byte)0xCC, (byte)0xDD, (byte)0xF0 };

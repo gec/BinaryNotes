@@ -38,16 +38,15 @@ namespace org.bn.coders
                 return attribute;
             }
             else
+            {
                 return default(T);
+            }
         }
 
         public static bool isAttributePresent<T>(ICustomAttributeProvider field)
         {
             object[] attrs = field.GetCustomAttributes(typeof(T), false);
-            if (attrs != null && attrs.Length > 0)
-                return true;
-            else
-                return false;
+            return attrs != null && attrs.Length > 0;
         }
 
         public static int getIntegerLength(int val)
@@ -110,7 +109,9 @@ namespace org.bn.coders
                 return sizeOfInt;
             }
             else
+            {
                 return getIntegerLength(val);
+            }
         }
 
         public static int getPositiveIntegerLength(long val)
@@ -127,17 +128,25 @@ namespace org.bn.coders
                 return sizeOfInt;
             }
             else
+            {
                 return getIntegerLength(val);
+            }
         }
 
         public static BitString defStringToOctetString(string bhString)
         {
             if (bhString.Length < 4)
+            {
                 return new BitString(new byte[0]);
-            if (bhString.LastIndexOf('B') == bhString.Length - 1)
+            }
+            else if (bhString.LastIndexOf('B') == bhString.Length - 1)
+            {
                 return bitStringToOctetString(bhString.Substring(1, bhString.Length - 2));
+            }
             else
+            {
                 return hexStringToOctetString(bhString.Substring(1, bhString.Length - 2));
+            }
         }
 
         private static BitString bitStringToOctetString(string bhString)
@@ -150,7 +159,7 @@ namespace org.bn.coders
             {
                 byte bt = 0x00;
                 int bitCnt = currentStrPos;
-                while (bitCnt < currentStrPos + 8 && bitCnt < bhString.Length -1)
+                while (bitCnt < currentStrPos + 8 && bitCnt < bhString.Length - 1)
                 {
                     if (bhString[bitCnt] != '0')
                         bt |= (byte)(0x01 << (7 - (bitCnt - currentStrPos)));
@@ -158,26 +167,31 @@ namespace org.bn.coders
                 }
                 currentStrPos += 8;
                 if (bitCnt != currentStrPos)
+                {
                     trailBits = 8 - (currentStrPos - bitCnt);
+                }
                 // hi-byte
                 result[i] = bt;
             }
-            return new BitString(result,trailBits);
+            return new BitString(result, trailBits);
         }
         private static byte[] hexTable = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF };
 
-        private static BitString hexStringToOctetString(string bhString) {
-           bool hasTrailBits = (bhString.Length-1) % 2 != 0;
-           byte[] resultBuf = new byte[ (bhString.Length-1) / 2 + (hasTrailBits ? 1 : 0)];
+        private static BitString hexStringToOctetString(string bhString)
+        {
+            bool hasTrailBits = (bhString.Length - 1) % 2 != 0;
+            byte[] resultBuf = new byte[(bhString.Length - 1) / 2 + (hasTrailBits ? 1 : 0)];
 
-           for (int i = 0; i < resultBuf.Length; i++)
-           {
-               // high byte
-               resultBuf[i] = (byte)(hexTable[((int)(bhString[i * 2]) - 0x30)] << 4);
-               if (!hasTrailBits || (hasTrailBits && i < resultBuf.Length - 1))
-                   resultBuf[i] |= (byte)(hexTable[((int)(bhString[i * 2 + 1]) - 0x30)] & 0x0F);
-           }
-           return new BitString(resultBuf,hasTrailBits?4:0);
+            for (int i = 0; i < resultBuf.Length; i++)
+            {
+                // high byte
+                resultBuf[i] = (byte)(hexTable[((int)(bhString[i * 2]) - 0x30)] << 4);
+                if (!hasTrailBits || (hasTrailBits && i < resultBuf.Length - 1))
+                {
+                    resultBuf[i] |= (byte)(hexTable[((int)(bhString[i * 2 + 1]) - 0x30)] & 0x0F);
+                }
+            }
+            return new BitString(resultBuf, hasTrailBits ? 4 : 0);
         }
 
         public static SortedList<int, PropertyInfo> getSetOrder(Type objClass)
@@ -192,16 +206,24 @@ namespace org.bn.coders
                     try
                     {
                         if (element.HasTag)
+                        {
                             fieldOrder.Add(element.Tag, field);
+                        }
                         else
+                        {
                             fieldOrder.Add(tagNA--, field);
+                        }
                     }
                     catch (ArgumentException ex)
                     {
                         if (element.HasTag)
+                        {
                             throw new Exception("Duplicate tag [" + element.Tag + "] for set has been detected!");
+                        }
                         else
+                        {
                             throw new Exception("Cannot be specified more field in SET without tag specified");
+                        }
                     }
                 }
             }
@@ -211,17 +233,17 @@ namespace org.bn.coders
         public static int getStringTagForElement(ElementInfo elementInfo)
         {
             int result = UniversalTags.PrintableString;
-            if(elementInfo.hasPreparedInfo()) {
+            if (elementInfo.hasPreparedInfo())
+            {
                 result = ((ASN1StringMetadata)elementInfo.PreparedInfo.TypeMetadata).StringType;
             }
-            else
-            if (elementInfo.isAttributePresent<ASN1String>())
+            else if (elementInfo.isAttributePresent<ASN1String>())
             {
                 ASN1String val = elementInfo.getAttribute<ASN1String>();
                 result = val.StringType;
             }
-            else
-            if(elementInfo.ParentAnnotatedClass!=null && elementInfo.isParentAttributePresent<ASN1String>()) {
+            else if (elementInfo.ParentAnnotatedClass != null && elementInfo.isParentAttributePresent<ASN1String>())
+            {
                 ASN1String value = elementInfo.getParentAttribute<ASN1String>();
                 result = value.StringType;
             }
@@ -230,13 +252,14 @@ namespace org.bn.coders
 
         public static void checkConstraints(long val, ElementInfo elementInfo)
         {
-            if(elementInfo.hasPreparedInfo()) 
+            if (elementInfo.hasPreparedInfo())
             {
-                if(elementInfo.PreparedInfo.hasConstraint())
-                    if(!elementInfo.PreparedInfo.Constraint.checkValue(val))
+                if (elementInfo.PreparedInfo.hasConstraint())
+                    if (!elementInfo.PreparedInfo.Constraint.checkValue(val))
                         throw new Exception("Length of '" + elementInfo.AnnotatedClass.ToString() + "' out of bound");
             }
-            else {
+            else
+            {
                 if (elementInfo.isAttributePresent<ASN1ValueRangeConstraint>())
                 {
                     ASN1ValueRangeConstraint constraint = elementInfo.getAttribute<ASN1ValueRangeConstraint>();
@@ -244,16 +267,17 @@ namespace org.bn.coders
                         throw new Exception("Length of '" + elementInfo.AnnotatedClass.ToString() + "' out of bound");
                 }
                 else
-                if (elementInfo.isAttributePresent<ASN1SizeConstraint>())
-                {
-                    ASN1SizeConstraint constraint = elementInfo.getAttribute<ASN1SizeConstraint>();
-                    if (val != constraint.Max)
-                        throw new Exception("Length of '" + elementInfo.AnnotatedClass.ToString() + "' out of bound");
-                }
+                    if (elementInfo.isAttributePresent<ASN1SizeConstraint>())
+                    {
+                        ASN1SizeConstraint constraint = elementInfo.getAttribute<ASN1SizeConstraint>();
+                        if (val != constraint.Max)
+                            throw new Exception("Length of '" + elementInfo.AnnotatedClass.ToString() + "' out of bound");
+                    }
             }
         }
 
-        public static bool isImplements(ICustomAttributeProvider objectClass, Type interfaceClass) {        
+        public static bool isImplements(ICustomAttributeProvider objectClass, Type interfaceClass)
+        {
             return isAttributePresent<ASN1PreparedElement>(objectClass);// isAnnotationPresent(ASN1PreparedElement.class);
             /*for(Class item: objectClass.getInterfaces()) {
                 if(item.equals(interfaceClass)) {
@@ -262,94 +286,130 @@ namespace org.bn.coders
             }
             return false;*/
         }
-        
-        public static bool isAnyField(ICustomAttributeProvider field, ElementInfo elementInfo) {
+
+        public static bool isAnyField(ICustomAttributeProvider field, ElementInfo elementInfo)
+        {
             bool isAny = false;
-            if(elementInfo.hasPreparedInfo()) {
+            if (elementInfo.hasPreparedInfo())
+            {
                 isAny = elementInfo.PreparedInfo.TypeMetadata is ASN1AnyMetadata;
             }
             else
+            {
                 isAny = isAttributePresent<ASN1Any>(field);//. isAnnotationPresent(.class);        
+            }
             return isAny;
         }
 
-        public static bool isNullField(ICustomAttributeProvider field, ElementInfo elementInfo) {
+        public static bool isNullField(ICustomAttributeProvider field, ElementInfo elementInfo)
+        {
             bool isNull = false;
-            if(elementInfo.hasPreparedInfo()) {
+            if (elementInfo.hasPreparedInfo())
+            {
                 isNull = elementInfo.PreparedInfo.TypeMetadata is ASN1NullMetadata;
             }
-            else {
+            else
+            {
                 isNull = isAttributePresent<ASN1Null>(field);
-            }        
+            }
             return isNull;
         }
-            
-        
-        public static bool isOptionalField(ICustomAttributeProvider field, ElementInfo elementInfo) {
-            if(elementInfo.hasPreparedInfo()) {
-                if(elementInfo.hasPreparedASN1ElementInfo())
-                    return elementInfo.PreparedASN1ElementInfo.IsOptional || 
-                        elementInfo.PreparedASN1ElementInfo.HasDefaultValue ;
+
+        public static bool isOptionalField(ICustomAttributeProvider field, ElementInfo elementInfo)
+        {
+            if (elementInfo.hasPreparedInfo())
+            {
+                return elementInfo.hasPreparedASN1ElementInfo() && (elementInfo.PreparedASN1ElementInfo.IsOptional || elementInfo.PreparedASN1ElementInfo.HasDefaultValue);
+            }
+            else if (isAttributePresent<ASN1Element>(field))
+            {
+                ASN1Element info = getAttribute<ASN1Element>(field);
+                return info.IsOptional || info.HasDefaultValue;
+            }
+            else
+            {
                 return false;
             }
-            else
-            if( isAttributePresent<ASN1Element> (field)) {
-                ASN1Element info = getAttribute<ASN1Element>(field);
-                if(info.IsOptional || info.HasDefaultValue)
-                    return true;
-            }        
-            return false;
         }
-        
-        public static bool isOptional(ElementInfo elementInfo) {
-            bool result = false;
-            if(elementInfo.hasPreparedInfo()) {
-                result = elementInfo.PreparedASN1ElementInfo.IsOptional 
-                    || elementInfo.PreparedASN1ElementInfo.HasDefaultValue ;
+
+        public static bool isDefaultField(ICustomAttributeProvider field, ElementInfo elementInfo)
+        {
+            if (elementInfo.hasPreparedInfo())
+            {
+                return elementInfo.hasPreparedASN1ElementInfo() && elementInfo.PreparedASN1ElementInfo.HasDefaultValue;
+            }
+            else if (isAttributePresent<ASN1Element>(field))
+            {
+                return getAttribute<ASN1Element>(field).HasDefaultValue;
             }
             else
-                result= elementInfo.ASN1ElementInfo!=null && elementInfo.ASN1ElementInfo.IsOptional;
+            {
+                return false;
+            }
+        }
+
+        public static bool isOptional(ElementInfo elementInfo)
+        {
+            bool result = false;
+            if (elementInfo.hasPreparedInfo())
+            {
+                result = elementInfo.PreparedASN1ElementInfo.IsOptional
+                    || elementInfo.PreparedASN1ElementInfo.HasDefaultValue;
+            }
+            else
+                result = elementInfo.ASN1ElementInfo != null && elementInfo.ASN1ElementInfo.IsOptional;
             return result;
         }
-        
-        
-        public static void checkForOptionalField(PropertyInfo field, ElementInfo elementInfo) {
-            if( isOptionalField(field, elementInfo) )
-                    return;
-            throw new  Exception ("The mandatory field '" + field.Name + "' does not have a value!");
+
+        /// <summary>Throws Exception when the given field is not marked as optional in given elementInfo</summary>
+        public static void checkForOptionalField(PropertyInfo field, ElementInfo elementInfo)
+        {
+            if (isOptionalField(field, elementInfo))
+            {
+                return;
+            }
+            throw new Exception("The mandatory field '" + field.Name + "' does not have a value!");
         }
-            
-            
-        public static bool isSequenceSet(ElementInfo elementInfo) {
+
+
+        public static bool isSequenceSet(ElementInfo elementInfo)
+        {
             bool isEqual = false;
-            if(elementInfo.hasPreparedInfo()) {
+            if (elementInfo.hasPreparedInfo())
+            {
                 isEqual = ((ASN1SequenceMetadata)elementInfo.PreparedInfo.TypeMetadata).IsSet;
             }
-            else {
+            else
+            {
                 ASN1Sequence seq = getAttribute<ASN1Sequence>(elementInfo.AnnotatedClass);
                 isEqual = seq.IsSet;
-            }        
+            }
             return isEqual;
         }
 
-        public static bool isSequenceSetOf(ElementInfo elementInfo) {
+        public static bool isSequenceSetOf(ElementInfo elementInfo)
+        {
             bool isEqual = false;
-            if(elementInfo.hasPreparedInfo()) {
+            if (elementInfo.hasPreparedInfo())
+            {
                 isEqual = ((ASN1SequenceOfMetadata)elementInfo.PreparedInfo.TypeMetadata).IsSetOf;
             }
-            else {
+            else
+            {
                 ASN1SequenceOf seq = getAttribute<ASN1SequenceOf>(elementInfo.AnnotatedClass);
                 isEqual = seq.IsSetOf;
-            }        
+            }
             return isEqual;
         }
 
-        public static MethodInfo findDoSelectMethodForField(PropertyInfo field, Type objClass) {
+        public static MethodInfo findDoSelectMethodForField(PropertyInfo field, Type objClass)
+        {
             string methodName = "select" + field.Name.ToUpper().Substring(0, (1) - (0)) + field.Name.Substring(1);
             return objClass.GetMethod(methodName);
         }
 
-        public static MethodInfo findIsSelectedMethodForField(PropertyInfo field, Type objClass) {
+        public static MethodInfo findIsSelectedMethodForField(PropertyInfo field, Type objClass)
+        {
             string methodName = "is" + field.Name.ToUpper().Substring(0, (1) - (0)) + field.Name.Substring(1) + "Selected";
             return objClass.GetMethod(methodName);
         }
@@ -401,5 +461,17 @@ namespace org.bn.coders
             return result;
         }
 
+        /// <summary>Sets the default values for the fields of given object</summary>
+        public static void initDefaultValues(object obj)
+        {
+            if (obj is IASN1PreparedElement)
+            {
+                ((IASN1PreparedElement)obj).initWithDefaults();
+            }
+            else
+            {
+                obj.GetType().GetMethod("initWithDefaults").Invoke(obj, null);
+            }
+        }
     }
 }

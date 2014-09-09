@@ -111,7 +111,7 @@ namespace org.bn.coders.ber
         protected virtual DecodedObject<object> decodeSet(DecodedObject<object> decodedTag, System.Type objectClass, ElementInfo elementInfo, int len, System.IO.Stream stream)
         {
             object sequence = createInstanceForElement(objectClass,elementInfo);
-            initDefaultValues(sequence);
+            CoderUtils.initDefaultValues(sequence);
             DecodedObject<object> fieldTag = null;
             int sizeOfSequence = 0;
             int maxSeqLen = elementInfo.MaxAvailableLen;

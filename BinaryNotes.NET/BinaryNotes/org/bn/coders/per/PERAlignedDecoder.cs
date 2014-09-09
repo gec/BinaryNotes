@@ -360,7 +360,7 @@ namespace org.bn.coders.per
             int preambleCurrentBit = 32 - preambleLen;
             skipAlignedBits(stream);
             object sequence = createInstanceForElement(objectClass, elementInfo);
-            initDefaultValues(sequence);
+            CoderUtils.initDefaultValues(sequence);
             ElementInfo info = new ElementInfo();
             int idx = 0;
             PropertyInfo[] fields = null;

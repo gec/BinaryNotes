@@ -264,35 +264,49 @@ namespace org.bn.coders
 			}
 			return resultSize;
 		}
-		
+
+        /// <param name="obj">The encoded sequence</param>
+        /// <param name="fieldIdx">Index of the sequence field to be encoded</param>
+        /// <param name="field">Field of the encoded sequence to be encoded</param>
+        /// <param name="elementInfo">ElementInfo for the encoded sequence</param>
 		public virtual int encodeSequenceField(object obj, int fieldIdx, PropertyInfo field, System.IO.Stream stream, ElementInfo elementInfo)
 		{
             ElementInfo info = new ElementInfo();
             info.AnnotatedClass = field;
-
             if (elementInfo.hasPreparedInfo())
             {
                 info.PreparedInfo = elementInfo.PreparedInfo.getPropertyMetadata(fieldIdx);
             }
             else
+            {
                 info.ASN1ElementInfo = CoderUtils.getAttribute<ASN1Element>(field);
+            }
 
-			int resultSize = 0;
-            if (CoderUtils.isNullField (field, info))
+            if (CoderUtils.isNullField(field, info))
 			{
 				return encodeNull(obj, stream, elementInfo);
 			}
 			else
 			{
 				object invokeObjResult = invokeGetterMethodForField(field, obj, info);
-				if (invokeObjResult != null)
-				{
-					resultSize += encodeClassType(invokeObjResult, stream, info);
-				}
-				else
-					CoderUtils.checkForOptionalField(field, info);
+                if (invokeObjResult == null)
+                {
+                    CoderUtils.checkForOptionalField(field, info);
+                    return 0;
+                }
+                else if (CoderUtils.isDefaultField(field, info))
+                {
+                    // skip the field if the current value equals to the default value (this is optional for BER, but mandatory for DER)
+                    object newSequenceInstance = Activator.CreateInstance(obj.GetType());
+                    CoderUtils.initDefaultValues(newSequenceInstance);
+                    object defaultFieldValue = invokeGetterMethodForField(field, newSequenceInstance, info);
+                    return defaultFieldValue.Equals(invokeObjResult) ? 0 : encodeClassType(invokeObjResult, stream, info);
+                }
+                else
+                {
+                    return encodeClassType(invokeObjResult, stream, info);
+                }
 			}
-			return resultSize;
 		}
 
         protected ElementInfo getChoiceSelectedElement(Object obj, ElementInfo elementInfo) {
@@ -339,8 +353,7 @@ namespace org.bn.coders
 		public virtual int encodeEnum(object obj, System.IO.Stream stream, ElementInfo elementInfo)
 		{
 			int resultSize = 0;
-			PropertyInfo field = 
-                obj.GetType().GetProperty("Value");
+			PropertyInfo field = obj.GetType().GetProperty("Value");
 			object result = invokeGetterMethodForField(field, obj, null);
             Type enumClass = null;
 			

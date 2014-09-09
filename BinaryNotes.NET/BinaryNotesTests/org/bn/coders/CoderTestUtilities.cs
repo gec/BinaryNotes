@@ -286,11 +286,30 @@ namespace org.bn.coders
             SetWithDefault result = new SetWithDefault();
             result.Nodefault = (0xAA);
             result.Nodefault2 = (new TestPRN("aaaa"));
-            result.Default3 = ("bbbb");
+            result.Default3 = ("bbbb"); // does not equal to the default value
             return result;
         }
         public abstract byte[] createSetBytes();
 
+        public SetWithDefault createSetWithDefaultValue()
+        {
+            SetWithDefault result = new SetWithDefault();
+            result.Nodefault = (0xAA);
+            result.Nodefault2 = (new TestPRN("aaaa"));
+            result.Default3 = ("DDDdd"); // equals to the default value
+            return result;
+        }
+        public abstract byte[] createSetWithDefaultValueBytes();
+
+        public SequenceWithDefault createSequenceWithDefaultValues()
+        {
+            SequenceWithDefault result = new SequenceWithDefault();
+            result.Nodefault = (0xAA);
+            result.WithDefault = "dd"; // equals to the default value
+            result.WithIntDef = 120; // equals to the default value
+            return result;
+        }
+        public abstract byte[] createSequenceWithDefaultValuesBytes();
 
         public TestBitStr createTestBitStr()
         {

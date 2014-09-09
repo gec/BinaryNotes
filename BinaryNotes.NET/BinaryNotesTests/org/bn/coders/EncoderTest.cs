@@ -39,12 +39,10 @@ namespace org.bn.coders
 		
 		protected abstract IEncoder newEncoder();
 		
-		/// <seealso cref="Encoder.encode(T,OutputStream)">
-		/// </seealso>
+		/// <seealso cref="Encoder.encode(T,OutputStream)" />
         [TestMethod]
 		public virtual void testEncodeChoice()
 		{
-			//UPGRADE_NOTE: There is an untranslated Statement.  Please refer to original code. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1153'"
             IEncoder encoder = newEncoder();
             Assert.IsNotNull(encoder);
 			Data choice = new Data();
@@ -75,8 +73,7 @@ namespace org.bn.coders
 			printEncoded("Choice simple int", encoder, choice);
 		}
 		
-		/// <seealso cref="Encoder.encode(T,OutputStream)">
-		/// </seealso>
+		/// <seealso cref="Encoder.encode(T,OutputStream)" />
         [TestMethod]
 		public virtual void testEncode()
 		{
@@ -89,8 +86,7 @@ namespace org.bn.coders
 			checkEncoded(encoder, coderTestUtils.createDataSeq(), coderTestUtils.createDataSeqBytes());
 		}
 		
-		/// <seealso cref="Encoder.encode(T,OutputStream)">
-		/// </seealso>
+		/// <seealso cref="Encoder.encode(T,OutputStream)" />
         [TestMethod]
 		public virtual void testITUEncode()
 		{
@@ -104,11 +100,12 @@ namespace org.bn.coders
 		{
 			System.IO.MemoryStream outputStream = new System.IO.MemoryStream();
 			encoder.encode(obj, outputStream);
-			byte[] array = (outputStream.ToArray());
-			Assert.AreEqual(array.Length, standard.Length);
+
+			byte[] array = outputStream.ToArray();
+            Assert.AreEqual(standard.Length, array.Length);
 			for (int i = 0; i < array.Length; i++)
 			{
-				Assert.AreEqual(array[i], standard[i]);
+				Assert.AreEqual(standard[i], array[i]);
 			}
 		}
 
@@ -238,6 +235,24 @@ namespace org.bn.coders
             Assert.IsNotNull(encoder);
             printEncoded("Set test", encoder, coderTestUtils.createSet());
             checkEncoded(encoder, coderTestUtils.createSet(), coderTestUtils.createSetBytes());
+        }
+
+        [TestMethod]
+        public virtual void testEncodeSetWithDefaultValue()
+        {
+            IEncoder encoder = newEncoder();
+            Assert.IsNotNull(encoder);
+            printEncoded("Set test with default value", encoder, coderTestUtils.createSetWithDefaultValue());
+            checkEncoded(encoder, coderTestUtils.createSetWithDefaultValue(), coderTestUtils.createSetWithDefaultValueBytes());
+        }
+
+        [TestMethod]
+        public virtual void testEncodeSequenceWithDefaultValues()
+        {
+            IEncoder encoder = newEncoder();
+            Assert.IsNotNull(encoder);
+            printEncoded("Sequence test with default values", encoder, coderTestUtils.createSequenceWithDefaultValues());
+            checkEncoded(encoder, coderTestUtils.createSequenceWithDefaultValues(), coderTestUtils.createSequenceWithDefaultValuesBytes());
         }
 
         [TestMethod]
