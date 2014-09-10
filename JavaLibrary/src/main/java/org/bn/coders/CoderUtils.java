@@ -393,9 +393,8 @@ public class CoderUtils {
             }
         } else if ( obj1.getClass().isAnnotationPresent(ASN1BoxedType.class) && obj1.getClass().equals(obj2.getClass()) ) {
             // compare boxed values using this method
-            Object boxedValue1 = obj1.getClass().getMethod("getValue").invoke(obj1);
-            Object boxedValue2 = obj2.getClass().getMethod("getValue").invoke(obj2);
-            return equals(boxedValue1, boxedValue2);
+            Method getValueMethod = obj1.getClass().getMethod("getValue");
+            return equals(getValueMethod.invoke(obj1), getValueMethod.invoke(obj2));
         } else if ( obj1.getClass().isAnnotationPresent(ASN1Sequence.class) && obj1.getClass().equals(obj2.getClass()) ) {
             // compare all sequence fields using this method
             for (Field field : obj1.getClass().getDeclaredFields()) {
