@@ -22,9 +22,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.bn.annotations.ASN1Any;
+import org.bn.annotations.ASN1BoxedType;
 import org.bn.annotations.ASN1Element;
 import org.bn.annotations.ASN1Null;
 import org.bn.annotations.ASN1Sequence;
@@ -359,6 +363,53 @@ public class CoderUtils {
         } else {
             Method method = object.getClass().getMethod("initWithDefaults");
             method.invoke(object);
+        }
+    }
+    
+    /**
+     * Compares given objects for equality.
+     * Alternatively, the equals() method could be added to all generated classes.
+     */
+    public static boolean equals(Object obj1, Object obj2) throws ReflectiveOperationException {
+        if ( obj1==null && obj2==null ) {
+            return true;
+        } else if ( (obj1==null && obj2!=null) || ((obj1!=null && obj2==null))) {
+            return false;
+        } else if ( obj1 instanceof byte[] && obj2 instanceof byte[] ) {
+            return Arrays.equals((byte[])obj1, (byte[])obj2);
+        } else if ( obj1 instanceof Collection && obj2 instanceof Collection ) {
+            // compare individual collection items using this method
+            if ( ((Collection)obj1).size()!=((Collection)obj2).size() ) {
+                return false;
+            } else {
+                Iterator it1 = ((Iterable)obj1).iterator();
+                Iterator it2 = ((Iterable)obj2).iterator();
+                while ( it1.hasNext() ) {
+                    if ( !equals(it1.next(), it2.next()) ) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        } else if ( obj1.getClass().isAnnotationPresent(ASN1BoxedType.class) && obj1.getClass().equals(obj2.getClass()) ) {
+            // compare boxed values using this method
+            Object boxedValue1 = obj1.getClass().getMethod("getValue").invoke(obj1);
+            Object boxedValue2 = obj2.getClass().getMethod("getValue").invoke(obj2);
+            return equals(boxedValue1, boxedValue2);
+        } else if ( obj1.getClass().isAnnotationPresent(ASN1Sequence.class) && obj1.getClass().equals(obj2.getClass()) ) {
+            // compare all sequence fields using this method
+            for (Field field : obj1.getClass().getDeclaredFields()) {
+                if ( !field.isSynthetic() && !field.getType().equals(IASN1PreparedElementData.class) ) {
+                    Object fieldValue1 = findGetterMethodForField(field, obj1.getClass()).invoke(obj1);
+                    Object fieldValue2 = findGetterMethodForField(field, obj1.getClass()).invoke(obj2);
+                    if (!equals(fieldValue1, fieldValue2)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            return obj1.equals(obj2);
         }
     }
 }

@@ -145,7 +145,7 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
             return elementInfo.getPreparedInfo().invokeGetterMethod(object, (java.lang.Object[]) null);
         } else {
             Method method = CoderUtils.findGetterMethodForField(field, object.getClass());
-            return method.invoke(object, (java.lang.Object[]) null);
+            return method.invoke(object);
         }
     }
 
@@ -155,7 +155,7 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
             return (Boolean) elementInfo.getPreparedInfo().invokeIsSelectedMethod(object, (java.lang.Object[]) null);
         } else {
             Method method = CoderUtils.findIsSelectedMethodForField(field, object.getClass());
-            return (Boolean) method.invoke(object, (java.lang.Object[]) null);
+            return (Boolean) method.invoke(object);
         }
     }
 
@@ -198,7 +198,7 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
                 Object newSequenceInstance = elementInfo.hasPreparedInfo() ? elementInfo.getPreparedInfo().newInstance() : object.getClass().newInstance();
                 CoderUtils.initDefaultValues(newSequenceInstance);
                 Object defaultFieldValue = invokeGetterMethodForField(field, newSequenceInstance, info);
-                return defaultFieldValue.equals(invokeObjResult) ? 0 : encodeClassType(invokeObjResult, stream, info);
+                return CoderUtils.equals(defaultFieldValue, invokeObjResult) ? 0 : encodeClassType(invokeObjResult, stream, info);
             } else {
                 return encodeClassType(invokeObjResult, stream, info);
             }

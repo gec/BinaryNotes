@@ -297,8 +297,16 @@ public abstract class CoderTestUtilities {
     public SequenceWithDefault createSequenceWithDefaultValues() {
         SequenceWithDefault result = new SequenceWithDefault();
         result.setNodefault(0xAAL);
-        result.setWithDefault("dd"); // equals to the default value
-        result.setWithIntDef(120l); // equals to the default value
+        result.setWithDefault("dd");
+        result.setWithIntDef(120l);
+        result.setWithSeqDef(new SequenceWithDefault.WithSeqDefSequenceType());
+        result.getWithSeqDef().setName("Name");
+        result.getWithSeqDef().setEmail("Email");
+        result.setWithOctDef(new TestOCT(new byte[] {0x6C}));
+        result.setWithOctDef2(new byte[] {(byte)0xFF, (byte)0xEE, (byte)0xAA});
+        result.setWithSeqOf(new ArrayList<String>(Arrays.asList("aa", "dd")));
+        result.setWithSeqOf2(new ArrayList<TestPRN>(Arrays.asList(new TestPRN("cc"), new TestPRN("ee"))));
+        result.setWithSeqOf3(new StringArray(new ArrayList<String>(Arrays.asList("fff", "ggg"))));
         return result;
     }
 
