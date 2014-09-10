@@ -424,7 +424,7 @@ namespace org.bn.coders.per
                         object newSequenceInstance = Activator.CreateInstance(obj.GetType());
                         CoderUtils.initDefaultValues(newSequenceInstance);
                         object defaultFieldValue = invokeGetterMethodForField(field, newSequenceInstance, info);
-                        ((BitArrayOutputStream)stream).writeBit(!defaultFieldValue.Equals(invokeObjResult));
+                        ((BitArrayOutputStream)stream).writeBit(!CoderUtils.AreEqual(defaultFieldValue, invokeObjResult));
                     }
                     else
                     {

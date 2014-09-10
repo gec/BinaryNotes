@@ -299,7 +299,7 @@ namespace org.bn.coders
                     object newSequenceInstance = Activator.CreateInstance(obj.GetType());
                     CoderUtils.initDefaultValues(newSequenceInstance);
                     object defaultFieldValue = invokeGetterMethodForField(field, newSequenceInstance, info);
-                    return defaultFieldValue.Equals(invokeObjResult) ? 0 : encodeClassType(invokeObjResult, stream, info);
+                    return CoderUtils.AreEqual(defaultFieldValue, invokeObjResult) ? 0 : encodeClassType(invokeObjResult, stream, info);
                 }
                 else
                 {

@@ -14,16 +14,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
+
 using org.bn.attributes;
 using org.bn.attributes.constraints;
 using org.bn.metadata;
-using org.bn.metadata.constraints;
 using org.bn.types;
-
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace org.bn.coders
 {
@@ -471,6 +470,67 @@ namespace org.bn.coders
             else
             {
                 obj.GetType().GetMethod("initWithDefaults").Invoke(obj, null);
+            }
+        }
+
+        /// <summary>
+        /// Compares given objects for equality.
+        /// Alternatively, the Equals() method could be added to all generated classes.
+        /// </summary>
+        public static bool AreEqual(object obj1, object obj2)
+        {
+            if ( obj1==null && obj2==null )
+            {
+                return true;
+            }
+            else if ( (obj1==null && obj2!=null) || ((obj1!=null && obj2==null)))
+            {
+                return false;
+            }
+            else if ( obj1 is ICollection && obj2 is ICollection )
+            {
+                // compare individual collection items using this method
+                if ( ((ICollection)obj1).Count!=((ICollection)obj2).Count )
+                {
+                    return false;
+                }
+                else
+                {
+                    IEnumerator enum1 = ((ICollection)obj1).GetEnumerator();
+                    IEnumerator enum2 = ((ICollection)obj2).GetEnumerator();
+                    while ( enum1.MoveNext() ) {
+                        enum2.MoveNext();
+                        if ( !AreEqual(enum1.Current, enum2.Current) ) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+            else if ( isAttributePresent<ASN1BoxedType>(obj1.GetType()) && obj1.GetType().Equals(obj2.GetType()) )
+            {
+                // compare boxed values using this method
+                PropertyInfo property = obj1.GetType().GetProperty("Value");
+                return AreEqual(property.GetValue(obj1, null), property.GetValue(obj2, null));
+            }
+            else if ( isAttributePresent<ASN1Sequence>(obj1.GetType()) && obj1.GetType().Equals(obj2.GetType()) )
+            {
+                // compare all sequence fields using this method
+                foreach (PropertyInfo field in obj1.GetType().GetProperties()) {
+                    if (!field.PropertyType.Equals(typeof(IASN1PreparedElementData)))
+                    {
+                        object fieldValue1 = field.GetValue(obj1, null);
+                        object fieldValue2 = field.GetValue(obj2, null);
+                        if (!AreEqual(fieldValue1, fieldValue2)) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return obj1.Equals(obj2);
             }
         }
     }

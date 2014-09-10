@@ -305,8 +305,16 @@ namespace org.bn.coders
         {
             SequenceWithDefault result = new SequenceWithDefault();
             result.Nodefault = (0xAA);
-            result.WithDefault = "dd"; // equals to the default value
-            result.WithIntDef = 120; // equals to the default value
+            result.WithDefault = "dd";
+            result.WithIntDef = 120;
+            result.WithSeqDef = new SequenceWithDefault.WithSeqDefSequenceType();
+            result.WithSeqDef.Name = "Name";
+            result.WithSeqDef.Email = "Email";
+            result.WithOctDef = new TestOCT(new byte[] { 0x6C });
+            result.WithOctDef2 = new byte[] { (byte)0xFF, (byte)0xEE, (byte)0xAA };
+            result.WithSeqOf = new string[] {"aa", "dd"};
+            result.WithSeqOf2 = new TestPRN[] {new TestPRN("cc"), new TestPRN("ee")};
+            result.WithSeqOf3 = new StringArray() { Value = new String[] {"fff", "ggg"} };
             return result;
         }
         public abstract byte[] createSequenceWithDefaultValuesBytes();
