@@ -54,31 +54,29 @@ public class Main {
         LineArgsParser parser = new LineArgsParser();
         if (args.length > 0) {
             arguments = parser.parse(CompilerArgs.class, args);
-            Module module = new Module(arguments.getModulesPath(), arguments.getModuleName(), arguments.getOutputDir());
-            startForModule(module, args);
+            Module module = new Module(arguments.getModuleName(), arguments.getOutputDir());
+            startForModule(module);
         } else {
             parser.printHelp(CompilerArgs.class, System.out);
         }
     }
 
-    private void startForModule(Module module, String[] args) throws TransformerException, JAXBException, IOException, ANTLRException {
+    private void startForModule(Module module) throws TransformerException, JAXBException, IOException, ANTLRException {
         if (!arguments.getGenerateModelOnly()) {
             System.out.println("Current directory: " + new File(".").getCanonicalPath());
             System.out.println("Compiling file: " + arguments.getInputFileName());
             
             ByteArrayOutputStream outputXml = new ByteArrayOutputStream(65535);
-            createModel(outputXml, args, module);
+            createModel(outputXml, module);
             module.translate(new ByteArrayInputStream(outputXml.toByteArray()));
         } else {
-            createModel(System.out, args, null);
+            createModel(System.out, null);
         }
     }
     
-    private void createModel(OutputStream outputXml, String[] args, Module module) throws JAXBException, FileNotFoundException, ANTLRException {
+    private void createModel(OutputStream outputXml, Module module) throws JAXBException, FileNotFoundException, ANTLRException {
         ASN1Model model = createModelFromStream();
-        model.runtimeArguments = args;
         if (module != null) {
-            model.moduleDirectory = module.getModulesPath() + File.separator + module.getModuleName();
             model.outputDirectory = module.getOutputDir();
             if (arguments.getNamespace() != null) {
                 model.moduleNS = arguments.getNamespace();

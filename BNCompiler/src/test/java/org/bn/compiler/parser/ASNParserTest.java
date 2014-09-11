@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -43,8 +42,6 @@ public class ASNParserTest {
     @Test
     public void testJaxb() throws Exception {
         ASN1Model model = createFromStream();
-        model.runtimeArguments = new String[]{"-inputFileName", "test.asn"};
-        model.moduleDirectory = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "modules" + File.separator + "java";
         model.outputDirectory = "testworkdir" + File.separator + "output";
         model.moduleNS = "test_asn";
         

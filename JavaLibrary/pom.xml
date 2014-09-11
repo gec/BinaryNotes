@@ -88,7 +88,7 @@
                         <configuration>
                             <target>
                                 <java classname="org.bn.compiler.Main" classpathref="maven.compile.classpath" fork="true" failonerror="true">
-                                    <arg line="-m java -o ${project.build.directory}/generated-test-sources/bncompiler/org/bn/coders/test_asn -ns org.bn.coders.test_asn -mp ../BNCompiler/src/main/resources/modules -f ../BNCompiler/src/test/resources/test.asn" />
+                                    <arg line="-m java -o ${project.build.directory}/generated-test-sources/bncompiler/org/bn/coders/test_asn -ns org.bn.coders.test_asn -f ../BNCompiler/src/test/resources/test.asn" />
                                 </java>
                             </target>
                         </configuration>

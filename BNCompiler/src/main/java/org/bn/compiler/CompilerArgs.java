@@ -20,11 +20,7 @@ import org.lineargs.constraints.RegexConstraint;
 
 public class CompilerArgs {
 
-    @Option(name = "--modulesPath", shortName = "-mp", description = "Path to directory with available modules", isOptional = true)
-    @RegexConstraint(mask = ".+")
-    private String modulesPath = "modules/";
-
-    @Option(name = "--moduleName", shortName = "-m", description = "Binding module name")
+    @Option(name = "--moduleName", shortName = "-m", description = "Binding module name ('cs' or 'java')")
     @RegexConstraint(mask = ".+")
     private String moduleName = null;
 
@@ -42,14 +38,6 @@ public class CompilerArgs {
 
     @Option(name = "--model-only", shortName = "-x", description = "Generate only the ASN.1 model (as XML)", isOptional = true)
     private Boolean generateModelOnly = false;
-
-    public String getModulesPath() {
-        return modulesPath;
-    }
-
-    public void setModulesPath(String modulesPath) {
-        this.modulesPath = modulesPath;
-    }
 
     public String getModuleName() {
         return moduleName;

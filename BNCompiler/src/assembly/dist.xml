@@ -38,14 +38,5 @@
                 <include>test.asn</include>
             </includes>
         </fileSet>
-        
-        <!-- modules go to the modules folder -->
-        <fileSet>
-            <directory>src/main/resources/modules</directory>
-            <outputDirectory>modules</outputDirectory>
-            <includes>
-                <include>**</include>
-            </includes>
-        </fileSet>
     </fileSets>
 </assembly>

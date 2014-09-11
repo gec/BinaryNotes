@@ -85,10 +85,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.5</version>
                 <configuration>
-                    <!-- Exclude modules -->
-                    <excludes>
-                        <exclude>modules/**</exclude>
-                    </excludes>
                     <archive>
                         <manifest>
                             <mainClass>org.bn.compiler.Main</mainClass>
