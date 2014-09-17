@@ -101,7 +101,7 @@
                 <artifactId>antlr-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <grammars>ASN1.G</grammars>
+                    <grammars>org/bn/compiler/parser/ASN1.g</grammars>
                 </configuration>
                 <executions>
                     <execution>
