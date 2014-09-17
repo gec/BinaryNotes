@@ -309,6 +309,12 @@ public abstract class CoderTestUtilities {
         result.setWithSeqOf3(new StringArray(new ArrayList<String>(Arrays.asList("fff", "ggg"))));
         return result;
     }
+    
+    public SequenceWithDefault createSequenceWithUntouchedDefaultValues() {
+        SequenceWithDefault result = new SequenceWithDefault();
+        result.setNodefault(0xAAL);
+        return result;
+    }
 
     public abstract byte[] createSequenceWithDefaultValuesBytes();
 

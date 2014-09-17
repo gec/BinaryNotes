@@ -255,6 +255,15 @@ namespace org.bn.coders
             checkEncoded(encoder, coderTestUtils.createSequenceWithDefaultValues(), coderTestUtils.createSequenceWithDefaultValuesBytes());
         }
 
+        //[TestMethod] TODO: This test is currently failing because untouched default/optional int/long sequence/set fields are encoded as 0 instead of being skipped
+        public virtual void testEncodeSequenceWithUntouchedDefaultValues()
+        {
+            IEncoder encoder = newEncoder();
+            Assert.IsNotNull(encoder);
+            printEncoded("Sequence test with untouched default values", encoder, coderTestUtils.createSequenceWithUntouchedDefaultValues());
+            checkEncoded(encoder, coderTestUtils.createSequenceWithUntouchedDefaultValues(), coderTestUtils.createSequenceWithDefaultValuesBytes());
+        }
+
         [TestMethod]
         public virtual void testEncodeBitString() {
             IEncoder encoder = newEncoder();

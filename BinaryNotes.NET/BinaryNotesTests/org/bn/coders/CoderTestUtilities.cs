@@ -317,6 +317,12 @@ namespace org.bn.coders
             result.WithSeqOf3 = new StringArray() { Value = new String[] {"fff", "ggg"} };
             return result;
         }
+        public SequenceWithDefault createSequenceWithUntouchedDefaultValues()
+        {
+            SequenceWithDefault result = new SequenceWithDefault();
+            result.Nodefault = (0xAA);
+            return result;
+        }
         public abstract byte[] createSequenceWithDefaultValuesBytes();
 
         public TestBitStr createTestBitStr()

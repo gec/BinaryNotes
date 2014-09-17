@@ -223,6 +223,14 @@ public abstract class EncoderTest {
     }
     
     @Test
+    public void testEncodeSequenceWithUntouchedDefaultValues() throws Exception {
+        IEncoder encoder = newEncoder();
+        assertNotNull(encoder);
+        printEncoded("Sequence test with untouched default values", encoder, coderTestUtils.createSequenceWithUntouchedDefaultValues());
+        checkEncoded(encoder, coderTestUtils.createSequenceWithUntouchedDefaultValues(), coderTestUtils.createSequenceWithDefaultValuesBytes());
+    }
+    
+    @Test
     public void testEncodeBitString() throws Exception {
         IEncoder encoder = newEncoder();
         assertNotNull(encoder);
