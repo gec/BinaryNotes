@@ -30,6 +30,7 @@ import java.util.TreeMap;
 import org.bn.annotations.ASN1Any;
 import org.bn.annotations.ASN1BoxedType;
 import org.bn.annotations.ASN1Element;
+import org.bn.annotations.ASN1Enum;
 import org.bn.annotations.ASN1Null;
 import org.bn.annotations.ASN1Sequence;
 import org.bn.annotations.ASN1SequenceOf;
@@ -391,7 +392,7 @@ public class CoderUtils {
                 }
                 return true;
             }
-        } else if ( obj1.getClass().isAnnotationPresent(ASN1BoxedType.class) && obj1.getClass().equals(obj2.getClass()) ) {
+        } else if ( (obj1.getClass().isAnnotationPresent(ASN1BoxedType.class) || obj1.getClass().isAnnotationPresent(ASN1Enum.class)) && obj1.getClass().equals(obj2.getClass()) ) {
             // compare boxed values using this method
             Method getValueMethod = obj1.getClass().getMethod("getValue");
             return equals(getValueMethod.invoke(obj1), getValueMethod.invoke(obj2));

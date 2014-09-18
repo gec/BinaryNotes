@@ -507,7 +507,7 @@ namespace org.bn.coders
                     return true;
                 }
             }
-            else if ( isAttributePresent<ASN1BoxedType>(obj1.GetType()) && obj1.GetType().Equals(obj2.GetType()) )
+            else if ((isAttributePresent<ASN1BoxedType>(obj1.GetType()) || isAttributePresent<ASN1Enum>(obj1.GetType())) && obj1.GetType()==obj2.GetType())
             {
                 // compare boxed values using this method
                 PropertyInfo property = obj1.GetType().GetProperty("Value");
