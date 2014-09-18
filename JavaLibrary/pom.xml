@@ -2,11 +2,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
     <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>cz.drasil</groupId>
+        <artifactId>binarynotes-parent</artifactId>
+        <version>1.5.3</version>
+        <relativePath>..</relativePath>
+    </parent>
 
-    <groupId>cz.drasil</groupId>
     <artifactId>binarynotes</artifactId>
-    <version>1.5.3</version>
-    <packaging>jar</packaging>
 
     <name>BinaryNotes Java Library</name>
     <description>BinaryNotes runtime Java library</description>
@@ -26,35 +30,12 @@
         <url>git@github.com:drasil/BinaryNotes.git</url>
     </scm>
 
-    <developers>
-        <developer>
-            <id>abdulla</id>
-            <name>Abdulla G. Abdurakhmanov</name>
-            <email>abdulla@latestbit.com</email>
-        </developer>
-        <developer>
-            <id>drasil</id>
-            <name>Pavel Drasil</name>
-            <email>pavel.drasil@gmail.com</email>
-        </developer>
-    </developers>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>cz.drasil</groupId>
             <artifactId>bncompiler</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     

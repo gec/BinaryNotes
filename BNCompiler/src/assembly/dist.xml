@@ -4,10 +4,11 @@
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
 
     <id>dist</id>
-    <includeBaseDirectory>false</includeBaseDirectory>
     <formats>
-        <format>dir</format>
+        <format>zip</format>
     </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
         <!-- project jar goes to the root -->
         <dependencySet>

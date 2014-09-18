@@ -3,10 +3,14 @@
     
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cz.drasil</groupId>
+    <parent>
+        <groupId>cz.drasil</groupId>
+        <artifactId>binarynotes-parent</artifactId>
+        <version>1.5.3</version>
+        <relativePath>..</relativePath>
+    </parent>
+    
     <artifactId>bncompiler</artifactId>
-    <version>1.5.3</version>
-    <packaging>jar</packaging>
 
     <name>BinaryNotes ASN.1 Compiler</name>
     <description>BinaryNotes ASN.1 Compiler generating Java or C# classes</description>
@@ -26,23 +30,6 @@
         <url>git@github.com:drasil/BinaryNotes.git</url>
     </scm>
 
-    <developers>
-        <developer>
-            <id>abdulla</id>
-            <name>Abdulla G. Abdurakhmanov</name>
-            <email>abdulla@latestbit.com</email>
-        </developer>
-        <developer>
-            <id>drasil</id>
-            <name>Pavel Drasil</name>
-            <email>pavel.drasil@gmail.com</email>
-        </developer>
-    </developers>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>antlr</groupId>
@@ -53,12 +40,6 @@
             <groupId>org.lineargs</groupId>
             <artifactId>LineArgs</artifactId>
             <version>1.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     
@@ -117,7 +98,6 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4.1</version>
                 <configuration>
-                    <attach>false</attach>
                     <descriptors>
                         <descriptor>src/assembly/dist.xml</descriptor>
                     </descriptors>
