@@ -180,6 +180,55 @@ namespace org.bn.coders.test_asn {
         }
         
                 
+          
+	private WithEnumDefEnumType withEnumDef_ ;
+	
+
+
+    [ASN1PreparedElement]
+    [ASN1Enum ( Name = "WithEnumDefEnumType")]
+    public class WithEnumDefEnumType : IASN1PreparedElement {        
+        public enum EnumType {
+            
+            [ASN1EnumItem ( Name = "one", HasTag = true , Tag = 1 )]
+            one , 
+            [ASN1EnumItem ( Name = "two", HasTag = true , Tag = 2 )]
+            two , 
+            [ASN1EnumItem ( Name = "three", HasTag = true , Tag = 3 )]
+            three
+        }
+        
+        private EnumType val;
+        
+        public EnumType Value
+        {
+            get { return val; }
+            set { val = value; }
+        }        
+
+            public void initWithDefaults()
+	    {
+	    }
+
+
+            private static IASN1PreparedElementData preparedData = CoderFactory.getInstance().newPreparedElementData(typeof(WithEnumDefEnumType));
+            public IASN1PreparedElementData PreparedData {
+            	get { return preparedData; }
+            }
+
+                
+    }
+
+                
+        [ASN1Element ( Name = "withEnumDef", IsOptional =  false , HasTag =  true, Tag = 9 , HasDefaultValue =  true )  ]
+    
+        public WithEnumDefEnumType WithEnumDef
+        {
+            get { return withEnumDef_; }
+            set { withEnumDef_ = value;  }
+        }
+        
+                
   
 
             public void initWithDefaults() {
@@ -267,6 +316,11 @@ namespace org.bn.coders.test_asn {
                 }
             ;
         WithSeqOf3 = param_WithSeqOf3;
+    WithEnumDefEnumType param_WithEnumDef =         
+            
+				new WithEnumDefEnumType();
+				param_WithEnumDef.Value = WithEnumDefEnumType.EnumType.two;
+        WithEnumDef = param_WithEnumDef;
     
             }
 

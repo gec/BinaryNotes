@@ -177,7 +177,7 @@ public class PERAlignedCoderTestUtils extends CoderTestUtilities {
     
     @Override
     public byte[] createSequenceWithDefaultValuesBytes() {
-        return new byte[]{(byte) 0x00, 0x02, 0x00, (byte)0xAA};
+        return new byte[]{0x00, 0x00, 0x02, 0x00, (byte)0xAA};
     }
 
     @Override

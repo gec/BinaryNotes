@@ -307,6 +307,8 @@ public abstract class CoderTestUtilities {
         result.setWithSeqOf(new ArrayList<String>(Arrays.asList("aa", "dd")));
         result.setWithSeqOf2(new ArrayList<TestPRN>(Arrays.asList(new TestPRN("cc"), new TestPRN("ee"))));
         result.setWithSeqOf3(new StringArray(new ArrayList<String>(Arrays.asList("fff", "ggg"))));
+        result.setWithEnumDef(new SequenceWithDefault.WithEnumDefEnumType());
+        result.getWithEnumDef().setValue(SequenceWithDefault.WithEnumDefEnumType.EnumType.two);
         return result;
     }
     

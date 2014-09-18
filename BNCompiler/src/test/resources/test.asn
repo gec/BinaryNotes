@@ -173,7 +173,8 @@ EXPORTS TestOCT,TestPRN,TestI32,TestI16,TestI8,ContentType,ValueWithParams,Plain
 		withOctDef2		[5] OCTET STRING DEFAULT 'FFEEAA'H,
 		withSeqOf		[6] SEQUENCE OF PrintableString DEFAULT { "aa","dd" },
 		withSeqOf2		[7] SEQUENCE OF TestPRN DEFAULT { "cc","ee" },
-		withSeqOf3		[8] StringArray DEFAULT { "fff","ggg" }
+		withSeqOf3		[8] StringArray DEFAULT { "fff","ggg" },
+		withEnumDef		[9] ENUMERATED { one (1), two (2), three (3) } DEFAULT two
 	}
 
 	SetWithDefault ::= SET {

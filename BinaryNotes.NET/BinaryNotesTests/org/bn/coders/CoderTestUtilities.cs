@@ -315,6 +315,8 @@ namespace org.bn.coders
             result.WithSeqOf = new string[] {"aa", "dd"};
             result.WithSeqOf2 = new TestPRN[] {new TestPRN("cc"), new TestPRN("ee")};
             result.WithSeqOf3 = new StringArray() { Value = new String[] {"fff", "ggg"} };
+            result.WithEnumDef = new SequenceWithDefault.WithEnumDefEnumType();
+            result.WithEnumDef.Value = SequenceWithDefault.WithEnumDefEnumType.EnumType.two;
             return result;
         }
         public SequenceWithDefault createSequenceWithUntouchedDefaultValues()
