@@ -255,7 +255,7 @@ namespace org.bn.coders
             checkEncoded(encoder, coderTestUtils.createSequenceWithDefaultValues(), coderTestUtils.createSequenceWithDefaultValuesBytes());
         }
 
-        //[TestMethod] TODO: This test is currently failing because untouched default/optional int/long sequence/set fields are encoded as 0 instead of being skipped
+        [TestMethod]
         public virtual void testEncodeSequenceWithUntouchedDefaultValues()
         {
             IEncoder encoder = newEncoder();

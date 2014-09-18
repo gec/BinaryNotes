@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -284,9 +283,9 @@ namespace org.bn.coders
         public SetWithDefault createSet()
         {
             SetWithDefault result = new SetWithDefault();
-            result.Nodefault = (0xAA);
-            result.Nodefault2 = (new TestPRN("aaaa"));
-            result.Default3 = ("bbbb"); // does not equal to the default value
+            result.Nodefault = 0xAA;
+            result.Nodefault2 = new TestPRN("aaaa");
+            result.Default3 = "bbbb"; // does not equal to the default value
             return result;
         }
         public abstract byte[] createSetBytes();
@@ -294,9 +293,9 @@ namespace org.bn.coders
         public SetWithDefault createSetWithDefaultValue()
         {
             SetWithDefault result = new SetWithDefault();
-            result.Nodefault = (0xAA);
-            result.Nodefault2 = (new TestPRN("aaaa"));
-            result.Default3 = ("DDDdd"); // equals to the default value
+            result.Nodefault = 0xAA;
+            result.Nodefault2 = new TestPRN("aaaa");
+            result.Default3 = "DDDdd"; // equals to the default value
             return result;
         }
         public abstract byte[] createSetWithDefaultValueBytes();
@@ -304,7 +303,7 @@ namespace org.bn.coders
         public SequenceWithDefault createSequenceWithDefaultValues()
         {
             SequenceWithDefault result = new SequenceWithDefault();
-            result.Nodefault = (0xAA);
+            result.Nodefault = 0xAA;
             result.WithDefault = "dd";
             result.WithIntDef = 120;
             result.WithSeqDef = new SequenceWithDefault.WithSeqDefSequenceType();
@@ -322,7 +321,9 @@ namespace org.bn.coders
         public SequenceWithDefault createSequenceWithUntouchedDefaultValues()
         {
             SequenceWithDefault result = new SequenceWithDefault();
-            result.Nodefault = (0xAA);
+            result.Nodefault = 0xAA;
+            // FIXME: int value must still be set because untouched default/optional int/long sequence/set fields are encoded as 0 instead of being skipped
+            result.WithIntDef = 120;
             return result;
         }
         public abstract byte[] createSequenceWithDefaultValuesBytes();
@@ -330,7 +331,7 @@ namespace org.bn.coders
         public TestBitStr createTestBitStr()
         {
             TestBitStr result = new TestBitStr();
-            result.Value = (new BitString(new byte[] { (byte)0xAA, (byte)0xBB, (byte)0xCC, (byte)0xDD, (byte)0xF0 } , 4));
+            result.Value = new BitString(new byte[] { (byte)0xAA, (byte)0xBB, (byte)0xCC, (byte)0xDD, (byte)0xF0 } , 4);
             return result;
         }
         public abstract byte[] createTestBitStrBytes();
@@ -338,7 +339,7 @@ namespace org.bn.coders
         public TestBitStr createTestBitStrSmall()
         {
             TestBitStr result = new TestBitStr();
-            result.Value = (new BitString(new byte[] { (byte)0xAA, (byte)0xB0 } , 4));
+            result.Value = new BitString(new byte[] { (byte)0xAA, (byte)0xB0 } , 4);
             return result;
         }
         public abstract byte[] createTestBitStrSmallBytes();
@@ -346,7 +347,7 @@ namespace org.bn.coders
         public TestUnicodeStr createUnicodeStr()
         {
             TestUnicodeStr result = new TestUnicodeStr();
-            result.Value = ("\u0465\u0464\u0466");
+            result.Value = "\u0465\u0464\u0466";
             return result;
         }
         public abstract byte[] createUnicodeStrBytes();
