@@ -5,6 +5,16 @@ ChangeLog
 							[!] 		- Important warning or note
 							{<component>}	- Component/Group that changed
 
+1.5.4   {all}           [+] Added support for Enumerated with default value
+1.5.4   {all}           [+] Default values are skipped during encoding
+1.5.4   {comp}          [*] Fixed failing unit test
+1.5.4   {comp}          [+] Output folder is created if it does not exist
+1.5.4   {comp}          [!] Module files moved inside the compiler JAR, removed the command line parameter specifying the path
+1.5.4   {lib}           [!] .NET unit tests reworked for the Misrosoft unit testing framework
+1.5.4   {all}           [!] Removed BinaryNotesMQ and .NET CF stuff
+1.5.4   {all}           [!] Project structure completely reworked (building using Maven, removed unnecessary and generated files)
+1.5.4   {all}           [!] Project adopted by Pavel Drasil
+-
 1.5.3	{lib}		[+] BinaryNotes.NET migrated to MSVC10
 1.5.3	{all}		[!] Migrated to Apache License v2
 -

@@ -5,7 +5,7 @@
 
     <groupId>cz.drasil</groupId>
     <artifactId>binarynotes-parent</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
     <packaging>pom</packaging>
     
     <modules>
