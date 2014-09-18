@@ -2,8 +2,7 @@
 <!--
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -20,8 +19,8 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsltc="http://xml.apache.org/xalan/xsltc"
     xmlns:redirect="http://xml.apache.org/xalan/redirect"
-    extension-element-prefixes="xsltc redirect"
->
+    extension-element-prefixes="xsltc redirect">
+    
     <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
     <xsl:template name="elementDefaultValue">
@@ -37,19 +36,23 @@
             <xsl:when test="isDefinedValue = 'true'">
 		<xsl:variable name="typeName" select="definedValue/name"/>
 		<xsl:choose>
-			<xsl:when test="$typeName = 'true'"><xsl:value-of select="$typeName"/> </xsl:when>
-			<xsl:when test="$typeName = 'false'"><xsl:value-of select="$typeName"/> </xsl:when>
+			<xsl:when test="$typeName = 'true'">true</xsl:when>
+			<xsl:when test="$typeName = 'false'">false</xsl:when>
+			<xsl:when test="$elementInfo/typeReference/isEnum = 'true'">
+				new <xsl:value-of select="$instElementType"/>();
+				param_<xsl:value-of select="$elementName"/>.Value = <xsl:value-of select="$instElementType"/>.EnumType.<xsl:value-of select="$typeName"/>
+			</xsl:when>
 			<xsl:otherwise>
-    			<xsl:for-each select="//module/asnValues">
-				<xsl:if test="name = $typeName">
-					<xsl:call-template name="elementDefaultValue">
-						<xsl:with-param name="elementName" select ="$elementName"/>
-						<xsl:with-param name="elementType" select ="$elementType"/>        
-        					<xsl:with-param name="instElementType" select ="$instElementType"/>
-			        		<xsl:with-param name="elementInfo" select ="$elementInfo"/>        
-					</xsl:call-template>
-				</xsl:if>
-			</xsl:for-each>
+				<xsl:for-each select="//module/asnValues">
+					<xsl:if test="name = $typeName">
+						<xsl:call-template name="elementDefaultValue">
+							<xsl:with-param name="elementName" select ="$elementName"/>
+							<xsl:with-param name="elementType" select ="$elementType"/>        
+							<xsl:with-param name="instElementType" select ="$instElementType"/>
+							<xsl:with-param name="elementInfo" select ="$elementInfo"/>        
+						</xsl:call-template>
+					</xsl:if>
+				</xsl:for-each>
 			</xsl:otherwise>
 		</xsl:choose>
             </xsl:when>
