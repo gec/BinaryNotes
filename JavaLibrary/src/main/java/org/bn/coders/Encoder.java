@@ -255,11 +255,9 @@ public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
         for (Class cls : object.getClass().getDeclaredClasses()) {
             if (cls.isEnum()) {
                 for (Field enumItem : cls.getDeclaredFields()) {
-                    if (enumItem.isAnnotationPresent(ASN1EnumItem.class)) {
-                        if (enumItem.getName().equals(result.toString())) {
-                            elementInfo.setAnnotatedClass(enumItem);
-                            break;
-                        }
+                    if (enumItem.isAnnotationPresent(ASN1EnumItem.class) && enumItem.getName().equals(result.toString())) {
+                        elementInfo.setAnnotatedClass(enumItem);
+                        break;
                     }
                 }
                 enumClass = cls;
