@@ -35,7 +35,7 @@
             <groupId>cz.drasil</groupId>
             <artifactId>bncompiler</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope> <!-- for compilation only -->
         </dependency>
     </dependencies>
     
