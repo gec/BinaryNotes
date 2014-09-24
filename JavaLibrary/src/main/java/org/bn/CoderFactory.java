@@ -1,6 +1,5 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -91,7 +90,7 @@ package org.bn;
  *   }
  * @endcode
  *
- * <i> The encoding/decoding procedure in your prorram: </i>
+ * <i> The encoding/decoding procedure in your program: </i>
  *
  * @code
  *
@@ -132,10 +131,8 @@ public class CoderFactory {
 
     /**
      * Create new default encoder (The BER encoding is default)
-     *
-     * @return Encoder
      */
-    public <T> IEncoder<T> newEncoder() throws Exception {
+    public <T> IEncoder<T> newEncoder() {
         return newEncoder("BER");
     }
 
@@ -145,9 +142,9 @@ public class CoderFactory {
      *
      * @param encodingSchema ASN.1 encoding specification
      * @return Encoder for specified specification
-     * @throws Exception
+     * @throws IllegalArgumentException if the encodingSchema is not recognized
      */
-    public <T> IEncoder<T> newEncoder(String encodingSchema) throws Exception {
+    public <T> IEncoder<T> newEncoder(String encodingSchema) {
         if (encodingSchema.equalsIgnoreCase("BER")) {
             return new BEREncoder<T>();
         } else if (encodingSchema.equalsIgnoreCase("PER") || encodingSchema.equalsIgnoreCase("PER/Aligned") || encodingSchema.equalsIgnoreCase("PER/A")) {
@@ -157,17 +154,14 @@ public class CoderFactory {
         } else if (encodingSchema.equalsIgnoreCase("DER")) {
             return new DEREncoder<T>();
         } else {
-            return null;
+            throw new IllegalArgumentException("Unknown encoding schema '"+encodingSchema+"'");
         }
     }
 
     /**
      * Create new default decoder (The BER decoding is default)
-     *
-     * @return
-     * @throws Exception
      */
-    public IDecoder newDecoder() throws Exception {
+    public IDecoder newDecoder() {
         return newDecoder("BER");
     }
 
@@ -175,11 +169,11 @@ public class CoderFactory {
      * Create new decoder for specified schema (BER, PER, PER/Aligned,
      * PER/Unaligned, ...)
      *
-     * @param encodingSchema
+     * @param encodingSchema ASN.1 encoding specification
      * @return Decoder for specified specification
-     * @throws Exception
+     * @throws IllegalArgumentException if the encodingSchema is not recognized
      */
-    public IDecoder newDecoder(String encodingSchema) throws Exception {
+    public IDecoder newDecoder(String encodingSchema) {
         if (encodingSchema.equalsIgnoreCase("BER")) {
             return new BERDecoder();
         } else if (encodingSchema.equalsIgnoreCase("PER") || encodingSchema.equalsIgnoreCase("PER/Aligned") || encodingSchema.equalsIgnoreCase("PER/A")) {
@@ -189,12 +183,11 @@ public class CoderFactory {
         } else if (encodingSchema.equalsIgnoreCase("DER")) {
             return new DERDecoder();
         } else {
-            return null;
+            throw new IllegalArgumentException("Unknown encoding schema '"+encodingSchema+"'");
         }
     }
 
     public IASN1PreparedElementData newPreparedElementData(Class<?> typeInfo) {
         return new ASN1PreparedElementData(typeInfo);
     }
-
 }
