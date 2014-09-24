@@ -31,13 +31,13 @@ import org.bn.types.BitString;
 import org.bn.types.ObjectIdentifier;
 import org.bn.utils.ReverseByteArrayOutputStream;
 
-public class BEREncoder<T> extends Encoder<T> {
+public class BEREncoder extends Encoder {
 
     public BEREncoder() {
     }
 
     @Override
-    public void encode(T object, OutputStream stream) throws Exception {
+    public void encode(Object object, OutputStream stream) throws Exception {
         ReverseByteArrayOutputStream reverseStream = new ReverseByteArrayOutputStream();
         super.encode(object, reverseStream);
         reverseStream.writeTo(stream);

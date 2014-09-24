@@ -40,10 +40,10 @@ import org.bn.metadata.ASN1Metadata;
 import org.bn.types.BitString;
 import org.bn.types.ObjectIdentifier;
 
-public abstract class Encoder<T> implements IEncoder<T>, IASN1TypesEncoder {
+public abstract class Encoder implements IEncoder, IASN1TypesEncoder {
 
     @Override
-    public void encode(T object, OutputStream stream) throws Exception {
+    public void encode(Object object, OutputStream stream) throws Exception {
         ElementInfo elemInfo = new ElementInfo();
         elemInfo.setAnnotatedClass(object.getClass());
         //elemInfo.setASN1ElementInfo(object.getClass().getAnnotation(ASN1Element.class));

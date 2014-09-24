@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -32,7 +31,7 @@ import org.junit.Test;
 public class DummyPerformanceTest {
     
     protected void runEncoderPerfTest(String encoding) throws Exception {
-        IEncoder<DataSeq> encoder = CoderFactory.getInstance().newEncoder(encoding);
+        IEncoder encoder = CoderFactory.getInstance().newEncoder(encoding);
         assertNotNull(encoder);
         // Create test structure
         DataSeq dt = new BERCoderTestUtils().createDataSeq();

@@ -19,7 +19,7 @@ import java.io.OutputStream;
 import org.bn.coders.ElementInfo;
 import org.bn.utils.BitArrayOutputStream;
 
-public class PERUnalignedEncoder<T> extends PERAlignedEncoder<T> {
+public class PERUnalignedEncoder extends PERAlignedEncoder {
 
     public PERUnalignedEncoder() {
     }

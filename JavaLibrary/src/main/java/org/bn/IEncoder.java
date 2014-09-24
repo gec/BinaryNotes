@@ -1,7 +1,6 @@
 /*
  Copyright 2006-2011 Abdulla Abdurakhmanov (abdulla@latestbit.com)
- Original sources are available at www.latestbit.com
-
+ 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -21,7 +20,7 @@ import java.io.OutputStream;
 /**
  * The ASN.1 encoder interface
  */
-public interface IEncoder<T> {
+public interface IEncoder {
     /**
      * Encode object
      * @param object User object
@@ -29,5 +28,5 @@ public interface IEncoder<T> {
      * @see CoderFactory
      * @throws Exception
      */
-    public void encode(T object, OutputStream stream) throws Exception;
+    public void encode(Object object, OutputStream stream) throws Exception;
 }

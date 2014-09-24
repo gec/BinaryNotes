@@ -34,7 +34,7 @@ public class BEREncoderTest extends EncoderTest {
     }
 
     @Override
-    protected <T> IEncoder<T> newEncoder() throws Exception {
+    protected IEncoder newEncoder() {
         return coderFactory.newEncoder("BER");
     }
 }

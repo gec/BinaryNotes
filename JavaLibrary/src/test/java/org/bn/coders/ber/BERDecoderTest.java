@@ -34,7 +34,7 @@ public class BERDecoderTest extends DecoderTest {
     }
 
     @Override
-    protected IDecoder newDecoder() throws Exception {
+    protected IDecoder newDecoder() {
         return coderFactory.newDecoder("BER");
     }
 }

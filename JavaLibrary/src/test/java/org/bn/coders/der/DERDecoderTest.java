@@ -27,7 +27,7 @@ public class DERDecoderTest extends BERDecoderTest {
     }
 
     @Override
-    protected IDecoder newDecoder() throws Exception {
+    protected IDecoder newDecoder() {
         return coderFactory.newDecoder("DER");
     }
 }

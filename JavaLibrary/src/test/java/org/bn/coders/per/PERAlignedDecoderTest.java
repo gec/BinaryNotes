@@ -29,7 +29,7 @@ public class PERAlignedDecoderTest extends DecoderTest {
     }
 
     @Override
-    protected IDecoder newDecoder() throws Exception {
+    protected IDecoder newDecoder() {
         return coderFactory.newDecoder("PER/Aligned");
     }
 }
