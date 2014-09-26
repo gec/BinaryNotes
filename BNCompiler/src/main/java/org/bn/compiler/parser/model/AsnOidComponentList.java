@@ -3,7 +3,6 @@ package org.bn.compiler.parser.model;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 //~--- classes ----------------------------------------------------------------
 
@@ -11,20 +10,21 @@ import java.util.Iterator;
 //DefinitionofOID_Component_LIST
 //
 public class AsnOidComponentList {
-    public ArrayList       components;
-    public AsnDefinedValue defval;
-    public boolean         isDefinitive;
+    public ArrayList<AsnOidComponent> components;
+    public AsnDefinedValue            defval;
+    public boolean                    isDefinitive;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     public AsnOidComponentList() {
-        components = new ArrayList();
+        components = new ArrayList<AsnOidComponent>();
     }
 
     //~--- methods ------------------------------------------------------------
 
     // toString Method
+    @Override
     public String toString() {
         String ts = "";
 
@@ -33,10 +33,8 @@ public class AsnOidComponentList {
         }
 
         if (components != null) {
-            Iterator i = components.iterator();
-
-            while (i.hasNext()) {
-                ts += (i.next());
+            for ( AsnOidComponent component: components ) {
+                ts += component;
             }
         }
 

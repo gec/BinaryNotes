@@ -1,30 +1,25 @@
-
-/**     This class defines the class holding for ASN.1 modules and basic Types          */
 package org.bn.compiler.parser.model;
 
 //~--- JDK imports ------------------------------------------------------------
 
-import java.io.*;
-
-import java.util.*;
-
-import javax.xml.bind.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 //~--- classes ----------------------------------------------------------------
 
 /**     This class defines the class holding for ASN.1 modules and basic Types          */
 public class ASNModule {
-    public AsnTypes            asnTypes;
-    public ArrayList           asnValues;
-    public ArrayList           exportSymbolList;
-    public boolean             exported;
-    public boolean             extensible;
-    public ArrayList           importSymbolFromModuleList;
-    ArrayList                  importSymbolList;
-    public boolean             imported;
-    public AsnModuleIdentifier moduleIdentifier;    // Name of Module
-    public boolean             tag;
-    public String              tagDefault;
+    public AsnTypes                     asnTypes;
+    public ArrayList<AsnValue>          asnValues;
+    public ArrayList                    exportSymbolList;
+    public boolean                      exported;
+    public boolean                      extensible;
+    public ArrayList<SymbolsFromModule> importSymbolFromModuleList;
+    ArrayList                           importSymbolList;
+    public boolean                      imported;
+    public AsnModuleIdentifier          moduleIdentifier;    // Name of Module
+    public boolean                      tag;
+    public String                       tagDefault;
 
     //~--- constructors -------------------------------------------------------
 
@@ -32,15 +27,16 @@ public class ASNModule {
     public ASNModule() {
         exportSymbolList           = new ArrayList();
         importSymbolList           = new ArrayList();
-        importSymbolFromModuleList = new ArrayList();
+        importSymbolFromModuleList = new ArrayList<SymbolsFromModule>();
         asnTypes                   = new AsnTypes();
-        asnValues                  = new ArrayList();
+        asnValues                  = new ArrayList<AsnValue>();
         tagDefault                 = "";
     }
 
     //~--- methods ------------------------------------------------------------
 
     // To String Method
+    @Override
     public String toString() {
         String   ts = "";
         Iterator ii;

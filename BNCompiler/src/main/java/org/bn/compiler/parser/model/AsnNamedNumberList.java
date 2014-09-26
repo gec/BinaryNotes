@@ -7,13 +7,13 @@ import java.util.ArrayList;
 //~--- classes ----------------------------------------------------------------
 
 public class AsnNamedNumberList {
-    public ArrayList namedNumbers;
+    public ArrayList<AsnNamedNumber> namedNumbers;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     public AsnNamedNumberList() {
-        namedNumbers = new ArrayList();
+        namedNumbers = new ArrayList<AsnNamedNumber>();
     }
 
     //~--- methods ------------------------------------------------------------

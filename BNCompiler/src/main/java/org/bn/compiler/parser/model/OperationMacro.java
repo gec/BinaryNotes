@@ -10,27 +10,27 @@ import java.util.Iterator;
 //~--- classes ----------------------------------------------------------------
 
 public class OperationMacro {
-    public String    argumentName;            // Argument     Type Name
-    public Object    argumentType;            // Holds the argument Type
-    public String    argumentTypeIdentifier;    // Argument NamedType identifier
-    public ArrayList errorList;
-    public boolean   isArgumentName;
-    public boolean   isErrors;
-    public boolean   isLinkedOperation;
-    public boolean   isResult;
-    public boolean   isResultName;
-    public ArrayList linkedOpList;
-    public String    name;
-    public String    resultName;              // Result Type Name
-    public Object    resultType;              // Holds the resultType
-    public String    resultTypeIdentifier;    // Result NamedType identifier
+    public String            argumentName;            // Argument     Type Name
+    public Object            argumentType;            // Holds the argument Type
+    public String            argumentTypeIdentifier;  // Argument NamedType identifier
+    public ArrayList<Object> errorList;
+    public boolean           isArgumentName;
+    public boolean           isErrors;
+    public boolean           isLinkedOperation;
+    public boolean           isResult;
+    public boolean           isResultName;
+    public ArrayList<Object> linkedOpList;
+    public String            name;
+    public String            resultName;              // Result Type Name
+    public Object            resultType;              // Holds the resultType
+    public String            resultTypeIdentifier;    // Result NamedType identifier
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructors
     public OperationMacro() {
-        errorList    = new ArrayList();
-        linkedOpList = new ArrayList();
+        errorList    = new ArrayList<Object>();
+        linkedOpList = new ArrayList<Object>();
     }
 
     //~--- methods ------------------------------------------------------------

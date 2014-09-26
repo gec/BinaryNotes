@@ -3,41 +3,39 @@ package org.bn.compiler.parser.model;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 //~--- classes ----------------------------------------------------------------
 
 public class Intersection {
-    public ArrayList cnsElemList;
-    public ArrayList exceptCnsElem;
-    public boolean   isExcept;
-    public boolean   isInterSection;
+    public ArrayList<ConstraintElements> cnsElemList;
+    public ArrayList<ConstraintElements> exceptCnsElem;
+    public boolean                       isExcept;
+    public boolean                       isInterSection;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     public Intersection() {
-        cnsElemList   = new ArrayList();
-        exceptCnsElem = new ArrayList();
+        cnsElemList   = new ArrayList<ConstraintElements>();
+        exceptCnsElem = new ArrayList<ConstraintElements>();
     }
 
     //~--- methods ------------------------------------------------------------
 
     // toString Method
+    @Override
     public String toString() {
         String   ts = "";
-        Iterator e  = cnsElemList.iterator();
-        Iterator i  = exceptCnsElem.iterator();
 
-        while (e.hasNext()) {
-            ts += "\t" + e.next();
+        for (ConstraintElements c: cnsElemList) {
+            ts += "\t" + c;
         }
 
         if (isExcept) {
-            ts += "EXCEPT";
+            ts += " EXCEPT";
 
-            while (i.hasNext()) {
-                ts += "\t" + i.next();
+            for (ConstraintElements c: exceptCnsElem) {
+                ts += "\t" + c;
             }
         }
 

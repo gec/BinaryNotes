@@ -3,30 +3,29 @@ package org.bn.compiler.parser.model;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 //~--- classes ----------------------------------------------------------------
 
 public class AsnSequenceValue {
-    public boolean   isValPresent;
-    public ArrayList namedValueList;
+    public boolean                  isValPresent;
+    public ArrayList<AsnNamedValue> namedValueList;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     public AsnSequenceValue() {
-        namedValueList = new ArrayList();
+        namedValueList = new ArrayList<AsnNamedValue>();
     }
 
     //~--- methods ------------------------------------------------------------
 
     // toString Method
+    @Override
     public String toString() {
-        String   ts = "";
-        Iterator i  = namedValueList.iterator();
-
-        while (i.hasNext()) {
-            ts += i.next();
+        String ts = "";
+        
+        for (AsnNamedValue nv: namedValueList) {
+            ts += nv;
         }
 
         return ts;

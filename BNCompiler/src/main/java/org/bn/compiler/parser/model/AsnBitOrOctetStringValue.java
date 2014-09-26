@@ -3,25 +3,25 @@ package org.bn.compiler.parser.model;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 //~--- classes ----------------------------------------------------------------
 
 public class AsnBitOrOctetStringValue {
-    public String    bhStr;
-    public ArrayList idlist;
-    public boolean   isBString;
-    public boolean   isHString;
+    public String            bhStr;
+    public ArrayList<String> idlist;
+    public boolean           isBString;
+    public boolean           isHString;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     public AsnBitOrOctetStringValue() {
-        idlist = new ArrayList();
+        idlist = new ArrayList<String>();
     }
 
     //~--- methods ------------------------------------------------------------
 
+    @Override
     public String toString() {
         String ts = "";
 
@@ -29,10 +29,8 @@ public class AsnBitOrOctetStringValue {
             ts += bhStr;
         } else {
             if (idlist != null) {
-                Iterator e = idlist.iterator();
-
-                while (e.hasNext()) {
-                    ts += e.next();
+                for (String s: idlist) {
+                    ts += s;
                 }
             }
         }

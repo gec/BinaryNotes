@@ -3,7 +3,6 @@ package org.bn.compiler.parser.model;
 //~--- JDK imports ------------------------------------------------------------
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 //~--- classes ----------------------------------------------------------------
 
@@ -12,13 +11,13 @@ import java.util.Iterator;
 /**This class defines the class holding for ASN.1 modules and basic Types
  */
 public class ASNModules {
-    ArrayList module_list;
+    ArrayList<ASNModule> module_list;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     ASNModules() {
-        module_list = new ArrayList();
+        module_list = new ArrayList<ASNModule>();
     }
 
     //~--- methods ------------------------------------------------------------
@@ -28,12 +27,12 @@ public class ASNModules {
     }
 
     // toString Method
+    @Override
     public String toString() {
-        String   ts = "";
-        Iterator i  = module_list.iterator();
-
-        while (i.hasNext()) {
-            ts += i.next();
+        String ts = "";
+        
+        for ( ASNModule module: module_list ) {
+            ts += module;
         }
 
         return ts;

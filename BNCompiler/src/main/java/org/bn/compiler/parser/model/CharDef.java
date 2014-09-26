@@ -8,33 +8,32 @@ import java.util.Iterator;
 //~--- classes ----------------------------------------------------------------
 
 public class CharDef {
-    public String          cStr;
-    public AsnDefinedValue defval;
-    public boolean         isCString;
-    boolean                isDefinedValue;
-    public boolean         isQuadruple;
-    public boolean         isTuple;
-    public ArrayList       tupleQuad;
+    public String                     cStr;
+    public AsnDefinedValue            defval;
+    public boolean                    isCString;
+    boolean                           isDefinedValue;
+    public boolean                    isQuadruple;
+    public boolean                    isTuple;
+    public ArrayList<AsnSignedNumber> tupleQuad;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     public CharDef() {
-        tupleQuad = new ArrayList();
+        tupleQuad = new ArrayList<AsnSignedNumber>();
     }
 
     //~--- methods ------------------------------------------------------------
 
+    @Override
     public String toString() {
         String ts = "";
 
         if (isCString) {
             ts += ("\t" + cStr);
         } else if (isTuple || isQuadruple) {
-            Iterator i = tupleQuad.iterator();
-
-            while (i.hasNext()) {
-                ts += i.next() + "\n";
+            for (AsnSignedNumber sn: tupleQuad) {
+                ts += sn + "\n";
             }
         } else if (isDefinedValue) {
             ts += ("\t" + defval);

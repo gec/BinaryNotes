@@ -8,15 +8,15 @@ import java.util.Iterator;
 //~--- classes ----------------------------------------------------------------
 
 public class ElementSetSpec {
-    public ConstraintElements allExceptCnselem;
-    public ArrayList          intersectionList;
-    public boolean            isAllExcept;
+    public ConstraintElements      allExceptCnselem;
+    public ArrayList<Intersection> intersectionList;
+    public boolean                 isAllExcept;
 
     //~--- constructors -------------------------------------------------------
 
     // Default Constructor
     public ElementSetSpec() {
-        intersectionList = new ArrayList();
+        intersectionList = new ArrayList<Intersection>();
     }
 
     //~--- methods ------------------------------------------------------------
