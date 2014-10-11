@@ -1,22 +1,16 @@
 package org.bn.compiler.parser.model;
 
 public class AsnSelectionType {
+    
     public String name;
     public String selectionID;
     public Object type;
 
-    //~--- constructors -------------------------------------------------------
+    public AsnSelectionType() {
+    }
 
-    // Default Constructor
-    public AsnSelectionType() {}
-
-    //~--- methods ------------------------------------------------------------
-
-    // toString Method
+    @Override
     public String toString() {
-        String ts = "";
-
-        // Define To String Method
-        return ts;
+        return "";
     }
 }

@@ -1,6 +1,7 @@
 package org.bn.compiler.parser.model;
 
 public class AsnTaggedType {
+    
     public boolean isDefinedType;    // Distinguish between builtin and defined types
     public String name;
     public AsnTag tag;
@@ -8,9 +9,6 @@ public class AsnTaggedType {
     public String typeName;         // Name of defined type
     public Object typeReference;    // Type Reference
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public AsnTaggedType() {
         name          = "";
         tagDefault    = "";
@@ -19,19 +17,14 @@ public class AsnTaggedType {
         typeName      = "";
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // toString() definition
+    @Override
     public String toString() {
-        String ts = "";
-
-        ts += name;
-        ts += ("\t" + tag + "\t" + tagDefault + "\t");
+        String ts = name + "\t" + tag + "\t" + tagDefault + "\t";
 
         if (isDefinedType) {
-            ts += (typeName);
+            ts += typeName;
         } else {
-            ts += (typeReference.getClass().getName());
+            ts += typeReference.getClass().getName();
         }
 
         return ts;

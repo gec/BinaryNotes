@@ -1,34 +1,19 @@
 package org.bn.compiler.parser.model;
 
 public class AsnNamedValue {
+    
     public String   name;
     public AsnValue value;
 
-    //~--- constructors -------------------------------------------------------
+    public AsnNamedValue() {
+    }
 
-    // Default Constructor
-    public AsnNamedValue() {}
-
-    //~--- methods ------------------------------------------------------------
-
+    @Override
     public String toString() {
-        String ts = "";
-
-        ts += name;
-        ts += ("\t" + value);
-
-        return ts;
+        return name + "\t" + value;
     }
 
     public String toString(boolean name) {
-        String ts = "";
-
-        if (name) {
-            ts += name;
-        } else {
-            ts += value;
-        }
-
-        return ts;
+        return name ? this.name : String.valueOf(this.value);
     }
 }

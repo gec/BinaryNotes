@@ -1,17 +1,14 @@
 package org.bn.compiler.parser.model;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
-//~--- classes ----------------------------------------------------------------
 
-/**     This class defines the class holding for ASN.1 modules and basic Types          */
+/** This class defines the class holding for ASN.1 modules and basic Types */
 public class ASNModule {
+    
     public AsnTypes                     asnTypes;
     public ArrayList<AsnValue>          asnValues;
-    public ArrayList                    exportSymbolList;
+    public ArrayList<String>            exportSymbolList;
     public boolean                      exported;
     public boolean                      extensible;
     public ArrayList<SymbolsFromModule> importSymbolFromModuleList;
@@ -21,11 +18,8 @@ public class ASNModule {
     public boolean                      tag;
     public String                       tagDefault;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public ASNModule() {
-        exportSymbolList           = new ArrayList();
+        exportSymbolList           = new ArrayList<String>();
         importSymbolList           = new ArrayList();
         importSymbolFromModuleList = new ArrayList<SymbolsFromModule>();
         asnTypes                   = new AsnTypes();
@@ -33,62 +27,36 @@ public class ASNModule {
         tagDefault                 = "";
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // To String Method
     @Override
     public String toString() {
         String   ts = "";
-        Iterator ii;
 
         ts += "MODULE NAME ::= \n";
         ts += moduleIdentifier + "\n";
+        
         ts += "IMPORT SYMBOL LIST" + "\n";
-        ii = importSymbolList.iterator();
-
-        while (ii.hasNext()) {
-            ts += ii.next() + "\n";
+        for (Object obj: importSymbolList) {
+            ts += obj + "\n";
         }
 
         ts += "IMPORT SYMBOLS FROM MODULE \n";
-        ii = importSymbolFromModuleList.iterator();
-
-        while (ii.hasNext()) {
-            ts += ii.next() + "\n";
+        for (SymbolsFromModule sfm: importSymbolFromModuleList) {
+            ts += sfm + "\n";
         }
 
         ts += "EXPORT SYMBOL LIST \n";
-        ii = exportSymbolList.iterator();
-
-        while (ii.hasNext()) {
-            ts += ii.next() + "\n";
+        for (String exportSymbol: exportSymbolList) {
+            ts += exportSymbol + "\n";
         }
 
         ts += "ASN TYPES LIST \n";
         ts += asnTypes + "\n";
+        
         ts += "ASN VALUES LIST \n";
-        ii = asnValues.iterator();
-
-        while (ii.hasNext()) {
-            ts += ii.next() + "\n";
+        for (AsnValue val: asnValues) {
+            ts += val + "\n";
         }
 
         return ts;
     }
 }
-
-
-
-/* Causing infinite recursion
-//*********************************************
-// Definition of TypeAndConstraint
-//*********************************************
-class AsnTypeAndConstraint {
-        Object type;
-        AsnConstraint constraint;
-
-        AsnTypeAndConstraint(){
-        }
-        //Define To String Method
-}
-*/

@@ -1,6 +1,7 @@
 package org.bn.compiler.parser.model;
 
 public class NamedConstraint {
+    
     public AsnConstraint constraint;
     public boolean       isAbsentKw;
     public boolean       isConstraint;
@@ -8,31 +9,27 @@ public class NamedConstraint {
     public boolean       isPresentKw;
     public String        name;
 
-    //~--- constructors -------------------------------------------------------
+    public NamedConstraint() {
+    }
 
-    public NamedConstraint() {}
-
-    //~--- methods ------------------------------------------------------------
-
+    @Override
     public String toString() {
-        String ts = "";
-
-        ts += name;
+        String ts = name;
 
         if (isConstraint) {
             ts += constraint;
         }
 
         if (isPresentKw) {
-            ts += "\t" + "PRESENT";
+            ts += "\tPRESENT";
         }
 
         if (isAbsentKw) {
-            ts += "\t" + "ABSENT";
+            ts += "\tABSENT";
         }
 
         if (isOptionalKw) {
-            ts += "\t" + "OPTIONAL";
+            ts += "\tOPTIONAL";
         }
 
         return ts;

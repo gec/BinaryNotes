@@ -1,6 +1,7 @@
 package org.bn.compiler.parser.model;
 
 public class AsnValue {
+    
     String                          bStr;
     public AsnBitOrOctetStringValue bStrValue;
     public String                   cStr;
@@ -30,14 +31,10 @@ public class AsnValue {
     public AsnSignedNumber          signedNumber;
     public String                   typeName;
 
-    //~--- constructors -------------------------------------------------------
+    public AsnValue() {
+    }
 
-    // Default Constructor
-    public AsnValue() {}
-
-    //~--- methods ------------------------------------------------------------
-
-    // toString() Method Definition
+    @Override
     public String toString() {
         String ts = "";
 
@@ -46,27 +43,27 @@ public class AsnValue {
         }
 
         if (isTrueKW) {
-            ts += ("\tTRUE");
+            ts += "\tTRUE";
         } else if (isFalseKW) {
-            ts += ("\tFALSE");
+            ts += "\tFALSE";
         } else if (isNullKW) {
-            ts += ("\tNULL");
+            ts += "\tNULL";
         } else if (isPlusInfinity) {
-            ts += ("\tplusInfinity");
+            ts += "\tplusInfinity";
         } else if (isMinusInfinity) {
-            ts += ("\tminusInfinity");
+            ts += "\tminusInfinity";
         } else if (isCString) {
-            ts += ("\t" + cStr);
+            ts += "\t" + cStr;
         } else if (isBStrOrOstrValue) {
-            ts += ("\t" + bStrValue);
+            ts += "\t" + bStrValue;
         } else if (isCStrValue) {
-            ts += ("\t" + cStrValue);
+            ts += "\t" + cStrValue;
         } else if (isSequenceValue) {
-            ts += ("\t" + seqval);
+            ts += "\t" + seqval;
         } else if (isChoiceValue) {
-            ts += ("\t" + chval);
+            ts += "\t" + chval;
         } else if (isEnumIntValue) {
-            ts += ("\t" + enumIntVal);
+            ts += "\t" + enumIntVal;
         } else if (isSignedNumber) {
             ts += signedNumber;
         } else if (isAsnOIDValue) {
@@ -76,7 +73,7 @@ public class AsnValue {
         } else if (isDefinedValue) {
             ts += (definedValue);
         } else {
-            ts += ("Unknown     Value");
+            ts += "Unknown Value";
         }
 
         return ts;

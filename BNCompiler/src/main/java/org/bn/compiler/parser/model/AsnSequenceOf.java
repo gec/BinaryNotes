@@ -1,19 +1,17 @@
 package org.bn.compiler.parser.model;
 
 public class AsnSequenceOf {
+    
     final String         BUILTINTYPE  = "SEQUENCE OF";
     final String         BUILTINTYPE1 = "SET OF";
     public AsnConstraint constraint;
     public boolean       isDefinedType;
-    public boolean       isSequenceOf;    // Differntiates between SEQUENCE      OF and SET OF types
-    public boolean isSizeConstraint;
-    public String  name;        // Refers       to assignment name
-    public String  typeName;    // Name     of the defined type
-    public Object  typeReference;    // Refers      to typeReference after OF KW
+    public boolean       isSequenceOf;    // Differntiates between SEQUENCE OF and SET OF types
+    public boolean       isSizeConstraint;
+    public String        name;            // Refers to assignment name
+    public String        typeName;        // Name of the defined type
+    public Object        typeReference;   // Refers to typeReference after OF KW
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public AsnSequenceOf() {
         name             = "";
         constraint       = null;
@@ -24,13 +22,9 @@ public class AsnSequenceOf {
         typeName         = "";
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // toString definition
+    @Override
     public String toString() {
-        String ts = "";
-
-        ts += name + "\t::=\t";
+        String ts = name + "\t::=\t";
 
         if (isSequenceOf) {
             ts += ("SEQUENCE\t");

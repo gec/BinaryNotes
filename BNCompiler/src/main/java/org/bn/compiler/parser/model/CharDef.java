@@ -1,13 +1,9 @@
 package org.bn.compiler.parser.model;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.ArrayList;
-import java.util.Iterator;
-
-//~--- classes ----------------------------------------------------------------
 
 public class CharDef {
+    
     public String                     cStr;
     public AsnDefinedValue            defval;
     public boolean                    isCString;
@@ -16,14 +12,9 @@ public class CharDef {
     public boolean                    isTuple;
     public ArrayList<AsnSignedNumber> tupleQuad;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public CharDef() {
         tupleQuad = new ArrayList<AsnSignedNumber>();
     }
-
-    //~--- methods ------------------------------------------------------------
 
     @Override
     public String toString() {

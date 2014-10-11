@@ -1,16 +1,10 @@
 package org.bn.compiler.parser.model;
 
-//~--- JDK imports ------------------------------------------------------------
-
-import java.lang.reflect.Field;
-
 import java.util.ArrayList;
-import java.util.Iterator;
-
-//~--- classes ----------------------------------------------------------------
 
 public class OperationMacro {
-    public String            argumentName;            // Argument     Type Name
+    
+    public String            argumentName;            // Argument Type Name
     public Object            argumentType;            // Holds the argument Type
     public String            argumentTypeIdentifier;  // Argument NamedType identifier
     public ArrayList<Object> errorList;
@@ -25,81 +19,54 @@ public class OperationMacro {
     public Object            resultType;              // Holds the resultType
     public String            resultTypeIdentifier;    // Result NamedType identifier
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructors
     public OperationMacro() {
         errorList    = new ArrayList<Object>();
         linkedOpList = new ArrayList<Object>();
     }
 
-    //~--- methods ------------------------------------------------------------
-
     // Get the first linked operationName
     public String get_firstLinkedOpName() {
         Object obj = linkedOpList.get(0);
-
-        if ((AsnValue.class).isInstance(obj)) {
+        if (obj instanceof AsnValue) {
             return "isValue";
-        } else if ((AsnDefinedType.class).isInstance(obj)) {
+        } else if (obj instanceof AsnDefinedType) {
             return ((AsnDefinedType) obj).typeName;
         } else {
-            String nameoftype = null;
-
             try {
-                Field nameField;
-                Class c = obj.getClass();
-
-                nameField  = c.getField("name");
-                nameoftype = (String) nameField.get(obj);
+                return (String)obj.getClass().getField("name").get(obj);
             } catch (Exception e) {
-                e.printStackTrace(System.err);
+                e.printStackTrace();
+                return null;
             }
-
-            return nameoftype;
         }
     }
 
-    // toString() definition
+    @Override
     public String toString() {
-        String ts = "";
-
-        ts += (name + "\t::=\t OPERATION");
+        String ts = name + "\t::=\t OPERATION";
 
         if (isArgumentName) {
-            ts += ("ARGUMENT\t\t" + argumentName);
+            ts += "ARGUMENT\t\t" + argumentName;
         }
 
         if (isResult) {
-            ts += ("RESULT\t\t" + resultName);
+            ts += "RESULT\t\t" + resultName;
         }
 
         if (isLinkedOperation) {
-            ts += ("LINKED OPERATION\t");
-
-            Iterator e = linkedOpList.iterator();
-
-            if (e.hasNext()) {
-                while (e.hasNext()) {
-                    ts += (e.next());
-                }
+            ts += "LINKED OPERATION\t";
+            for (Object obj: linkedOpList) {
+                ts += obj;
             }
-
-            ts += ("}");
+            ts += "}";
         }
 
         if (isErrors) {
-            ts += ("ERRORS\t{");
-
-            Iterator e = errorList.iterator();
-
-            if (e.hasNext()) {
-                while (e.hasNext()) {
-                    ts += e.next();
-                }
+            ts += "ERRORS\t{";
+            for (Object obj: errorList) {
+                ts += obj;
             }
-
-            ts += ("}");
+            ts += "}";
         }
 
         return ts;

@@ -1,15 +1,9 @@
 package org.bn.compiler.parser.model;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.ArrayList;
 
-//~--- classes ----------------------------------------------------------------
-
-//
-//DefinitionofBasicType
-//
 public class AsnTypes {
+    
     public ArrayList<AsnAny> anys;
     public ArrayList<AsnBitString> bitStrings;
     public ArrayList<AsnBoolean> booleans;
@@ -33,9 +27,6 @@ public class AsnTypes {
     public ArrayList<AsnSequenceOf> sequenceSetsOf;
     public ArrayList<AsnTaggedType> taggeds;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     AsnTypes() {
         anys              = new ArrayList<AsnAny>();
         bitStrings        = new ArrayList<AsnBitString>();
@@ -60,15 +51,9 @@ public class AsnTypes {
         macroObjectTypes  = new ArrayList();
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // toString Method
     @Override
     public String toString() {
-        String ts = "";
-
-        // Define the method
-        return ts;
+        return "";
     }
 }
 

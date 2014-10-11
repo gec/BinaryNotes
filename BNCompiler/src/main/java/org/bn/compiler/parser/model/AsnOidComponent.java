@@ -1,9 +1,7 @@
 package org.bn.compiler.parser.model;
 
-//
-//DefinitionofOID_Component
-//
 public class AsnOidComponent {
+    
     public AsnDefinedValue defval;
     public boolean         isDefinedValue;
     public String          name;
@@ -12,17 +10,12 @@ public class AsnOidComponent {
     public Integer         num;
     public boolean         numberForm;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public AsnOidComponent() {
         name = "";
         num  = null;
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // toString Implementation
+    @Override
     public String toString() {
         String ts = "";
 

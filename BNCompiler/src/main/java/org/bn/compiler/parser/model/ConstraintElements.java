@@ -1,12 +1,9 @@
 package org.bn.compiler.parser.model;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.ArrayList;
 
-//~--- classes ----------------------------------------------------------------
-
 public class ConstraintElements {
+    
     public AsnConstraint              constraint;
     public ElementSetSpec             elespec;
     public boolean                    isAlphabetConstraint;
@@ -28,15 +25,10 @@ public class ConstraintElements {
     public ArrayList<NamedConstraint> typeConstraintList;
     public AsnValue                   value;
 
-    //~--- constructors -------------------------------------------------------
-
     public ConstraintElements() {
         typeConstraintList = new ArrayList<NamedConstraint>();
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // toString definition
     @Override
     public String toString() {
         String ts = "";

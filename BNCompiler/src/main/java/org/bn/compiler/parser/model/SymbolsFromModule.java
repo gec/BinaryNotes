@@ -1,41 +1,26 @@
 package org.bn.compiler.parser.model;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
-//~--- classes ----------------------------------------------------------------
-
-//
-//DefinitionofSymbolsFromModuleList
-//
 public class SymbolsFromModule {
+    
     public AsnOidComponentList cmplist;
     public AsnDefinedValue     defval;
     public boolean             isDefinedValue;
     public boolean             isOidValue;
     public String              modref;
-    public ArrayList           symbolList;
+    public ArrayList<String>   symbolList;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public SymbolsFromModule() {
-        symbolList = new ArrayList();
+        symbolList = new ArrayList<String>();
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // toString Method
+    @Override
     public String toString() {
-        String   ts = "Following SYMBOLS ::\n";
-        Iterator s  = symbolList.iterator();
-
-        if (s != null) {
-            while (s.hasNext()) {
-                ts += s.next() + "\n";
-            }
+        String ts = "Following SYMBOLS ::\n";
+        
+        for (String s: symbolList) {
+            ts += s + "\n";
         }
 
         ts += "ARE IMPORTED FROM \n";

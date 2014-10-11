@@ -1,15 +1,13 @@
 package org.bn.compiler.parser.model;
 
 public class AsnDefinedType {
+    
     public AsnConstraint constraint;
     public boolean       isModuleReference;
     public String        moduleReference;
     public String        name;
     public String        typeName;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public AsnDefinedType() {
         name              = "";
         moduleReference   = "";
@@ -17,10 +15,7 @@ public class AsnDefinedType {
         isModuleReference = false;
     }
 
-    // toString() Definition
-
-    //~--- methods ------------------------------------------------------------
-
+    @Override
     public String toString() {
         String ts = "";
 

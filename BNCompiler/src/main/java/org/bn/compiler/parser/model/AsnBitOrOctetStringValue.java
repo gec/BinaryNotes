@@ -1,25 +1,17 @@
 package org.bn.compiler.parser.model;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.ArrayList;
 
-//~--- classes ----------------------------------------------------------------
-
 public class AsnBitOrOctetStringValue {
+    
     public String            bhStr;
     public ArrayList<String> idlist;
     public boolean           isBString;
     public boolean           isHString;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public AsnBitOrOctetStringValue() {
         idlist = new ArrayList<String>();
     }
-
-    //~--- methods ------------------------------------------------------------
 
     @Override
     public String toString() {
@@ -38,4 +30,3 @@ public class AsnBitOrOctetStringValue {
         return ts;
     }
 }
-

@@ -1,6 +1,7 @@
 package org.bn.compiler.parser.model;
 
 public class AsnConstraint {
+    
     public ElementSetSpec  addElemSetSpec;
     public AsnDefinedValue definedValue;
     public ElementSetSpec  elemSetSpec;
@@ -15,12 +16,8 @@ public class AsnConstraint {
     public Object          type;
     public AsnValue        value;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
-    public AsnConstraint() {}
-
-    //~--- methods ------------------------------------------------------------
+    public AsnConstraint() {
+    }
 
     // Return AllExcept additional Constraint Elements
     public ConstraintElements addElemSS_allExceptConstraintElem() {
@@ -29,11 +26,7 @@ public class AsnConstraint {
 
     // Return if All Except additional Constraint Elements exists
     public boolean addElemSS_isAllExcept() {
-        if (addElemSetSpec.isAllExcept) {
-            return true;
-        } else {
-            return false;
-        }
+        return addElemSetSpec.isAllExcept;
     }
 
     // Return AllExcept Constraint Elements
@@ -43,105 +36,76 @@ public class AsnConstraint {
 
     // Return if All Except Constraint Elements exists
     public boolean elemSS_isAllExcept() {
-        if (elemSetSpec.isAllExcept) {
-            return true;
-        } else {
-            return false;
-        }
+        return elemSetSpec.isAllExcept;
     }
 
     // Return the required additional intersection element
     public Intersection get_addElemSS_IntsectElem(int i) {
-        return (Intersection) addElemSetSpec.intersectionList.get(i);
+        return addElemSetSpec.intersectionList.get(i);
     }
 
-    // Returns first additional constraint Element in the first Intersection
-    // List
+    // Returns first additional constraint Element in the first IntersectionList
     public ConstraintElements get_addElemSS_firstConstraintElem() {
         Intersection intersect = get_addElemSS_firstIntsectElem();
-
-        return (ConstraintElements) intersect.cnsElemList.get(0);
+        return intersect.cnsElemList.get(0);
     }
 
     // Return the first additional intersection element
     public Intersection get_addElemSS_firstIntsectElem() {
-        return (Intersection) addElemSetSpec.intersectionList.get(0);
+        return addElemSetSpec.intersectionList.get(0);
     }
 
-    public ConstraintElements get_addElemSS_intersectionConstraintElems(
-            int intersectElem, int constraintElem) {
+    // Returns specified additional Constraint Elements in the specified IntersectionList
+    public ConstraintElements get_addElemSS_intersectionConstraintElems(int intersectElem, int constraintElem) {
         Intersection intersect = get_addElemSS_IntsectElem(intersectElem);
-
-        return (ConstraintElements) intersect.cnsElemList.get(constraintElem);
+        return intersect.cnsElemList.get(constraintElem);
     }
 
     // Return the required intersection element
     public Intersection get_elemSS_IntsectElem(int i) {
-        return (Intersection) elemSetSpec.intersectionList.get(i);
+        return elemSetSpec.intersectionList.get(i);
     }
 
-    // Returns first constraint Element in the first Intersection
-    // List
+    // Returns first constraint Element in the first IntersectionList
     public ConstraintElements get_elemSS_firstConstraintElem() {
         Intersection intersect = get_elemSS_firstIntsectElem();
-
-        return (ConstraintElements) intersect.cnsElemList.get(0);
+        return intersect.cnsElemList.get(0);
     }
 
     // Return the first intersection element
     public Intersection get_elemSS_firstIntsectElem() {
-        return (Intersection) elemSetSpec.intersectionList.get(0);
+        return elemSetSpec.intersectionList.get(0);
     }
 
-    public ConstraintElements get_elemSS_intersectionConstraintElems(
-            int intersectElem, int constraintElem) {
+    // Returns specified Constraint Elements in the specified IntersectionList
+    public ConstraintElements get_elemSS_intersectionConstraintElems(int intersectElem, int constraintElem) {
         Intersection intersect = get_elemSS_IntsectElem(intersectElem);
-
-        return (ConstraintElements) intersect.cnsElemList.get(constraintElem);
+        return intersect.cnsElemList.get(constraintElem);
     }
 
-    // ---------For additionalElementSetSpecs
-    // Return the total intersection elements in the add element
-    // Spec list
+    // Return the total intersection elements in the add element Spec list
     public int sz_addElemSS_IntsectList() {
         return addElemSetSpec.intersectionList.size();
     }
 
-    // Returns Number of additional Constraint Elements in the
-    // specified IntersectionList
+    // Returns Number of additional Constraint Elements in the specified IntersectionList
     public int sz_addElemSS_intersectionConstraintElems(int i) {
         Intersection intersect = get_addElemSS_IntsectElem(i);
-
-        if (intersect != null) {
-            return intersect.cnsElemList.size();
-        } else {
-            return -1;
-        }
+        return intersect==null ? -1 : intersect.cnsElemList.size();
     }
 
-    // Returns specified additional Constraint Elements in the specified IntersectionList
-
-    // Return the total intersection elements in the element
-    // Spec list
+    // Return the total intersection elements in the element Spec list
     public int sz_elemSS_IntsectList() {
         return elemSetSpec.intersectionList.size();
     }
 
-    // Returns Number of Constraint Elements in the
-    // specified IntersectionList
+    // Returns Number of Constraint Elements in the specified IntersectionList
     public int sz_elemSS_intersectionConstraintElems(int i) {
         Intersection intersect = get_elemSS_IntsectElem(i);
-
-        if (intersect != null) {
-            return intersect.cnsElemList.size();
-        } else {
-            return -1;
-        }
+        return intersect==null ? -1 : intersect.cnsElemList.size();
     }
 
-    // Returns specified Constraint Elements in the specified IntersectionList
-
-    // toString() method
+    @Override
     public String toString() {
         String ts = "";
 

@@ -1,6 +1,7 @@
 package org.bn.compiler.parser.model;
 
 public class AsnElementType {
+    
     public boolean  isComponentsOf;
     public boolean  isDefault;
     public boolean  isDefinedType;    // Element type       is defined Type
@@ -14,16 +15,11 @@ public class AsnElementType {
     public String   typeTagDefault;
     public AsnValue value;
 
-    //~--- constructors -------------------------------------------------------
-
-    // Default Constructor
     public AsnElementType() {
         isOptional = false;
     }
 
-    //~--- methods ------------------------------------------------------------
-
-    // toString() Method Definition
+    @Override
     public String toString() {
         String ts = "";
 
