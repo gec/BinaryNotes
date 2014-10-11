@@ -37,14 +37,14 @@ public abstract class EncoderTest {
         System.out.println("Encoded by "+encoder.getClass()+" ("+details+") : " + ByteTools.byteArrayToHexString(outputStream.toByteArray()));        
     }
     
-    protected abstract <T> IEncoder<T> newEncoder() throws Exception;
+    protected abstract IEncoder newEncoder();
     
     /**
-     * @see Encoder#encode(T,OutputStream)
+     * @see Encoder#encode(Object,OutputStream)
      */
     @Test
     public void testEncodeChoice() throws Exception {
-        IEncoder<Data> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         Data choice = new Data();        
 
@@ -75,11 +75,11 @@ public abstract class EncoderTest {
     }
         
     /**
-     * @see Encoder#encode(T,OutputStream)
+     * @see Encoder#encode(Object,OutputStream)
      */
     @Test
     public void testEncode() throws Exception {
-        IEncoder<DataSeq> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("SequenceMO test",encoder, coderTestUtils.createDataSeqMO());
         checkEncoded(encoder, coderTestUtils.createDataSeqMO(), coderTestUtils.createDataSeqMOBytes());
@@ -89,11 +89,11 @@ public abstract class EncoderTest {
     }
 
     /**
-     * @see Encoder#encode(T,OutputStream)
+     * @see Encoder#encode(Object,OutputStream)
      */
     @Test
     public void testITUEncode() throws Exception {
-        IEncoder<ITUSequence> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("ITUSequence test",encoder, coderTestUtils.createITUSeq());
         checkEncoded(encoder, coderTestUtils.createITUSeq(), coderTestUtils.createITUSeqBytes());
@@ -108,7 +108,7 @@ public abstract class EncoderTest {
     
     @Test
     public void testNullEncode() throws Exception {
-        IEncoder<NullSequence> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("NullSequence test",encoder, coderTestUtils.createNullSeq());
         checkEncoded(encoder, coderTestUtils.createNullSeq(), coderTestUtils.createNullSeqBytes());
@@ -116,7 +116,7 @@ public abstract class EncoderTest {
     
     @Test
     public void testTaggedNullEncode() throws Exception {
-        IEncoder<TaggedNullSequence> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("TaggedNullSequence test",encoder, coderTestUtils.createTaggedNullSeq());
         checkEncoded(encoder, coderTestUtils.createTaggedNullSeq(), coderTestUtils.createTaggedNullSeqBytes());        
@@ -124,7 +124,7 @@ public abstract class EncoderTest {
    
     @Test
     public void testEnum() throws Exception {
-        IEncoder<ContentSchema> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("Enum test",encoder, coderTestUtils.createEnum());
         checkEncoded(encoder, coderTestUtils.createEnum(), coderTestUtils.createEnumBytes());
@@ -132,7 +132,7 @@ public abstract class EncoderTest {
 
     @Test
     public void testSequenceWithEnum() throws Exception {
-        IEncoder<SequenceWithEnum> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("Sequence Enum test",encoder, coderTestUtils.createSequenceWithEnum());
         checkEncoded(encoder, coderTestUtils.createSequenceWithEnum(), coderTestUtils.createSequenceWithEnumBytes());
@@ -140,7 +140,7 @@ public abstract class EncoderTest {
     
     @Test
     public void testSequenceOfString() throws Exception {
-        IEncoder<StringArray> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("Sequence Of String",encoder, coderTestUtils.createStringArray());
         checkEncoded(encoder, coderTestUtils.createStringArray(), coderTestUtils.createStringArrayBytes());
@@ -148,7 +148,7 @@ public abstract class EncoderTest {
     
     @Test
     public void testRecursiveDefinition() throws Exception {
-        IEncoder<TestRecursiveDefinetion> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("Recursive test",encoder, coderTestUtils.createTestRecursiveDefinition());
         checkEncoded(encoder, coderTestUtils.createTestRecursiveDefinition(), coderTestUtils.createTestRecursiveDefinitionBytes());
@@ -318,7 +318,7 @@ public abstract class EncoderTest {
     
     @Test
     public void testSequenceWithNull() throws Exception {
-        IEncoder<SequenceWithNull> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("SequenceWithNull test",encoder, coderTestUtils.createSeqWithNull());
         checkEncoded(encoder, coderTestUtils.createSeqWithNull(), coderTestUtils.createSeqWithNullBytes());
@@ -342,7 +342,7 @@ public abstract class EncoderTest {
 
     @Test
     public void testSequenceOfUTFString() throws Exception {
-        IEncoder<UTF8StringArray> encoder = newEncoder();
+        IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         printEncoded("Sequence Of UTF8String",encoder, coderTestUtils.createUTF8StringArray());
         checkEncoded(encoder, coderTestUtils.createUTF8StringArray(), coderTestUtils.createUTF8StringArrayBytes());
@@ -372,7 +372,7 @@ public abstract class EncoderTest {
     
     @Test
     public void testEncodeTaggedSet() throws Exception {
-    	IEncoder<?> encoder = newEncoder();
+    	IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         //
         Config taggedSet = coderTestUtils.createTaggedSet();
@@ -382,7 +382,7 @@ public abstract class EncoderTest {
 
     @Test
     public void testEncodeTaggedSetInSet() throws Exception {
-    	IEncoder<?> encoder = newEncoder();
+    	IEncoder encoder = newEncoder();
         assertNotNull(encoder);
         
         TestTaggedSetInSet taggedSet = coderTestUtils.createTaggedSetInSet();

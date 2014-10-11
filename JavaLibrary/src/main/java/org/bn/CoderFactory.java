@@ -132,7 +132,7 @@ public class CoderFactory {
     /**
      * Create new default encoder (The BER encoding is default)
      */
-    public <T> IEncoder<T> newEncoder() {
+    public IEncoder newEncoder() {
         return newEncoder("BER");
     }
 
@@ -144,15 +144,15 @@ public class CoderFactory {
      * @return Encoder for specified specification
      * @throws IllegalArgumentException if the encodingSchema is not recognized
      */
-    public <T> IEncoder<T> newEncoder(String encodingSchema) {
+    public IEncoder newEncoder(String encodingSchema) {
         if (encodingSchema.equalsIgnoreCase("BER")) {
-            return new BEREncoder<T>();
+            return new BEREncoder();
         } else if (encodingSchema.equalsIgnoreCase("PER") || encodingSchema.equalsIgnoreCase("PER/Aligned") || encodingSchema.equalsIgnoreCase("PER/A")) {
-            return new PERAlignedEncoder<T>();
+            return new PERAlignedEncoder();
         } else if (encodingSchema.equalsIgnoreCase("PER/Unaligned") || encodingSchema.equalsIgnoreCase("PER/U")) {
-            return new PERUnalignedEncoder<T>();
+            return new PERUnalignedEncoder();
         } else if (encodingSchema.equalsIgnoreCase("DER")) {
-            return new DEREncoder<T>();
+            return new DEREncoder();
         } else {
             throw new IllegalArgumentException("Unknown encoding schema '"+encodingSchema+"'");
         }

@@ -34,13 +34,13 @@ import org.bn.types.BitString;
 import org.bn.types.ObjectIdentifier;
 import org.bn.utils.BitArrayOutputStream;
 
-public class PERAlignedEncoder<T> extends Encoder<T> {
+public class PERAlignedEncoder extends Encoder {
 
     public PERAlignedEncoder() {
     }
 
     @Override
-    public void encode(T object, OutputStream stream) throws Exception {
+    public void encode(Object object, OutputStream stream) throws Exception {
         BitArrayOutputStream bitStream = new BitArrayOutputStream();
         super.encode(object, bitStream);
         bitStream.writeTo(stream);

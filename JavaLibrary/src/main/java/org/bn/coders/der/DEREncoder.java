@@ -26,7 +26,7 @@ import org.bn.coders.UniversalTag;
 import org.bn.coders.ber.BERCoderUtils;
 import org.bn.coders.ber.BEREncoder;
 
-public class DEREncoder<T> extends BEREncoder<T> {
+public class DEREncoder extends BEREncoder {
 
     public DEREncoder() {
     }

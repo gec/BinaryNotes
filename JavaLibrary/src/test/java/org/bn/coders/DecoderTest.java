@@ -35,7 +35,7 @@ public abstract class DecoderTest {
         this.coderTestUtils = coderTestUtils;
     }
 
-    protected abstract IDecoder newDecoder() throws Exception;
+    protected abstract IDecoder newDecoder();
 
     private void checkData(Data dec, Data std) {
         if (std.isBinarySelected()) {
