@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     
     <modules>
-        <module>BNcompiler</module>
+        <module>BNCompiler</module>
         <module>JavaLibrary</module>
         <module>Dist</module>
     </modules>
