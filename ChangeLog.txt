@@ -5,6 +5,8 @@ ChangeLog
 							[!] 		- Important warning or note
 							{<component>}	- Component/Group that changed
 
+1.5.5   {lib}           [+] API improvements (added generics, reviewed thrown exceptions)
+-
 1.5.4   {all}           [+] Added support for Enumerated with default value
 1.5.4   {all}           [+] Default values are skipped during encoding
 1.5.4   {comp}          [*] Fixed failing unit test
