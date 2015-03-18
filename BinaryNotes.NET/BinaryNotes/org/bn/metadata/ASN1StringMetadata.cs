@@ -26,11 +26,9 @@ namespace org.bn.metadata
     public class ASN1StringMetadata : ASN1FieldMetadata
     {
         private bool isUCS = false;
-        private int     stringType = UniversalTags.PrintableString ;
-        private bool hasDefaults = false;
+        private int stringType = UniversalTags.PrintableString;
         
         public ASN1StringMetadata() {
-            hasDefaults = true;
         }
 
         public ASN1StringMetadata(ASN1String annotation)
@@ -38,9 +36,8 @@ namespace org.bn.metadata
         {
         }
 
-        public ASN1StringMetadata(String  name,
-                                  bool isUCS,
-                                  int     stringType): base(name)
+        public ASN1StringMetadata(String name, bool isUCS, int stringType)
+            : base(name)
         {
             this.isUCS = isUCS;
             this.stringType = stringType;
@@ -64,7 +61,6 @@ namespace org.bn.metadata
                 }    
             }        
         }
-
 
         public override int encode(IASN1TypesEncoder encoder, object obj, Stream stream, ElementInfo elementInfo) 
         {

@@ -14,12 +14,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-using System;
-using System.Reflection;
-using System.Collections.Generic;
 using org.bn.utils;
-using org.bn.attributes;
-using org.bn.attributes.constraints;
+using System;
+using System.IO;
+using System.Text;
 
 namespace org.bn.coders.per
 {
@@ -27,7 +25,7 @@ namespace org.bn.coders.per
 	public class PERUnalignedDecoder:PERAlignedDecoder
 	{
 		
-		protected override void  skipAlignedBits(System.IO.Stream stream)
+		protected override void skipAlignedBits(Stream stream)
 		{
 			// Do nothing! Unaligned encoding ;)
 		}
@@ -43,48 +41,49 @@ namespace org.bn.coders.per
 			{
 				return max;
 			}
-			//For the UNALIGNED variant the value is always encoded in the minimum 
+			// For the UNALIGNED variant the value is always encoded in the minimum 
 			// number of bits necessary to represent the range (defined in 10.5.3). 
 			int currentBit = maxBitLen;
 			while (currentBit > 7)
 			{
 				currentBit -= 8;
-				result |= stream.ReadByte() << currentBit;
+                result |= (uint)(stream.ReadByte() << currentBit);
 			}
 			if (currentBit > 0)
 			{
-				result |= stream.readBits(currentBit);
+                result |= (uint)stream.readBits(currentBit);
 			}
 			result += min;
 			return result;
 		}
 		
-		public override DecodedObject<object> decodeString(DecodedObject<object> decodedTag, System.Type objectClass, ElementInfo elementInfo, System.IO.Stream stream)
+		public override DecodedObject<object> decodeString(DecodedObject<object> decodedTag, Type objectClass, ElementInfo elementInfo, Stream stream)
 		{
-            if (!PERCoderUtils.is7BitEncodedString(elementInfo)) 
+            if (!PERCoderUtils.is7BitEncodedString(elementInfo))
+            {
                 return base.decodeString(decodedTag, objectClass, elementInfo, stream);
-			else
-			{
+            }
+            else
+            {
                 DecodedObject<object> result = new DecodedObject<object>();
                 int strLen = decodeLength(elementInfo, stream);
-
                 if (strLen <= 0)
                 {
-                    result.Value = ("");
-                    return result;
+                    result.Value = "";
                 }
-			
-				BitArrayInputStream bitStream = (BitArrayInputStream) stream;
-				byte[] buffer = new byte[strLen];
-				// 7-bit decoding of string
-				for (int i = 0; i < strLen; i++)
-					buffer[i] = (byte)bitStream.readBits(7);
-                result.Value = new string(
-                    System.Text.ASCIIEncoding.ASCII.GetChars(buffer)
-                );
+                else
+                {
+                    BitArrayInputStream bitStream = (BitArrayInputStream)stream;
+                    // 7-bit decoding of string
+                    byte[] buffer = new byte[strLen];
+                    for (int i = 0; i < strLen; i++)
+                    {
+                        buffer[i] = (byte)bitStream.readBits(7);
+                    }
+                    result.Value = new string(ASCIIEncoding.ASCII.GetChars(buffer));
+                }
                 return result;
-			}
-			
+            }
 		}
 	}
 }

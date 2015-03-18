@@ -213,7 +213,7 @@ namespace org.bn.coders
                             fieldOrder.Add(tagNA--, field);
                         }
                     }
-                    catch (ArgumentException ex)
+                    catch (ArgumentException)
                     {
                         if (element.HasTag)
                         {
