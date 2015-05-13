@@ -48,30 +48,25 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <showWarnings>true</showWarnings>
-                    <showDeprecation>true</showDeprecation>
                     <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
             </plugin>
             
             <!-- compile test.asn file into Java source files -->
             <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
                 <executions>
                     <execution>
                         <phase>generate-test-sources</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>java</goal>
                         </goals>
                         <configuration>
-                            <target>
-                                <java classname="org.bn.compiler.Main" classpathref="maven.compile.classpath" fork="true" failonerror="true">
-                                    <arg line="-m java -o ${project.build.directory}/generated-test-sources/bncompiler/org/bn/coders/test_asn -ns org.bn.coders.test_asn -f ../BNCompiler/src/test/resources/test.asn" />
-                                </java>
-                            </target>
+                            <mainClass>org.bn.compiler.Main</mainClass>
+                            <classpathScope>compile</classpathScope>
+                            <commandlineArgs>-m java -o ${project.build.directory}/generated-test-sources/bncompiler/org/bn/coders/test_asn -ns org.bn.coders.test_asn -f ${basedir}/../BNCompiler/src/test/resources/test.asn</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>
@@ -81,7 +76,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9</version>
+                <version>1.9.1</version>
                 <executions>
                     <execution>
                         <phase>generate-test-sources</phase>
