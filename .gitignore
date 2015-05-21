@@ -8,3 +8,5 @@
 /BinaryNotes.NET/BinaryNotesTests/obj
 /BinaryNotes.NET/TestResults
 /Dist/target/
+nbactions.xml
+nb-configuration.xml
