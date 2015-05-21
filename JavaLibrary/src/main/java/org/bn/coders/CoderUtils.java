@@ -164,7 +164,7 @@ public class CoderUtils {
     }
 
     public static SortedMap<Integer, Field> getSetOrder(Class<?> objectClass) {
-        SortedMap<Integer, Field> fieldOrder = new TreeMap<Integer, Field>();
+        SortedMap<Integer, Field> fieldOrder = new TreeMap<>();
         int tagNA = -1;
         for (Field field : objectClass.getDeclaredFields()) {
             ASN1Element element = field.getAnnotation(ASN1Element.class);

@@ -9,7 +9,7 @@ public class ElementSetSpec {
     public boolean                 isAllExcept;
 
     public ElementSetSpec() {
-        intersectionList = new ArrayList<Intersection>();
+        intersectionList = new ArrayList<>();
     }
 
     @Override

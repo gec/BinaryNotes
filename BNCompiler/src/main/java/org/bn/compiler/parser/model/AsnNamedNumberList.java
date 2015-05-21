@@ -7,7 +7,7 @@ public class AsnNamedNumberList {
     public ArrayList<AsnNamedNumber> namedNumbers;
 
     public AsnNamedNumberList() {
-        namedNumbers = new ArrayList<AsnNamedNumber>();
+        namedNumbers = new ArrayList<>();
     }
 
     /** Returns the total number of elements in the list */

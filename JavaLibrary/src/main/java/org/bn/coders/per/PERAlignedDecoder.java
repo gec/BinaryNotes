@@ -298,7 +298,7 @@ public class PERAlignedDecoder extends Decoder {
         if (value == null && !CoderUtils.isOptional(elementInfo)) {
             throw new IllegalArgumentException("The choice '" + objectClass.toString() + "' does not have a selected item!");
         } else {
-            return new DecodedObject<Object>(choice);
+            return new DecodedObject<>(choice);
         }
     }
 
@@ -358,7 +358,7 @@ public class PERAlignedDecoder extends Decoder {
                 idx++;
             }
         }
-        return new DecodedObject<Object>(sequence);
+        return new DecodedObject<>(sequence);
         /*         }
          else {
          return decodeSet(decodedTag, objectClass, elementInfo, stream);
@@ -383,7 +383,7 @@ public class PERAlignedDecoder extends Decoder {
         }
 
         int enumItemIdx = (int) decodeConstraintNumber(min, max - 1, (BitArrayInputStream) stream);
-        DecodedObject<Integer> result = new DecodedObject<Integer>();
+        DecodedObject<Integer> result = new DecodedObject<>();
         int idx = 0;
         for (Field enumItem : enumClass.getDeclaredFields()) {
             if (enumItem.isAnnotationPresent(ASN1EnumItem.class)) {
@@ -401,7 +401,7 @@ public class PERAlignedDecoder extends Decoder {
     public DecodedObject<Boolean> decodeBoolean(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        return new DecodedObject<Boolean>(((BitArrayInputStream)stream).readBit() == 1);
+        return new DecodedObject<>(((BitArrayInputStream)stream).readBit() == 1);
     }
 
     @Override
@@ -415,7 +415,7 @@ public class PERAlignedDecoder extends Decoder {
     public <T> DecodedObject<T> decodeNull(DecodedObject<Integer> decodedTag, Class<T> objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        return new DecodedObject<T>(objectClass.newInstance());
+        return new DecodedObject<>(objectClass.newInstance());
     }
 
     @Override
@@ -448,11 +448,11 @@ public class PERAlignedDecoder extends Decoder {
             } else {
                 value = decodeUnconstraintNumber(bitStream);
             }
-            return new DecodedObject<Integer>(value);
+            return new DecodedObject<>(value);
         } else {
             BitArrayInputStream bitStream = (BitArrayInputStream) stream;
             long value = hasConstraint ? decodeConstraintNumber(min, max, bitStream) : decodeUnconstraintNumber(bitStream);
-            return new DecodedObject<Long>(value);
+            return new DecodedObject<>(value);
         }
     }
 
@@ -499,7 +499,7 @@ public class PERAlignedDecoder extends Decoder {
             }
             result = Double.longBitsToDouble(lValue);
         }
-        return new DecodedObject<Double>(result, szResult);
+        return new DecodedObject<>(result, szResult);
 
     }
 
@@ -507,7 +507,7 @@ public class PERAlignedDecoder extends Decoder {
     public DecodedObject<byte[]> decodeOctetString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        DecodedObject<byte[]> result = new DecodedObject<byte[]>();
+        DecodedObject<byte[]> result = new DecodedObject<>();
         int sizeOfString = decodeLength(elementInfo, stream);
         skipAlignedBits(stream);
         if (sizeOfString > 0) {
@@ -524,7 +524,7 @@ public class PERAlignedDecoder extends Decoder {
     public DecodedObject<BitString> decodeBitString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        DecodedObject<BitString> result = new DecodedObject<BitString>();
+        DecodedObject<BitString> result = new DecodedObject<>();
         BitArrayInputStream bitStream = (BitArrayInputStream) stream;
         skipAlignedBits(stream);
         int sizeOfString = decodeLength(elementInfo, stream);
@@ -551,7 +551,7 @@ public class PERAlignedDecoder extends Decoder {
     public DecodedObject<String> decodeString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        DecodedObject<String> result = new DecodedObject<String>();
+        DecodedObject<String> result = new DecodedObject<>();
         int strLen = decodeLength(elementInfo, stream);
         skipAlignedBits(stream);
         if (strLen > 0) {
@@ -568,7 +568,7 @@ public class PERAlignedDecoder extends Decoder {
     public DecodedObject<Collection<Object>> decodeSequenceOf(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        Collection<Object> result = new LinkedList<Object>();
+        Collection<Object> result = new LinkedList<>();
         int countOfElements = decodeLength(elementInfo, stream);
         if (countOfElements > 0) {
             Class paramType = CoderUtils.getCollectionType(elementInfo);
@@ -588,7 +588,7 @@ public class PERAlignedDecoder extends Decoder {
                 }
             }
         }
-        return new DecodedObject<Collection<Object>>(result);
+        return new DecodedObject<>(result);
     }
 
     @Override
@@ -599,6 +599,6 @@ public class PERAlignedDecoder extends Decoder {
         byte[] byteBuf = new byte[len];
         stream.read(byteBuf, 0, byteBuf.length);
         String dottedDecimal = org.bn.coders.ber.BERObjectIdentifier.Decode(byteBuf);
-        return new DecodedObject<ObjectIdentifier>(new ObjectIdentifier(dottedDecimal));
+        return new DecodedObject<>(new ObjectIdentifier(dottedDecimal));
     }
 }

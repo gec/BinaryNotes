@@ -20,8 +20,8 @@ public class OperationMacro {
     public String            resultTypeIdentifier;    // Result NamedType identifier
 
     public OperationMacro() {
-        errorList    = new ArrayList<Object>();
-        linkedOpList = new ArrayList<Object>();
+        errorList    = new ArrayList<>();
+        linkedOpList = new ArrayList<>();
     }
 
     // Get the first linked operationName

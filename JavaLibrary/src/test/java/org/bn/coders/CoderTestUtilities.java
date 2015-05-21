@@ -73,14 +73,14 @@ public abstract class CoderTestUtilities {
         seq.setBooleanType(false);
         Data dt = new Data();
         dt.selectPlain(new TestPRN("eeeeeee"));
-        LinkedList<Data> lstDt = new LinkedList<Data>();
+        LinkedList<Data> lstDt = new LinkedList<>();
         lstDt.add(dt);
         seq.setDataArray(lstDt);
         seq.setIntBndType(0x44);
         seq.setPlain(new TestPRN(""));
         seq.setSimpleOctType(new byte[]{(byte) 0xBA});
         seq.setIntType(0L);
-        List<String> list = new LinkedList<String>();
+        List<String> list = new LinkedList<>();
         list.add("bbbbbb");
         list.add("ccccc");
         seq.setStringArray(list);
@@ -100,7 +100,7 @@ public abstract class CoderTestUtilities {
         dt.selectPlain(new TestPRN("eeeeeee"));
         Data dt2 = new Data();
         dt2.selectPlain(new TestPRN("ffff"));
-        LinkedList<Data> lstDt = new LinkedList<Data>();
+        LinkedList<Data> lstDt = new LinkedList<>();
         lstDt.add(dt);
         lstDt.add(dt2);
         seq.setDataArray(lstDt);
@@ -110,12 +110,12 @@ public abstract class CoderTestUtilities {
         seq.setSimpleOctType(new byte[]{(byte) 0xAB});
         seq.setIntType(0L);
 
-        List<String> list = new LinkedList<String>();
+        List<String> list = new LinkedList<>();
         list.add("bbbbbb");
         list.add("ccccc");
         seq.setStringArray(list);
 
-        List<Data> listData = new LinkedList<Data>();
+        List<Data> listData = new LinkedList<>();
         Data choice = new Data();
         choice.selectSimpleType("dddd");
         listData.add(choice);
@@ -242,7 +242,7 @@ public abstract class CoderTestUtilities {
 
     public StringArray createStringArray() {
         StringArray sequenceOfString = new StringArray();
-        List<String> list = new LinkedList<String>();
+        List<String> list = new LinkedList<>();
         list.add("bbbbbb");
         list.add("ccccc");
         sequenceOfString.setValue(list);
@@ -253,7 +253,7 @@ public abstract class CoderTestUtilities {
 
     public UTF8StringArray createUTF8StringArray() {
         UTF8StringArray sequenceOfString = new UTF8StringArray();
-        List<String> list = new LinkedList<String>();
+        List<String> list = new LinkedList<>();
         list.add("bbbbbb");
         list.add("ccccc");
         sequenceOfString.setValue(list);
@@ -304,9 +304,9 @@ public abstract class CoderTestUtilities {
         result.getWithSeqDef().setEmail("Email");
         result.setWithOctDef(new TestOCT(new byte[] {0x6C}));
         result.setWithOctDef2(new byte[] {(byte)0xFF, (byte)0xEE, (byte)0xAA});
-        result.setWithSeqOf(new ArrayList<String>(Arrays.asList("aa", "dd")));
-        result.setWithSeqOf2(new ArrayList<TestPRN>(Arrays.asList(new TestPRN("cc"), new TestPRN("ee"))));
-        result.setWithSeqOf3(new StringArray(new ArrayList<String>(Arrays.asList("fff", "ggg"))));
+        result.setWithSeqOf(new ArrayList<>(Arrays.asList("aa", "dd")));
+        result.setWithSeqOf2(new ArrayList<>(Arrays.asList(new TestPRN("cc"), new TestPRN("ee"))));
+        result.setWithSeqOf3(new StringArray(new ArrayList<>(Arrays.asList("fff", "ggg"))));
         result.setWithEnumDef(new SequenceWithDefault.WithEnumDefEnumType());
         result.getWithEnumDef().setValue(SequenceWithDefault.WithEnumDefEnumType.EnumType.two);
         return result;
@@ -356,7 +356,7 @@ public abstract class CoderTestUtilities {
     public TestSequenceV12 createTestSequenceV12() {
         TestSequenceV12 result = new TestSequenceV12();
         result.setAttrSimple("aba");
-        java.util.Collection<String> array = new java.util.LinkedList<String>();
+        java.util.Collection<String> array = new java.util.LinkedList<>();
         array.add("aaaa");
         array.add("bbb");
         result.setAttrArr(array);
@@ -379,7 +379,7 @@ public abstract class CoderTestUtilities {
         BugValueType valueType = new BugValueType();
         valueType.selectBugPrimitive(primitive);
 
-        List<BugValueType> list = new ArrayList<BugValueType>(1);
+        List<BugValueType> list = new ArrayList<>(1);
         list.add(valueType);
 
         BugList bugList = new BugList();
@@ -396,7 +396,7 @@ public abstract class CoderTestUtilities {
         BugValueType valueType = new BugValueType();
         valueType.selectBugPrimitive(primitive);
 
-        List<BugValueType> list = new ArrayList<BugValueType>(1);
+        List<BugValueType> list = new ArrayList<>(1);
         list.add(valueType);
 
         BugList bugList = new BugList();
@@ -429,7 +429,7 @@ public abstract class CoderTestUtilities {
             };
 
         BugList bugList = new BugList();
-        bugList.setValue(new ArrayList<BugValueType>(Arrays.asList(valueTypes)));
+        bugList.setValue(new ArrayList<>(Arrays.asList(valueTypes)));
         return bugList;
     }
 

@@ -13,7 +13,7 @@ public class ObjectType {
     public AsnValue          value;
 
     public ObjectType() {
-        elements = new ArrayList<Object>();
+        elements = new ArrayList<>();
     }
 
     @Override

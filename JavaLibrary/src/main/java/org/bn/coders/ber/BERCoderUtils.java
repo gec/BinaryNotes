@@ -24,7 +24,7 @@ import org.bn.metadata.ASN1ElementMetadata;
 public class BERCoderUtils {
 
     public static DecodedObject<Integer> getTagValueForElement(ElementInfo info, int tagClass, int elemenType, int universalTag) {
-        DecodedObject<Integer> result = new DecodedObject<Integer>();
+        DecodedObject<Integer> result = new DecodedObject<>();
         result.setSize(1);
         // result.setValue(tagClass | elemenType | universalTag);
         if (universalTag < UniversalTag.LastUniversal) {
@@ -56,7 +56,7 @@ public class BERCoderUtils {
     }
 
     private static DecodedObject<Integer> getTagValue(int tagClass, int elemenType, int universalTag, int userTag, int userTagClass) {
-        DecodedObject<Integer> resultObj = new DecodedObject<Integer>();
+        DecodedObject<Integer> resultObj = new DecodedObject<>();
         int result;
 
         tagClass = userTagClass;

@@ -26,7 +26,7 @@ public class ConstraintElements {
     public AsnValue                   value;
 
     public ConstraintElements() {
-        typeConstraintList = new ArrayList<NamedConstraint>();
+        typeConstraintList = new ArrayList<>();
     }
 
     @Override

@@ -9,7 +9,7 @@ public class AsnOidComponentList {
     public boolean                    isDefinitive;
 
     public AsnOidComponentList() {
-        components = new ArrayList<AsnOidComponent>();
+        components = new ArrayList<>();
     }
 
     @Override

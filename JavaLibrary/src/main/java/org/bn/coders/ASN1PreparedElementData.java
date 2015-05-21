@@ -214,29 +214,25 @@ public final class ASN1PreparedElementData implements IASN1PreparedElementData {
         try {
             doSelectedMethod = CoderUtils.findDoSelectMethodForField(field, objectClass, field.getType());
             doSelectedMethod.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException e) {
         }
 
         try {
             isSelectedMethod = CoderUtils.findIsSelectedMethodForField(field, objectClass);
             isSelectedMethod.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException e) {
         }
 
         try {
             getterMethod = CoderUtils.findGetterMethodForField(field, objectClass);
             getterMethod.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException e) {
         }
 
         try {
             setterMethod = CoderUtils.findSetterMethodForField(field, objectClass, field.getType());
             setterMethod.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException e) {
         }
         setInstanceFactoryInfo(field.getType());
     }
@@ -246,8 +242,7 @@ public final class ASN1PreparedElementData implements IASN1PreparedElementData {
             newInstanceClass = objClass;
             newInstanceConstructor = objClass.getDeclaredConstructor();
             newInstanceConstructor.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-        } catch (SecurityException ex) {
+        } catch (NoSuchMethodException | SecurityException e) {
         }
     }
 

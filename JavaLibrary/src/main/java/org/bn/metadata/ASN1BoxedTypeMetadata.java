@@ -42,7 +42,7 @@ public class ASN1BoxedTypeMetadata extends ASN1FieldMetadata {
         setupValueField(objClass);
     }
 
-    public void setupValueField(Class objClass) {
+    private void setupValueField(Class objClass) {
         try {
             valueField = objClass.getDeclaredField("value");
             valueFieldMeta = new ASN1PreparedElementData(objClass, valueField);
@@ -127,7 +127,7 @@ public class ASN1BoxedTypeMetadata extends ASN1FieldMetadata {
         elementInfo.setPreparedASN1ElementInfo(saveElemInfo);
 
         if (decodedResult != null) {
-            return new DecodedObject<IASN1PreparedElement>(instance, decodedResult.getSize());
+            return new DecodedObject<>(instance, decodedResult.getSize());
         } else {
             return decodedResult;
         }

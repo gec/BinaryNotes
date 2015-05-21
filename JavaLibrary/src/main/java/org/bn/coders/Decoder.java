@@ -248,7 +248,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
          ElementInfo info = createSequenceFieldInfo(elementInfo, sequence, field, curFieldIdx);                
          CoderUtils.checkForOptionalField(field, info);
          } */
-        return new DecodedObject<Object>(sequence, sizeOfSequence);
+        return new DecodedObject<>(sequence, sizeOfSequence);
     }
 
     protected ElementInfo createSequenceFieldInfo(ElementInfo elementInfo, Object sequenceObj, Field field, int fieldIdx) {
@@ -320,7 +320,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
         if (value == null && !CoderUtils.isOptional(elementInfo)) {
             throw new IllegalArgumentException("The choice '" + objectClass.toString() + "' does not have a selected item!");
         } else {
-            return new DecodedObject<Object>(choice, value != null ? value.getSize() : 0);
+            return new DecodedObject<>(choice, value != null ? value.getSize() : 0);
         }
     }
 
@@ -351,7 +351,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
                 }
             }
             invokeSetterMethodForField(field, result, param.get(null), null);
-            return new DecodedObject<T>(result, itemValue.getSize());
+            return new DecodedObject<>(result, itemValue.getSize());
         } else {
             return null;
         }
@@ -366,7 +366,7 @@ public abstract class Decoder implements IDecoder, IASN1TypesDecoder {
     @Override
     public DecodedObject decodeBoxedType(DecodedObject<Integer> decodedTag, Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         Object resultObj = createInstanceForElement(objectClass, elementInfo);
-        DecodedObject<Object> result = new DecodedObject<Object>(resultObj);
+        DecodedObject<Object> result = new DecodedObject<>(resultObj);
 
         Field field = elementInfo.hasPreparedInfo() ? elementInfo.getPreparedInfo().getValueField() : objectClass.getDeclaredField("value");
         elementInfo.setAnnotatedClass(field);

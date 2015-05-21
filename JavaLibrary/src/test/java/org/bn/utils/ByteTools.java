@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 public class ByteTools {
 
     public static String byteArrayToHexString(byte buffer[]) {
-        byte ch = 0x00;
+        byte ch;
         int i = 0;
 
         if (buffer == null || buffer.length <= 0) {

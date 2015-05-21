@@ -12,7 +12,7 @@ public class SymbolsFromModule {
     public ArrayList<String>   symbolList;
 
     public SymbolsFromModule() {
-        symbolList = new ArrayList<String>();
+        symbolList = new ArrayList<>();
     }
 
     @Override

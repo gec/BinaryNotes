@@ -47,7 +47,7 @@ public class Module {
         this.moduleName = moduleName;
         this.outputDir = outputDir;
         
-        this.moduleFiles = new ArrayList<String>(1);
+        this.moduleFiles = new ArrayList<>(1);
         URL modulesURL = this.getClass().getResource("/modules");
         if ( "file".equals(modulesURL.getProtocol()) ) { // when running tests
             File moduleFolder = new File(new File(modulesURL.toURI()), moduleName);
@@ -86,7 +86,7 @@ public class Module {
             @Override
             public Source resolve(String href, String base) throws TransformerException {
                 String systemId = base.substring(0, base.lastIndexOf('/')+1) + href;
-                String resourcePath = systemId.substring(systemId.indexOf("/modules/"));;
+                String resourcePath = systemId.substring(systemId.indexOf("/modules/"));
                 return new StreamSource(this.getClass().getResourceAsStream(resourcePath), systemId);
             }
         });

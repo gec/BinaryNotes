@@ -8,7 +8,7 @@ public class AsnSequenceOfValue {
     public ArrayList<AsnValue> value;
 
     public AsnSequenceOfValue() {
-        value = new ArrayList<AsnValue>();
+        value = new ArrayList<>();
     }
 
     @Override

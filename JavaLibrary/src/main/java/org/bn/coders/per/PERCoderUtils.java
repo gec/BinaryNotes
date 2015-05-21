@@ -48,7 +48,7 @@ public class PERCoderUtils {
     }
     
     public static List<Field> getRealFields(Class objectClass) {        
-        List<Field> result = new LinkedList<Field>();        
+        List<Field> result = new LinkedList<>();        
         for(Field item: objectClass.getDeclaredFields()) {
             if(!item.isSynthetic())
                 result.add(item);

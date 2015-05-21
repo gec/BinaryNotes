@@ -28,26 +28,26 @@ public class AsnTypes {
     public ArrayList<AsnTaggedType> taggeds;
 
     AsnTypes() {
-        anys              = new ArrayList<AsnAny>();
-        bitStrings        = new ArrayList<AsnBitString>();
-        booleans          = new ArrayList<AsnBoolean>();
-        characterStrings  = new ArrayList<AsnCharacterString>();
-        choices           = new ArrayList<AsnChoice>();
-        enums             = new ArrayList<AsnEnum>();
-        integers          = new ArrayList<AsnInteger>();
-        nulls             = new ArrayList<AsnNull>();
-        objectIdentifiers = new ArrayList<AsnObjectIdentifier>();
-        octetStrings      = new ArrayList<AsnOctetString>();
-        reals             = new ArrayList<AsnReal>();
-        sequenceSets      = new ArrayList<AsnSequenceSet>();
-        sequenceSetsOf    = new ArrayList<AsnSequenceOf>();
-        externals         = new ArrayList<AsnExternal>();
-        relativeOids      = new ArrayList<AsnRelativeOid>();
-        selections        = new ArrayList<AsnSelectionType>();
-        taggeds           = new ArrayList<AsnTaggedType>();
-        defineds          = new ArrayList<AsnDefinedType>();
-        macroOperations   = new ArrayList<OperationMacro>();
-        macroErrors       = new ArrayList<ErrorMacro>();
+        anys              = new ArrayList<>();
+        bitStrings        = new ArrayList<>();
+        booleans          = new ArrayList<>();
+        characterStrings  = new ArrayList<>();
+        choices           = new ArrayList<>();
+        enums             = new ArrayList<>();
+        integers          = new ArrayList<>();
+        nulls             = new ArrayList<>();
+        objectIdentifiers = new ArrayList<>();
+        octetStrings      = new ArrayList<>();
+        reals             = new ArrayList<>();
+        sequenceSets      = new ArrayList<>();
+        sequenceSetsOf    = new ArrayList<>();
+        externals         = new ArrayList<>();
+        relativeOids      = new ArrayList<>();
+        selections        = new ArrayList<>();
+        taggeds           = new ArrayList<>();
+        defineds          = new ArrayList<>();
+        macroOperations   = new ArrayList<>();
+        macroErrors       = new ArrayList<>();
         macroObjectTypes  = new ArrayList();
     }
 

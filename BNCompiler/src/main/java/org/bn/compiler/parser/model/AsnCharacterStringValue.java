@@ -12,8 +12,8 @@ public class AsnCharacterStringValue {
     public ArrayList<AsnSignedNumber> tupleQuad;
 
     public AsnCharacterStringValue() {
-        charDefsList = new ArrayList<CharDef>();
-        tupleQuad    = new ArrayList<AsnSignedNumber>();
+        charDefsList = new ArrayList<>();
+        tupleQuad    = new ArrayList<>();
     }
 
     @Override

@@ -13,7 +13,7 @@ public class CharDef {
     public ArrayList<AsnSignedNumber> tupleQuad;
 
     public CharDef() {
-        tupleQuad = new ArrayList<AsnSignedNumber>();
+        tupleQuad = new ArrayList<>();
     }
 
     @Override

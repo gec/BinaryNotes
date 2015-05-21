@@ -8,7 +8,7 @@ public class ASNModules {
     final ArrayList<ASNModule> module_list;
 
     ASNModules() {
-        module_list = new ArrayList<ASNModule>();
+        module_list = new ArrayList<>();
     }
 
     public void add(ASNModule module) {

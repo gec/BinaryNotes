@@ -62,7 +62,7 @@ public class PERUnalignedDecoder extends PERAlignedDecoder {
         } else {
             int strLen = decodeLength(elementInfo, stream);
             if (strLen <= 0) {
-                return new DecodedObject<String>("");
+                return new DecodedObject<>("");
             }
 
             BitArrayInputStream bitStream = (BitArrayInputStream) stream;
@@ -71,7 +71,7 @@ public class PERUnalignedDecoder extends PERAlignedDecoder {
             for (int i = 0; i < strLen; i++) {
                 buffer[i] = (byte) bitStream.readBits(7);
             }
-            return new DecodedObject<String>(new String(buffer));
+            return new DecodedObject<>(new String(buffer));
         }
     }
 }

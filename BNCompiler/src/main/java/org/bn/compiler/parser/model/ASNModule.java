@@ -19,11 +19,11 @@ public class ASNModule {
     public String                       tagDefault;
 
     public ASNModule() {
-        exportSymbolList           = new ArrayList<String>();
+        exportSymbolList           = new ArrayList<>();
         importSymbolList           = new ArrayList();
-        importSymbolFromModuleList = new ArrayList<SymbolsFromModule>();
+        importSymbolFromModuleList = new ArrayList<>();
         asnTypes                   = new AsnTypes();
-        asnValues                  = new ArrayList<AsnValue>();
+        asnValues                  = new ArrayList<>();
         tagDefault                 = "";
     }
 

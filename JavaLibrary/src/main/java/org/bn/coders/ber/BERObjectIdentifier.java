@@ -32,7 +32,7 @@ public class BERObjectIdentifier {
             nextAvailable += EncodeOneArc(oidArcArray[i], result, nextAvailable);
         }
         assert nextAvailable <= 255 : "Encoded length of object id exceeded 255 bytes";
-        byte[] ba = Truncate(result, nextAvailable);;
+        byte[] ba = Truncate(result, nextAvailable);
         return ba;
     }
 
@@ -125,7 +125,7 @@ public class BERObjectIdentifier {
             if (sb.length() > 0) {
                 sb.append('.');
             }
-            sb.append(new Integer(oidIntArray[i]).toString().trim());
+            sb.append(Integer.toString(oidIntArray[i]).trim());
         }
         return sb.toString();
     }
@@ -135,14 +135,14 @@ public class BERObjectIdentifier {
     //         11112222333344445555666677778888 
     //
     public static int[] BerByteArrayToIntArray(byte[] berBytes) {
-        ArrayList<Integer> intArrayList = new ArrayList<Integer>();
-        ArrayList<Byte> oneArcSequence = new ArrayList<Byte>();
+        ArrayList<Integer> intArrayList = new ArrayList<>();
+        ArrayList<Byte> oneArcSequence = new ArrayList<>();
         int byteCount = 0;
         for (int i = 0; i < berBytes.length; i++) {
             if ((berBytes[i] & 0x80) == 0) {// last byte in arc
                 oneArcSequence.add(berBytes[i]);
                 intArrayList.add(DecodeOneArc(oneArcSequence));
-                oneArcSequence = new ArrayList<Byte>();
+                oneArcSequence = new ArrayList<>();
                 byteCount = 0;
             } else { // not last byte in arc
                 assert byteCount < 5 : "Conversion can only handle 5 bytes";

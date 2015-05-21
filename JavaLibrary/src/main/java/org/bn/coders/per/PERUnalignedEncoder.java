@@ -56,7 +56,7 @@ public class PERUnalignedEncoder extends PERAlignedEncoder {
 
     @Override
     public int encodeString(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
-        int resultSize = 0;
+        int resultSize;
         if (!PERCoderUtils.is7BitEncodedString(elementInfo)) {
             resultSize = super.encodeString(object, stream, elementInfo);
         } else {

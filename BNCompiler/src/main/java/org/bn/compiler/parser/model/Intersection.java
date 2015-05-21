@@ -10,8 +10,8 @@ public class Intersection {
     public boolean                       isInterSection;
 
     public Intersection() {
-        cnsElemList   = new ArrayList<ConstraintElements>();
-        exceptCnsElem = new ArrayList<ConstraintElements>();
+        cnsElemList   = new ArrayList<>();
+        exceptCnsElem = new ArrayList<>();
     }
 
     @Override

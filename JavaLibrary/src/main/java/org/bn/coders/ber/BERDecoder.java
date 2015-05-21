@@ -56,7 +56,7 @@ public class BERDecoder extends Decoder {
                 len++;
             }
         }
-        return new DecodedObject<Integer>(result, len);
+        return new DecodedObject<>(result, len);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class BERDecoder extends Decoder {
             }
         }
 
-        return new DecodedObject<Integer>(result, len);
+        return new DecodedObject<>(result, len);
     }
 
     protected boolean checkTagForObject(DecodedObject<Integer> decodedTag, int tagClass, int elementType, int universalTag,
@@ -197,7 +197,7 @@ public class BERDecoder extends Decoder {
             }
         } while (sizeOfSet < len && fieldEncoded);
 
-        return new DecodedObject<Object>(set, sizeOfSet);
+        return new DecodedObject<>(set, sizeOfSet);
     }
 
     @Override
@@ -218,7 +218,7 @@ public class BERDecoder extends Decoder {
             return null;
         }
         DecodedObject<Integer> intVal = decodeIntegerValue(stream);
-        DecodedObject<Boolean> result = new DecodedObject<Boolean>(false, intVal.getSize());
+        DecodedObject<Boolean> result = new DecodedObject<>(false, intVal.getSize());
         if (intVal.getValue() != 0) {
             result.setValue(true);
         }
@@ -252,7 +252,7 @@ public class BERDecoder extends Decoder {
             }
         }
         CoderUtils.checkConstraints(len, elementInfo);
-        return new DecodedObject<byte[]>(anyStream.toByteArray(), len);
+        return new DecodedObject<>(anyStream.toByteArray(), len);
     }
 
     @Override
@@ -263,7 +263,7 @@ public class BERDecoder extends Decoder {
             return null;
         }
         stream.read(); // ignore null length
-        return new DecodedObject<T>(objectClass.newInstance(), 1);
+        return new DecodedObject<>(objectClass.newInstance(), 1);
     }
 
     @Override
@@ -308,9 +308,9 @@ public class BERDecoder extends Decoder {
             int szOfExp = 1 + (realPreamble & 0x3);
             int sign = realPreamble & 0x40;
             int ff = (realPreamble & 0x0C) >> 2;
-            DecodedObject<Long> exponentEncFrm = decodeLongValue(stream, new DecodedObject<Integer>(szOfExp));
+            DecodedObject<Long> exponentEncFrm = decodeLongValue(stream, new DecodedObject<>(szOfExp));
             long exponent = exponentEncFrm.getValue();
-            DecodedObject<Long> mantissaEncFrm = decodeLongValue(stream, new DecodedObject<Integer>(szResult - szOfExp - 1));
+            DecodedObject<Long> mantissaEncFrm = decodeLongValue(stream, new DecodedObject<>(szResult - szOfExp - 1));
             // Unpack mantissa & decrement exponent for base 2
             long mantissa = mantissaEncFrm.getValue() << ff;
             while ((mantissa & 0x000ff00000000000L) == 0x0) {
@@ -329,7 +329,7 @@ public class BERDecoder extends Decoder {
             }
             result = Double.longBitsToDouble(lValue);
         }
-        return new DecodedObject<Double>(result, len.getValue() + len.getSize());
+        return new DecodedObject<>(result, len.getValue() + len.getSize());
     }
 
     @Override
@@ -353,7 +353,7 @@ public class BERDecoder extends Decoder {
 
     protected DecodedObject<Integer> decodeIntegerValue(InputStream stream) throws Exception {
         DecodedObject<Long> lVal = decodeLongValue(stream);
-        DecodedObject<Integer> result = new DecodedObject<Integer>((int) ((long) lVal.getValue()), lVal.getSize());
+        DecodedObject<Integer> result = new DecodedObject<>((int) ((long) lVal.getValue()), lVal.getSize());
         return result;
     }
 
@@ -377,7 +377,7 @@ public class BERDecoder extends Decoder {
             value = (value << 8) | bt;
         }
         
-        return new DecodedObject<Long>(value, len.getValue() + len.getSize());
+        return new DecodedObject<>(value, len.getValue() + len.getSize());
     }
 
     @Override
@@ -391,7 +391,7 @@ public class BERDecoder extends Decoder {
         CoderUtils.checkConstraints(len.getValue(), elementInfo);
         byte[] byteBuf = new byte[len.getValue()];
         stream.read(byteBuf);
-        return new DecodedObject<byte[]>(byteBuf, len.getValue() + len.getSize());
+        return new DecodedObject<>(byteBuf, len.getValue() + len.getSize());
     }
 
     @Override
@@ -407,7 +407,7 @@ public class BERDecoder extends Decoder {
         byte[] byteBuf = new byte[len.getValue() - 1];
 
         stream.read(byteBuf);
-        return new DecodedObject<BitString>(new BitString(byteBuf, trailBitCnt), len.getValue() + len.getSize());
+        return new DecodedObject<>(new BitString(byteBuf, trailBitCnt), len.getValue() + len.getSize());
     }
 
     @Override
@@ -422,7 +422,7 @@ public class BERDecoder extends Decoder {
         byte[] byteBuf = new byte[len.getValue()];
         stream.read(byteBuf);
         String result = CoderUtils.bufferToASN1String(byteBuf, elementInfo);
-        return new DecodedObject<String>(result, len.getValue() + len.getSize());
+        return new DecodedObject<>(result, len.getValue() + len.getSize());
     }
 
     @Override
@@ -438,7 +438,7 @@ public class BERDecoder extends Decoder {
                 return null;
             }
         }
-        Collection<Object> result = new LinkedList<Object>();
+        Collection<Object> result = new LinkedList<>();
         DecodedObject<Integer> len = decodeLength(stream);
         if (len.getValue() != 0) {
             int lenOfItems = 0;
@@ -464,7 +464,7 @@ public class BERDecoder extends Decoder {
             } while (lenOfItems < len.getValue());
             CoderUtils.checkConstraints(cntOfItems, elementInfo);
         }
-        return new DecodedObject<Collection<Object>>(result, len.getValue() + len.getSize());
+        return new DecodedObject<>(result, len.getValue() + len.getSize());
     }
 
     @Override
@@ -478,6 +478,6 @@ public class BERDecoder extends Decoder {
         byte[] byteBuf = new byte[len.getValue()];
         stream.read(byteBuf, 0, byteBuf.length);
         String dottedDecimal = BERObjectIdentifier.Decode(byteBuf);
-        return new DecodedObject<ObjectIdentifier>(new ObjectIdentifier(dottedDecimal));
+        return new DecodedObject<>(new ObjectIdentifier(dottedDecimal));
     }
 }

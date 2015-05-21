@@ -10,7 +10,7 @@ public class AsnBitOrOctetStringValue {
     public boolean           isHString;
 
     public AsnBitOrOctetStringValue() {
-        idlist = new ArrayList<String>();
+        idlist = new ArrayList<>();
     }
 
     @Override
