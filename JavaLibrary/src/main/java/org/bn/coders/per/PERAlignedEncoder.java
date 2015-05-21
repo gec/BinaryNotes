@@ -292,17 +292,17 @@ public class PERAlignedEncoder extends Encoder {
             doAlign(stream);
             stream.write(0x41); // 01000001 Value is MINUS-INFINITY
             result += 1;
-        } else if (asLong != 0x0) {
+        } else if (asLong != 0) {
             long exponent = ((0x7ff0000000000000L & asLong) >> 52) - 1023 - 52;
             long mantissa = 0x000fffffffffffffL & asLong;
             mantissa |= 0x10000000000000L; // set virtual delimeter
 
             // pack mantissa for base 2
-            while ((mantissa & 0xFFL) == 0x0) {
+            while ((mantissa & 0xFFL) == 0) {
                 mantissa >>= 8;
                 exponent += 8; //increment exponent to 8 (base 2)
             }
-            while ((mantissa & 0x01L) == 0x0) {
+            while ((mantissa & 0x01L) == 0) {
                 mantissa >>= 1;
                 exponent += 1; //increment exponent to 1
             }
@@ -310,10 +310,9 @@ public class PERAlignedEncoder extends Encoder {
             int szOfExp = CoderUtils.getIntegerLength(exponent);
             encodeLengthDeterminant(CoderUtils.getIntegerLength(mantissa) + szOfExp + 1, bitStream);
             doAlign(stream);
-            int realPreamble = 0x80;
-
-            realPreamble |= (byte) (szOfExp - 1);
-            if ((asLong & 0x8000000000000000L) == 1) {
+            
+            int realPreamble = 0x80 | (byte)(szOfExp - 1);
+            if ((asLong & 0x8000000000000000L) == 0x8000000000000000L) {
                 realPreamble |= 0x40; // Sign
             }
             stream.write(realPreamble);

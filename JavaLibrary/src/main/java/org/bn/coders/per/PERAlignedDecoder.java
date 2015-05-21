@@ -466,21 +466,18 @@ public class PERAlignedDecoder extends Decoder {
         skipAlignedBits(stream);
 
         Double result = 0.0D;
-        int szResult = len;
-        if ((realPreamble & 0x40) == 1) {
+        if (realPreamble == 0x40) {
             // 01000000 Value is PLUS-INFINITY
             result = Double.POSITIVE_INFINITY;
-        }
-        if ((realPreamble & 0x41) == 1) {
+        } else if (realPreamble == 0x41) {
             // 01000001 Value is MINUS-INFINITY
             result = Double.NEGATIVE_INFINITY;
-            szResult += 1;
         } else if (len > 0) {
             int szOfExp = 1 + (realPreamble & 0x3);
             int sign = realPreamble & 0x40;
             int ff = (realPreamble & 0x0C) >> 2;
             long exponent = decodeIntegerValueAsBytes(szOfExp, stream);
-            long mantissaEncFrm = decodeIntegerValueAsBytes(szResult - szOfExp - 1, stream);
+            long mantissaEncFrm = decodeIntegerValueAsBytes(len - szOfExp - 1, stream);
             // Unpack mantissa & decrement exponent for base 2
             long mantissa = mantissaEncFrm << ff;
             while ((mantissa & 0x000ff00000000000L) == 0x0) {
@@ -494,13 +491,12 @@ public class PERAlignedDecoder extends Decoder {
             mantissa &= 0x0FFFFFFFFFFFFFL;
             long lValue = (exponent + 1023 + 52) << 52;
             lValue |= mantissa;
-            if (sign == 1) {
+            if (sign == 0x40) {
                 lValue |= 0x8000000000000000L;
             }
             result = Double.longBitsToDouble(lValue);
         }
-        return new DecodedObject<>(result, szResult);
-
+        return new DecodedObject<>(result, len);
     }
 
     @Override

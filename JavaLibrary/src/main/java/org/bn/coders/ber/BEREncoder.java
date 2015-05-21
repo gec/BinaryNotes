@@ -140,9 +140,11 @@ public class BEREncoder extends Encoder {
         long asLong = Double.doubleToLongBits(value);
         if (asLong == 0x7ff0000000000000L) { // positive infinity
             stream.write(0x40); // 01000000 Value is PLUS-INFINITY
+            szOfInt = 1;
         } else if (asLong == 0xfff0000000000000L) { // negative infinity            
             stream.write(0x41); // 01000001 Value is MINUS-INFINITY
-        } else if (asLong != 0x0) {
+            szOfInt = 1;
+        } else if (asLong != 0) {
             long exponent = ((0x7ff0000000000000L & asLong) >> 52) - 1023 - 52;
             long mantissa = 0x000fffffffffffffL & asLong;
             mantissa |= 0x10000000000000L; // set virtual delimeter
@@ -161,9 +163,8 @@ public class BEREncoder extends Encoder {
             int szOfExp = CoderUtils.getIntegerLength(exponent);
             szOfInt += encodeIntegerValue(exponent, stream);
 
-            int realPreamble = 0x80;
-            realPreamble |= (byte) (szOfExp - 1);
-            if ((asLong & 0x8000000000000000L) == 1) {
+            int realPreamble = 0x80 | (byte)(szOfExp - 1);
+            if ((asLong & 0x8000000000000000L) == 0x8000000000000000L) {
                 realPreamble |= 0x40; // Sign
             }
             stream.write(realPreamble);
@@ -171,9 +172,7 @@ public class BEREncoder extends Encoder {
         }
         resultSize += szOfInt;
         resultSize += encodeLength(szOfInt, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Real),
-                stream
-        );
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Real), stream);
         return resultSize;
     }
 

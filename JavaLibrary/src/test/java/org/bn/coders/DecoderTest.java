@@ -352,6 +352,18 @@ public abstract class DecoderTest {
         stream = new ByteArrayInputStream(coderTestUtils.createTestRealBigBytes());
         val = decoder.decode(stream, TestReal.class);
         assertEquals(val.getValue(), coderTestUtils.createTestRealBig().getValue());
+        
+        stream = new ByteArrayInputStream(coderTestUtils.createTestRealPosInfBytes());
+        val = decoder.decode(stream, TestReal.class);
+        assertEquals(val.getValue(), coderTestUtils.createTestRealPosInf().getValue());
+        
+        stream = new ByteArrayInputStream(coderTestUtils.createTestRealNegInfBytes());
+        val = decoder.decode(stream, TestReal.class);
+        assertEquals(val.getValue(), coderTestUtils.createTestRealNegInf().getValue());
+        
+        stream = new ByteArrayInputStream(coderTestUtils.createTestRealNeg1_5Bytes());
+        val = decoder.decode(stream, TestReal.class);
+        assertEquals(val.getValue(), coderTestUtils.createTestRealNeg1_5().getValue());
     }
 
     @Test

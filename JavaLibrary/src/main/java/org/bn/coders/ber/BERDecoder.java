@@ -295,22 +295,19 @@ public class BERDecoder extends Decoder {
         int realPreamble = stream.read();
 
         Double result = 0.0D;
-        int szResult = len.getValue();
-        if ((realPreamble & 0x40) == 1) {
+        if (realPreamble == 0x40) {
             // 01000000 Value is PLUS-INFINITY
             result = Double.POSITIVE_INFINITY;
-        }
-        if ((realPreamble & 0x41) == 1) {
+        } else if (realPreamble == 0x41) {
             // 01000001 Value is MINUS-INFINITY
             result = Double.NEGATIVE_INFINITY;
-            szResult += 1;
         } else if (len.getValue() > 0) {
             int szOfExp = 1 + (realPreamble & 0x3);
             int sign = realPreamble & 0x40;
             int ff = (realPreamble & 0x0C) >> 2;
             DecodedObject<Long> exponentEncFrm = decodeLongValue(stream, new DecodedObject<>(szOfExp));
             long exponent = exponentEncFrm.getValue();
-            DecodedObject<Long> mantissaEncFrm = decodeLongValue(stream, new DecodedObject<>(szResult - szOfExp - 1));
+            DecodedObject<Long> mantissaEncFrm = decodeLongValue(stream, new DecodedObject<>(len.getValue() - szOfExp - 1));
             // Unpack mantissa & decrement exponent for base 2
             long mantissa = mantissaEncFrm.getValue() << ff;
             while ((mantissa & 0x000ff00000000000L) == 0x0) {
@@ -324,7 +321,7 @@ public class BERDecoder extends Decoder {
             mantissa &= 0x0FFFFFFFFFFFFFL;
             long lValue = (exponent + 1023 + 52) << 52;
             lValue |= mantissa;
-            if (sign == 1) {
+            if (sign == 0x40) {
                 lValue |= 0x8000000000000000L;
             }
             result = Double.longBitsToDouble(lValue);

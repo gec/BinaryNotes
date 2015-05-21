@@ -281,6 +281,21 @@ public class BERCoderTestUtils extends CoderTestUtilities {
     public byte[] createTestRealBigBytes() {
         return new byte[]{0x09, 0x05, (byte) 0x80, (byte) 0xFD, 0x18, 0x6D, 0x21};
     }
+    
+    @Override
+    public byte[] createTestRealPosInfBytes() {
+        return new byte[] {0x09, 0x01, 0x40};
+    }
+
+    @Override
+    public byte[] createTestRealNegInfBytes() {
+        return new byte[] {0x09, 0x01, 0x41};
+    }
+
+    @Override
+    public byte[] createTestRealNeg1_5Bytes() {
+        return new byte[] {0x09, 0x03, (byte)0xC0, (byte)0xFF, 0x03};
+    }
 
     @Override
     public byte[] createChoiceInChoice2Bytes() {
