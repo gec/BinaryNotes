@@ -426,6 +426,24 @@ namespace org.bn.coders
         }
         public abstract byte[] createTestRealBigBytes();
 
+        public TestReal createTestRealPosInf()
+        {
+            return new TestReal(Double.PositiveInfinity);
+        }
+        public abstract byte[] createTestRealPosInfBytes();
+
+        public TestReal createTestRealNegInf()
+        {
+            return new TestReal(Double.NegativeInfinity);
+        }
+        public abstract byte[] createTestRealNegInfBytes();
+
+        public TestReal createTestRealNeg1_5()
+        {
+            return new TestReal(-1.5);
+        }
+        public abstract byte[] createTestRealNeg1_5Bytes();
+
         public TaggedSequence createTaggedSequence()
         {
             TaggedSequence result = new TaggedSequence();

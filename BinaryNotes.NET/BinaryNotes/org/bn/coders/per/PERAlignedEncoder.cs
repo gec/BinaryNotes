@@ -307,50 +307,53 @@ namespace org.bn.coders.per
             //CoderUtils.checkConstraints(value,elementInfo);
 
             long asLong = System.BitConverter.DoubleToInt64Bits(value);
-            if(value == Double.PositiveInfinity ) { // positive infinity
-                result+=encodeLengthDeterminant(1,bitStream);
+            if (value == Double.PositiveInfinity)
+            { // positive infinity
+                result += encodeLengthDeterminant(1,bitStream);
                 doAlign(stream);
                 stream.WriteByte(0x40); // 01000000 Value is PLUS-INFINITY
-                result+=1;
+                result += 1;
             }
-            else
-            if(value == Double.NegativeInfinity) { // negative infinity
-                result+=encodeLengthDeterminant(1,bitStream);
+            else if (value == Double.NegativeInfinity)
+            { // negative infinity
+                result += encodeLengthDeterminant(1,bitStream);
                 doAlign(stream);
                 stream.WriteByte(0x41); // 01000001 Value is MINUS-INFINITY
-                result+=1;
-            }        
-            else 
-            if(asLong!=0x0) {
+                result += 1;
+            }
+            else if (asLong != 0)
+            {
                 long exponent = ((0x7ff0000000000000L & asLong) >> 52) - 1023 - 52;
                 long mantissa = 0x000fffffffffffffL & asLong;
                 mantissa |= 0x10000000000000L; // set virtual delimeter
-                
+
                 // pack mantissa for base 2
-                while((mantissa & 0xFFL) == 0x0) {
+                while ((mantissa & 0xFFL) == 0)
+                {
                     mantissa >>= 8;
                     exponent += 8; //increment exponent to 8 (base 2)
-                }        
-                while((mantissa & 0x01L) == 0x0) {
+                }
+                while ((mantissa & 0x01L) == 0)
+                {
                     mantissa >>= 1;
-                    exponent+=1; //increment exponent to 1
+                    exponent += 1; //increment exponent to 1
                 }
 
                 int szOfExp = CoderUtils.getIntegerLength(exponent);
-                encodeLengthDeterminant(CoderUtils.getIntegerLength(mantissa)+szOfExp+1,bitStream);            
+                encodeLengthDeterminant(CoderUtils.getIntegerLength(mantissa) + szOfExp + 1, bitStream);
                 doAlign(stream);
-                byte realPreamble = 0x80;
                 
+                byte realPreamble = 0x80;
                 realPreamble |= (byte)(szOfExp - 1);
-                if( (((ulong)asLong) & 0x8000000000000000L) == 1) {
-                    realPreamble|= 0x40; // Sign
+                if ((((ulong)asLong) & 0x8000000000000000L) == 0x8000000000000000L)
+                {
+                    realPreamble |= 0x40; // Sign
                 }
                 stream.WriteByte(realPreamble);
-                result+=1;
+                result += 1;
 
-                
-                result+= encodeIntegerValueAsBytes(exponent,stream);
-                result+= encodeIntegerValueAsBytes(mantissa,stream);            
+                result += encodeIntegerValueAsBytes(exponent, stream);
+                result += encodeIntegerValueAsBytes(mantissa, stream);
             }
             return result;
         }

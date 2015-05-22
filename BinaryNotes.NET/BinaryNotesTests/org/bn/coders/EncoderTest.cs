@@ -331,7 +331,13 @@ namespace org.bn.coders
             printEncoded("EncodeTestReal2: ",encoder, coderTestUtils.createTestReal2());            
             checkEncoded(encoder, coderTestUtils.createTestReal2(), coderTestUtils.createTestReal2Bytes());        
             printEncoded("EncodeTestRealBig: ",encoder, coderTestUtils.createTestRealBig());            
-            checkEncoded(encoder, coderTestUtils.createTestRealBig(), coderTestUtils.createTestRealBigBytes());            
+            checkEncoded(encoder, coderTestUtils.createTestRealBig(), coderTestUtils.createTestRealBigBytes());
+            printEncoded("EncodeTestRealPosInf: ", encoder, coderTestUtils.createTestRealPosInf());
+            checkEncoded(encoder, coderTestUtils.createTestRealPosInf(), coderTestUtils.createTestRealPosInfBytes());
+            printEncoded("EncodeTestRealNegInf: ", encoder, coderTestUtils.createTestRealNegInf());
+            checkEncoded(encoder, coderTestUtils.createTestRealNegInf(), coderTestUtils.createTestRealNegInfBytes());
+            printEncoded("EncodeTestReal-1.5: ", encoder, coderTestUtils.createTestRealNeg1_5());
+            checkEncoded(encoder, coderTestUtils.createTestRealNeg1_5(), coderTestUtils.createTestRealNeg1_5Bytes());
         }
 
         [TestMethod]

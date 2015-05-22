@@ -399,6 +399,18 @@ namespace org.bn.coders
             stream = new System.IO.MemoryStream(coderTestUtils.createTestRealBigBytes());
             val = decoder.decode<TestReal>(stream);
             Assert.AreEqual(val.Value, coderTestUtils.createTestRealBig().Value);
+
+            stream = new System.IO.MemoryStream(coderTestUtils.createTestRealPosInfBytes());
+            val = decoder.decode<TestReal>(stream);
+            Assert.AreEqual(val.Value, coderTestUtils.createTestRealPosInf().Value);
+
+            stream = new System.IO.MemoryStream(coderTestUtils.createTestRealNegInfBytes());
+            val = decoder.decode<TestReal>(stream);
+            Assert.AreEqual(val.Value, coderTestUtils.createTestRealNegInf().Value);
+
+            stream = new System.IO.MemoryStream(coderTestUtils.createTestRealNeg1_5Bytes());
+            val = decoder.decode<TestReal>(stream);
+            Assert.AreEqual(val.Value, coderTestUtils.createTestRealNeg1_5().Value);
         }
 
         [TestMethod]

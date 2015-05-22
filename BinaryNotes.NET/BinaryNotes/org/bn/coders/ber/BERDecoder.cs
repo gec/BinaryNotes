@@ -294,48 +294,45 @@ namespace org.bn.coders.ber
             int realPreamble = stream.ReadByte();
 
             Double result = 0.0D;
-            int szResult = len.Value;
-            if ((realPreamble & 0x40) == 1)
+            if (realPreamble == 0x40)
             {
                 // 01000000 Value is PLUS-INFINITY
                 result = Double.PositiveInfinity;
             }
-            if ((realPreamble & 0x41) == 1)
+            else if (realPreamble == 0x41)
             {
                 // 01000001 Value is MINUS-INFINITY
                 result = Double.NegativeInfinity;
-                szResult += 1;
             }
-            else
-                if (len.Value > 0)
+            else if (len.Value > 0)
+            {
+                int szOfExp = 1 + (realPreamble & 0x3);
+                int sign = realPreamble & 0x40;
+                int ff = (realPreamble & 0x0C) >> 2;
+                DecodedObject<object> exponentEncFrm = decodeLongValue(stream, new DecodedObject<int>(szOfExp));
+                long exponent = (long)exponentEncFrm.Value;
+                DecodedObject<object> mantissaEncFrm = decodeLongValue(stream, new DecodedObject<int>(len.Value - szOfExp - 1));
+                // Unpack mantissa & decrement exponent for base 2
+                long mantissa = (long)mantissaEncFrm.Value << ff;
+                while ((mantissa & 0x000ff00000000000L) == 0x0)
                 {
-                    int szOfExp = 1 + (realPreamble & 0x3);
-                    int sign = realPreamble & 0x40;
-                    int ff = (realPreamble & 0x0C) >> 2;
-                    DecodedObject<object> exponentEncFrm = decodeLongValue(stream, new DecodedObject<int>(szOfExp));
-                    long exponent = (long)exponentEncFrm.Value;
-                    DecodedObject<object> mantissaEncFrm = decodeLongValue(stream, new DecodedObject<int>(szResult - szOfExp - 1));
-                    // Unpack mantissa & decrement exponent for base 2
-                    long mantissa = (long)mantissaEncFrm.Value << ff;
-                    while ((mantissa & 0x000ff00000000000L) == 0x0)
-                    {
-                        exponent -= 8;
-                        mantissa <<= 8;
-                    }
-                    while ((mantissa & 0x0010000000000000L) == 0x0)
-                    {
-                        exponent -= 1;
-                        mantissa <<= 1;
-                    }
-                    mantissa &= 0x0FFFFFFFFFFFFFL;
-                    long lValue = (exponent + 1023 + 52) << 52;
-                    lValue |= mantissa;
-                    if (sign == 1)
-                    {
-                        lValue = (long)((ulong)lValue | 0x8000000000000000L);
-                    }
-                    result = System.BitConverter.Int64BitsToDouble(lValue);
+                    exponent -= 8;
+                    mantissa <<= 8;
                 }
+                while ((mantissa & 0x0010000000000000L) == 0x0)
+                {
+                    exponent -= 1;
+                    mantissa <<= 1;
+                }
+                mantissa &= 0x0FFFFFFFFFFFFFL;
+                long lValue = (exponent + 1023 + 52) << 52;
+                lValue |= mantissa;
+                if (sign == 0x40)
+                {
+                    lValue = (long)((ulong)lValue | 0x8000000000000000L);
+                }
+                result = System.BitConverter.Int64BitsToDouble(lValue);
+            }
             return new DecodedObject<object>(result, len.Value + len.Size);
         }
 

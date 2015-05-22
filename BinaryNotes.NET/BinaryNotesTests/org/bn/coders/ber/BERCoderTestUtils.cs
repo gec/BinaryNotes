@@ -255,6 +255,21 @@ namespace org.bn.coders.ber
             return new byte[] { 0x09, 0x05, (byte)0x80, (byte)0xFD, 0x18, 0x6D, 0x21 };
         }
 
+        public override byte[] createTestRealPosInfBytes()
+        {
+            return new byte[] { 0x09, 0x01, 0x40 };
+        }
+
+        public override byte[] createTestRealNegInfBytes()
+        {
+            return new byte[] { 0x09, 0x01, 0x41 };
+        }
+
+        public override byte[] createTestRealNeg1_5Bytes()
+        {
+            return new byte[] { 0x09, 0x03, (byte)0xC0, (byte)0xFF, 0x03 };
+        }
+
         public override byte[] createTaggedSequenceBytes()
         {
             return new byte[] { 0x68, 0x05, 0x87, 0x03, 0x41, 0x41, 0x41 };
