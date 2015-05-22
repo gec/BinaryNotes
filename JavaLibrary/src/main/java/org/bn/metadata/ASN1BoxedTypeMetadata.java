@@ -117,10 +117,8 @@ public class ASN1BoxedTypeMetadata extends ASN1FieldMetadata {
 
         }
         DecodedObject<?> decodedResult = valueFieldMeta.getTypeMetadata().decode(decoder, decodedTag, valueField.getType(), elementInfo, stream);
-        if (decodedResult != null) {
-            if (!CoderUtils.isNullField(valueField, elementInfo)) {
-                decoder.invokeSetterMethodForField(valueField, instance, decodedResult.getValue(), elementInfo);
-            }
+        if (decodedResult != null && !CoderUtils.isNullField(valueField, elementInfo)) {
+            decoder.invokeSetterMethodForField(valueField, instance, decodedResult.getValue(), elementInfo);
         }
         elementInfo.setPreparedInfo(saveInfo);
         elementInfo.setPreparedInstance(instance);

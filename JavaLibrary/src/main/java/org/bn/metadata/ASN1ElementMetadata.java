@@ -32,7 +32,7 @@ public class ASN1ElementMetadata extends ASN1FieldMetadata {
     private boolean isOptional = true;
     private boolean hasTag = false;
     private boolean isImplicitTag = false;
-    private int tagClass = TagClass.ContextSpecific;
+    private int tagClass = TagClass.CONTEXT_SPECIFIC;
     private int tag = 0;
     private boolean hasDefaultValue = false;
 

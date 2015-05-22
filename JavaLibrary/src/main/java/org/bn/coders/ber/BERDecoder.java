@@ -100,14 +100,15 @@ public class BERDecoder extends Decoder {
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         boolean isSet = false;
-        if (!CoderUtils.isSequenceSet(elementInfo)) {
-            if (checkTagForObject(decodedTag, TagClass.Universal, ElementType.Constructed, UniversalTag.Sequence, elementInfo)) {
+        if (CoderUtils.isSequenceSet(elementInfo)) {
+            if (checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Set, elementInfo)) {
+                isSet = true;
             } else {
                 return null;
             }
         } else {
-            if (checkTagForObject(decodedTag, TagClass.Universal, ElementType.Constructed, UniversalTag.Set, elementInfo)) {
-                isSet = true;
+            if (checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Sequence, elementInfo)) {
+                
             } else {
                 return null;
             }
@@ -117,10 +118,10 @@ public class BERDecoder extends Decoder {
         int saveMaxAvailableLen = elementInfo.getMaxAvailableLen();
         elementInfo.setMaxAvailableLen(len.getValue());
         DecodedObject result;
-        if (!isSet) {
-            result = super.decodeSequence(decodedTag, objectClass, elementInfo, stream);
-        } else {
+        if (isSet) {
             result = decodeSet(decodedTag, objectClass, elementInfo, len.getValue(), stream);
+        } else {
+            result = super.decodeSequence(decodedTag, objectClass, elementInfo, stream);
         }
         if (result.getSize() != len.getValue()) {
             throw new IllegalArgumentException("Sequence '" + objectClass.toString() + "' size is incorrect! Must be: " + len.getValue() + ". Received: " + result.getSize());
@@ -204,7 +205,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<Integer> decodeEnumItem(DecodedObject<Integer> decodedTag, Class objectClass, Class enumClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Enumerated, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Enumerated, elementInfo)) {
             return null;
         }
         return decodeIntegerValue(stream);
@@ -214,7 +215,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<Boolean> decodeBoolean(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Boolean, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Boolean, elementInfo)) {
             return null;
         }
         DecodedObject<Integer> intVal = decodeIntegerValue(stream);
@@ -259,7 +260,7 @@ public class BERDecoder extends Decoder {
     public <T> DecodedObject<T> decodeNull(DecodedObject<Integer> decodedTag, Class<T> objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Null, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Null, elementInfo)) {
             return null;
         }
         stream.read(); // ignore null length
@@ -270,7 +271,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<? extends Number> decodeInteger(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Integer, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Integer, elementInfo)) {
             return null;
         }
         if (objectClass.equals(Integer.class)) {
@@ -288,7 +289,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<Double> decodeReal(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Real, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Real, elementInfo)) {
             return null;
         }
         DecodedObject<Integer> len = decodeLength(stream);
@@ -335,7 +336,7 @@ public class BERDecoder extends Decoder {
 
         if ((elementInfo.hasPreparedInfo() && elementInfo.hasPreparedASN1ElementInfo() && elementInfo.getPreparedASN1ElementInfo().hasTag())
                 || (elementInfo.getASN1ElementInfo() != null && elementInfo.getASN1ElementInfo().hasTag())) {
-            if (!checkTagForObject(decodedTag, TagClass.ContextSpecific, ElementType.Constructed, UniversalTag.LastUniversal, elementInfo)) {
+            if (!checkTagForObject(decodedTag, TagClass.CONTEXT_SPECIFIC, ElementType.CONSTRUCTED, UniversalTag.LastUniversal, elementInfo)) {
                 return null;
             }
             DecodedObject<Integer> lenOfChild = decodeLength(stream);
@@ -381,7 +382,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<byte[]> decodeOctetString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.OctetString, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.OctetString, elementInfo)) {
             return null;
         }
         DecodedObject<Integer> len = decodeLength(stream);
@@ -395,7 +396,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<BitString> decodeBitString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.Bitstring, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Bitstring, elementInfo)) {
             return null;
         }
         DecodedObject<Integer> len = decodeLength(stream);
@@ -411,7 +412,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<String> decodeString(DecodedObject<Integer> decodedTag, Class objectClass,
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, CoderUtils.getStringTagForElement(elementInfo), elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, CoderUtils.getStringTagForElement(elementInfo), elementInfo)) {
             return null;
         }
         DecodedObject<Integer> len = decodeLength(stream);
@@ -427,11 +428,11 @@ public class BERDecoder extends Decoder {
             ElementInfo elementInfo, InputStream stream) throws Exception {
         
         if (!CoderUtils.isSequenceSetOf(elementInfo)) {
-            if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Constructed, UniversalTag.Sequence, elementInfo)) {
+            if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Sequence, elementInfo)) {
                 return null;
             }
         } else {
-            if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Constructed, UniversalTag.Set, elementInfo)) {
+            if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Set, elementInfo)) {
                 return null;
             }
         }
@@ -468,7 +469,7 @@ public class BERDecoder extends Decoder {
     public DecodedObject<ObjectIdentifier> decodeObjectIdentifier(DecodedObject<Integer> decodedTag,
             Class objectClass, ElementInfo elementInfo, InputStream stream) throws Exception {
         
-        if (!checkTagForObject(decodedTag, TagClass.Universal, ElementType.Primitive, UniversalTag.ObjectIdentifier, elementInfo)) {
+        if (!checkTagForObject(decodedTag, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.ObjectIdentifier, elementInfo)) {
             return null;
         }
         DecodedObject<Integer> len = decodeLength(stream);

@@ -53,9 +53,9 @@ public class BEREncoder extends Encoder {
             resultSize += encodeSequenceField(object, fields.length - 1 - i, field, stream, elementInfo);
         }
         if (!CoderUtils.isSequenceSet(elementInfo)) {
-            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Constructed, UniversalTag.Sequence), resultSize, stream);
+            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Sequence), resultSize, stream);
         } else {
-            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Constructed, UniversalTag.Set), resultSize, stream);
+            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Set), resultSize, stream);
         }
         return resultSize;
     }
@@ -67,7 +67,7 @@ public class BEREncoder extends Encoder {
 
         if ((elementInfo.hasPreparedInfo() && elementInfo.hasPreparedASN1ElementInfo() && elementInfo.getPreparedASN1ElementInfo().hasTag())
                 || (elementInfo.getASN1ElementInfo() != null && elementInfo.getASN1ElementInfo().hasTag())) {
-            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.ContextSpecific, ElementType.Constructed, UniversalTag.LastUniversal), sizeOfChoiceField, stream);
+            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.CONTEXT_SPECIFIC, ElementType.CONSTRUCTED, UniversalTag.LastUniversal), sizeOfChoiceField, stream);
         }
         resultSize += sizeOfChoiceField;
         return resultSize;
@@ -80,7 +80,7 @@ public class BEREncoder extends Encoder {
         int szOfInt = encodeIntegerValue(enumObj.tag(), stream);
         resultSize += szOfInt;
         resultSize += encodeLength(szOfInt, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Enumerated), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Enumerated), stream);
         return resultSize;
     }
 
@@ -90,7 +90,7 @@ public class BEREncoder extends Encoder {
         stream.write((Boolean) object ? 0xFF : 0x00);
 
         resultSize += encodeLength(1, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Boolean), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Boolean), stream);
         return resultSize;
     }
 
@@ -127,7 +127,7 @@ public class BEREncoder extends Encoder {
         
         int resultSize = szOfInt;
         resultSize += encodeLength(szOfInt, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Integer), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Integer), stream);
         return resultSize;
     }
 
@@ -172,7 +172,7 @@ public class BEREncoder extends Encoder {
         }
         resultSize += szOfInt;
         resultSize += encodeLength(szOfInt, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Real), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Real), stream);
         return resultSize;
     }
 
@@ -185,7 +185,7 @@ public class BEREncoder extends Encoder {
         
         int resultSize = buffer.length;
         resultSize += encodeLength(buffer.length, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.OctetString), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.OctetString), stream);
         return resultSize;
     }
 
@@ -201,7 +201,7 @@ public class BEREncoder extends Encoder {
 
         int resultSize = sizeOfString;
         resultSize += encodeLength(sizeOfString, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Bitstring), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Bitstring), stream);
         return resultSize;
     }
 
@@ -215,7 +215,7 @@ public class BEREncoder extends Encoder {
         
         int resultSize = sizeOfString;
         resultSize += encodeLength(sizeOfString, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, CoderUtils.getStringTagForElement(elementInfo)), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, CoderUtils.getStringTagForElement(elementInfo)), stream);
         return resultSize;
     }
 
@@ -242,9 +242,9 @@ public class BEREncoder extends Encoder {
         int resultSize = sizeOfCollection;
         resultSize += encodeLength(sizeOfCollection, stream);
         if (!CoderUtils.isSequenceSetOf(elementInfo)) {
-            resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Constructed, UniversalTag.Sequence), stream);
+            resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Sequence), stream);
         } else {
-            resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Constructed, UniversalTag.Set), stream);
+            resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Set), stream);
         }
         return resultSize;
     }
@@ -303,7 +303,7 @@ public class BEREncoder extends Encoder {
     public int encodeNull(Object object, OutputStream stream, ElementInfo elementInfo) throws Exception {
         stream.write(0);
         int resultSize = 1;
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.Null), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.Null), stream);
         return resultSize;
     }
 
@@ -315,7 +315,7 @@ public class BEREncoder extends Encoder {
         stream.write(buffer, 0, buffer.length);
         int resultSize = buffer.length;
         resultSize += encodeLength(resultSize, stream);
-        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Primitive, UniversalTag.ObjectIdentifier), stream);
+        resultSize += encodeTag(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.PRIMITIVE, UniversalTag.ObjectIdentifier), stream);
         return resultSize;
     }
 }

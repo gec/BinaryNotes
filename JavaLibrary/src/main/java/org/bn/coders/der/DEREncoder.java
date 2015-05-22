@@ -49,7 +49,7 @@ public class DEREncoder extends BEREncoder {
             for (int i = 0; i < fields.length; i++) {
                 resultSize += encodeSequenceField(object, fields.length - 1 - i, fields[fields.length - 1 - i], stream, elementInfo);
             }
-            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.Universal, ElementType.Constructed, UniversalTag.Set), resultSize, stream);
+            resultSize += encodeHeader(BERCoderUtils.getTagValueForElement(elementInfo, TagClass.UNIVERSAL, ElementType.CONSTRUCTED, UniversalTag.Set), resultSize, stream);
             return resultSize;
         }
     }

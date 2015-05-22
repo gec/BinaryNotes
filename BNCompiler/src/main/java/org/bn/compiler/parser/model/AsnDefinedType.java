@@ -22,7 +22,7 @@ public class AsnDefinedType {
         if (isModuleReference) {
             ts += (moduleReference + "." + typeName);
         } else {
-            ts += (typeName);
+            ts += typeName;
         }
 
         if (constraint != null) {

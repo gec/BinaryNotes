@@ -30,5 +30,5 @@ public interface IDecoder {
      * @return Created object from stream
      * @throws Exception
      */
-    public <T> T decode(InputStream stream, Class<T> objectClass) throws Exception;
+    <T> T decode(InputStream stream, Class<T> objectClass) throws Exception;
 }

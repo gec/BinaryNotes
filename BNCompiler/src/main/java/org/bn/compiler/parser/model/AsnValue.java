@@ -38,8 +38,8 @@ public class AsnValue {
     public String toString() {
         String ts = "";
 
-        if ((name != null) && (typeName != null)) {
-            ts += (name + "\t" + typeName);
+        if (name!=null && typeName!=null) {
+            ts += name + "\t" + typeName;
         }
 
         if (isTrueKW) {
@@ -71,7 +71,7 @@ public class AsnValue {
         } else if (isSequenceOfValue) {
             ts += seqOfVal;
         } else if (isDefinedValue) {
-            ts += (definedValue);
+            ts += definedValue;
         } else {
             ts += "Unknown Value";
         }

@@ -386,12 +386,10 @@ public class PERAlignedDecoder extends Decoder {
         DecodedObject<Integer> result = new DecodedObject<>();
         int idx = 0;
         for (Field enumItem : enumClass.getDeclaredFields()) {
-            if (enumItem.isAnnotationPresent(ASN1EnumItem.class)) {
-                if (idx++ == enumItemIdx) {
-                    ASN1EnumItem enumItemObj = enumItem.getAnnotation(ASN1EnumItem.class);
-                    result.setValue(enumItemObj.tag());
-                    break;
-                }
+            if (enumItem.isAnnotationPresent(ASN1EnumItem.class) && idx++ == enumItemIdx) {
+                ASN1EnumItem enumItemObj = enumItem.getAnnotation(ASN1EnumItem.class);
+                result.setValue(enumItemObj.tag());
+                break;
             }
         }
         return result;

@@ -27,7 +27,7 @@ public @interface ASN1Element {
     boolean isOptional() default true;
     boolean hasTag() default false;    
     boolean isImplicitTag() default true;
-    int tagClass() default TagClass.ContextSpecific;
+    int tagClass() default TagClass.CONTEXT_SPECIFIC;
     int tag() default 0;
     boolean hasDefaultValue() default false;
 }

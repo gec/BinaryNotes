@@ -60,11 +60,8 @@ public class ASN1StringMetadata extends ASN1FieldMetadata {
 
     @Override
     public void setParentAnnotated(AnnotatedElement parent) {
-        if (parent != null) {
-            if (parent.isAnnotationPresent(ASN1String.class)) {
-                ASN1String value = parent.getAnnotation(ASN1String.class);
-                this.stringType = value.stringType();
-            }
+        if (parent != null && parent.isAnnotationPresent(ASN1String.class)) {
+            this.stringType = parent.getAnnotation(ASN1String.class).stringType();
         }
     }
 

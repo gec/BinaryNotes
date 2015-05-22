@@ -28,5 +28,5 @@ public interface IEncoder {
      * @see CoderFactory
      * @throws Exception
      */
-    public void encode(Object object, OutputStream stream) throws Exception;
+    void encode(Object object, OutputStream stream) throws Exception;
 }

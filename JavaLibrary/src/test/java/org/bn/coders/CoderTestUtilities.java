@@ -18,6 +18,7 @@ package org.bn.coders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import org.bn.types.*;
@@ -356,7 +357,7 @@ public abstract class CoderTestUtilities {
     public TestSequenceV12 createTestSequenceV12() {
         TestSequenceV12 result = new TestSequenceV12();
         result.setAttrSimple("aba");
-        java.util.Collection<String> array = new java.util.LinkedList<>();
+        Collection<String> array = new LinkedList<>();
         array.add("aaaa");
         array.add("bbb");
         result.setAttrArr(array);

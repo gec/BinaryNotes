@@ -54,7 +54,7 @@ public class BitArrayInputStream extends InputStream {
     public synchronized int readBits(int nBits) throws IOException {
         int result = 0;
         for (int i = 0; i < nBits && i <= 32; i++) {
-            result = ((result << 1) | readBit());
+            result = (result << 1) | readBit();
         }
         return result;
     }

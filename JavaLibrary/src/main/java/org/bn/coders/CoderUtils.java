@@ -54,12 +54,12 @@ public class CoderUtils {
         long mask = 0x7f800000L;
         int sizeOfInt = 4;
         if (value < 0) {
-            while (((mask & value) == mask) && (sizeOfInt > 1)) {
+            while ((mask & value) == mask && sizeOfInt > 1) {
                 mask >>= 8;
                 sizeOfInt--;
             }
         } else {
-            while (((mask & value) == 0) && (sizeOfInt > 1)) {
+            while ((mask & value) == 0 && sizeOfInt > 1) {
                 mask >>= 8;
                 sizeOfInt--;
             }
@@ -71,12 +71,12 @@ public class CoderUtils {
         long mask = 0x7f80000000000000L;
         int sizeOfInt = 8;
         if (value < 0) {
-            while (((mask & value) == mask) && (sizeOfInt > 1)) {
+            while ((mask & value) == mask && sizeOfInt > 1) {
                 mask >>= 8;
                 sizeOfInt--;
             }
         } else {
-            while (((mask & value) == 0) && (sizeOfInt > 1)) {
+            while ((mask & value) == 0 && sizeOfInt > 1) {
                 mask >>= 8;
                 sizeOfInt--;
             }
@@ -88,7 +88,7 @@ public class CoderUtils {
         if (value < 0) {
             long mask = 0x7f800000L;
             int sizeOfInt = 4;
-            while (((mask & ~value) == mask) && (sizeOfInt > 1)) {
+            while ((mask & ~value) == mask && sizeOfInt > 1) {
                 mask >>= 8;
                 sizeOfInt--;
             }
@@ -102,7 +102,7 @@ public class CoderUtils {
         if (value < 0) {
             long mask = 0x7f80000000000000L;
             int sizeOfInt = 8;
-            while (((mask & ~value) == mask) && (sizeOfInt > 1)) {
+            while ((mask & ~value) == mask && sizeOfInt > 1) {
                 mask >>= 8;
                 sizeOfInt--;
             }
@@ -195,10 +195,8 @@ public class CoderUtils {
 
     public static void checkConstraints(long value, ElementInfo elementInfo) throws Exception {
         if (elementInfo.hasPreparedInfo()) {
-            if (elementInfo.getPreparedInfo().hasConstraint()) {
-                if (!elementInfo.getPreparedInfo().getConstraint().checkValue(value)) {
-                    throw new Exception("Value of '" + elementInfo.getAnnotatedClass().toString() + "' out of bounds");
-                }
+            if (elementInfo.getPreparedInfo().hasConstraint() && !elementInfo.getPreparedInfo().getConstraint().checkValue(value)) {
+                throw new Exception("Value of '" + elementInfo.getAnnotatedClass().toString() + "' out of bounds");
             }
         } else {
             if (elementInfo.getAnnotatedClass().isAnnotationPresent(ASN1ValueRangeConstraint.class)) {
@@ -374,7 +372,7 @@ public class CoderUtils {
     public static boolean equals(Object obj1, Object obj2) throws ReflectiveOperationException {
         if ( obj1==null && obj2==null ) {
             return true;
-        } else if ( (obj1==null && obj2!=null) || ((obj1!=null && obj2==null))) {
+        } else if ( (obj1==null && obj2!=null) || (obj1!=null && obj2==null) ) {
             return false;
         } else if ( obj1 instanceof byte[] && obj2 instanceof byte[] ) {
             return Arrays.equals((byte[])obj1, (byte[])obj2);

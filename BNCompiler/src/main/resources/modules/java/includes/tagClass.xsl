@@ -27,9 +27,9 @@
     <!-- tagClass = "<xsl:value-of select ='tag/clazz'/>" -->
     <xsl:template name="tagClass">
         tagClass = <xsl:choose>
-            <xsl:when test="tag/clazz = 'APPLICATION'"> TagClass.Application </xsl:when>
-            <xsl:when test="tag/clazz = 'PRIVATE'"> TagClass.Private </xsl:when>
-            <xsl:otherwise>TagClass.ContextSpecific</xsl:otherwise>
+            <xsl:when test="tag/clazz = 'APPLICATION'">TagClass.APPLICATION</xsl:when>
+            <xsl:when test="tag/clazz = 'PRIVATE'">TagClass.PRIVATE</xsl:when>
+            <xsl:otherwise>TagClass.CONTEXT_SPECIFIC</xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 </xsl:stylesheet>

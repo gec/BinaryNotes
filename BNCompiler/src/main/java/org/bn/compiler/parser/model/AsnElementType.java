@@ -24,35 +24,35 @@ public class AsnElementType {
         String ts = "";
 
         if (isComponentsOf) {
-            ts += ("\tCOMPONENTS        OF\t");
+            ts += "\tCOMPONENTS        OF\t";
         } else {
-            ts += (name);
+            ts += name;
 
             if (isTag) {
-                ts += ("\t");
-                ts += (tag);
+                ts += "\t";
+                ts += tag;
             }
 
             if (isTagDefault) {
-                ts += ("\t");
-                ts += (typeTagDefault);
+                ts += "\t";
+                ts += typeTagDefault;
             }
         }
 
         if (isDefinedType) {
-            ts += ("\t");
-            ts += (typeName);
+            ts += "\t";
+            ts += typeName;
         } else {
-            ts += (typeReference.getClass().getName());
+            ts += typeReference.getClass().getName();
         }
 
         if (isOptional) {
-            ts += ("\tOPTIONAL");
+            ts += "\tOPTIONAL";
         }
 
         if (isDefault) {
-            ts += ("\tDEFAULT\t");
-            ts += (value);
+            ts += "\tDEFAULT\t";
+            ts += value;
         }
 
         return ts;

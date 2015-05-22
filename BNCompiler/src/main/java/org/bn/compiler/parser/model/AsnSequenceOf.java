@@ -27,27 +27,27 @@ public class AsnSequenceOf {
         String ts = name + "\t::=\t";
 
         if (isSequenceOf) {
-            ts += ("SEQUENCE\t");
+            ts += "SEQUENCE\t";
 
             if (constraint != null) {
-                ts += (constraint);
+                ts += constraint;
             }
 
-            ts += ("\tOF\t");
+            ts += "\tOF\t";
         } else {
-            ts += ("SET\t");
+            ts += "SET\t";
 
             if (constraint != null) {
-                ts += (constraint);
+                ts += constraint;
             }
 
-            ts += ("\tOF\t");
+            ts += "\tOF\t";
         }
 
         if (isDefinedType) {
-            ts += (typeName);
+            ts += typeName;
         } else {
-            ts += (typeReference.getClass().getName());    // Print builtinType Class Name
+            ts += typeReference.getClass().getName();    // Print builtinType Class Name
         }
 
         return ts;

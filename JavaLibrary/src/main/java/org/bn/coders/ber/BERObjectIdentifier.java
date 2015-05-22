@@ -25,7 +25,7 @@ public class BERObjectIdentifier {
     public static byte[] Encode(int[] oidArcArray) {
         int arcLength = oidArcArray.length;
         assert arcLength >= 2 : "Object id must contain at least 2 arcs";
-        byte[] result = new byte[(arcLength * 5)]; // 32-bit encoding cannot exceed 5 bytes each 
+        byte[] result = new byte[arcLength * 5]; // 32-bit encoding cannot exceed 5 bytes each 
         int nextAvailable = 0;
         nextAvailable += EncodeFirstTwoArcs(oidArcArray[0], oidArcArray[1], result, nextAvailable);
         for (int i = 2; i < arcLength; i++) {
