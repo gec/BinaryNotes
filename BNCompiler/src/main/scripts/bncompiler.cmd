@@ -9,4 +9,4 @@ shift
 	shift
 goto setupArgs
 :doneStart
-java -jar "%BN_HOME%/bncompiler-1.5.5.jar" %CMD_LINE_ARGS%
+java -jar "%BN_HOME%/bncompiler-1.6.jar" %CMD_LINE_ARGS%

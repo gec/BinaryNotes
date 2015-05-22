@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -7,8 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("UnitTests for BinaryNotes")]
 [assembly: AssemblyDescription("UnitTests for BinaryNotes")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("(c) Abdulla G. Abdurakhmanov")]
+[assembly: AssemblyCompany("Abdulla G. Abdurakhmanov, Pavel Drasil")]
 [assembly: AssemblyProduct("BinaryNotes")]
 [assembly: AssemblyCopyright("Copyright © 2006-2015 Abdulla G. Abdurakhmanov, Pavel Drasil")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +30,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.5")]
-[assembly: AssemblyFileVersion("1.5.5")]
+[assembly: AssemblyVersion("1.6")]
+[assembly: AssemblyFileVersion("1.6")]
+
+[assembly: AssemblyConfiguration("")]

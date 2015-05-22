@@ -36,7 +36,7 @@ import org.lineargs.LineArgsParser;
 
 public class Main {
 
-    private static final String VERSION = "1.5.5";
+    private static final String VERSION = "1.6";
     
     private CompilerArgs arguments = null;
 

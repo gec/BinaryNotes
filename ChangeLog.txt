@@ -5,17 +5,20 @@ ChangeLog
 							[!] 		- Important warning or note
 							{<component>}	- Component/Group that changed
 
-1.5.5   {lib}           [+] API improvements (added generics, reviewed thrown exceptions)
+1.6.0	{lib}		[*] Fixed encoding and decoding of negative and infinity real numbers
+1.6.0	{all}		[+] Migrated to Java 7
 -
-1.5.4   {all}           [+] Added support for Enumerated with default value
-1.5.4   {all}           [+] Default values are skipped during encoding
-1.5.4   {comp}          [*] Fixed failing unit test
-1.5.4   {comp}          [+] Output folder is created if it does not exist
-1.5.4   {comp}          [!] Module files moved inside the compiler JAR, removed the command line parameter specifying the path
-1.5.4   {lib}           [!] .NET unit tests reworked for the Microsoft unit testing framework
-1.5.4   {all}           [!] Removed BinaryNotesMQ and .NET CF stuff
-1.5.4   {all}           [!] Project structure completely reworked (building using Maven, removed unnecessary and generated files)
-1.5.4   {all}           [!] Project adopted by Pavel Drasil
+1.5.5	{lib}		[+] API improvements (added generics, reviewed thrown exceptions)
+-
+1.5.4	{all}		[+] Added support for Enumerated with default value
+1.5.4	{all}		[+] Default values are skipped during encoding
+1.5.4	{comp}		[*] Fixed failing unit test
+1.5.4	{comp}		[+] Output folder is created if it does not exist
+1.5.4	{comp}		[!] Module files moved inside the compiler JAR, removed the command line parameter specifying the path
+1.5.4	{lib}		[!] .NET unit tests reworked for the Microsoft unit testing framework
+1.5.4	{all}		[!] Removed BinaryNotesMQ and .NET CF stuff
+1.5.4	{all}		[!] Project structure completely reworked (building using Maven, removed unnecessary and generated files)
+1.5.4	{all}		[!] Project adopted by Pavel Drasil
 -
 1.5.3	{lib}		[+] BinaryNotes.NET migrated to MSVC10
 1.5.3	{all}		[!] Migrated to Apache License v2
@@ -46,7 +49,7 @@ ChangeLog
 1.5.0	{lib}		[*] Fixed an encoding bug of ENUMERATION for PER. Thanks to Tomas Carlsson (Bug #1699806).
 1.5.0	{lib}		[*] Fixed an UTF8String (and other string datatypes instead of PrintableString) encoding for primitive SEQUENCE OF declaration
 1.5.0	{comp}		[+] Added support for simple value definitions.
-				( The original LDAP v3 ASN definition without any modification parsed successfully now.)
+				(The original LDAP v3 ASN definition without any modification parsed successfully now.)
 1.5.0	{comp}		[*] Fixes for some ASN.1 grammatic definitions
 1.5.0	{doc}		[*] Some documentation fixes for .NET samples
 1.5.0	{comp}		[+] Added support for COMPONENT OF declaration (for CHOICE/SEQUENCE constructions)
@@ -91,53 +94,53 @@ ChangeLog
 1.3.0	{doc}		[+] Add new documentation for BinaryNotes (Dist\doc)
 1.3.0	{lib}		[*] Fixed BER encoding for long tags
 1.3.0	{all}		[!] Started the new project - BinaryNotes Message Queues (BNMQ). The more details will be available later at bnotes.sf.net.
-1.3.0 	{comp}		[*] Fixed incorrect default value generation for BOOLEAN
+1.3.0	{comp}		[*] Fixed incorrect default value generation for BOOLEAN
 1.3.0	{all}		[+] Updated version info & distribution package
 -
 1.2.3	{lib}		[*] Fixed BER sequence decoder problem
 1.2.3	{lib}		[*] Fixed NullPointerException when decoding choice in choice
-1.2.3   {dist}		[+] Added BinaryNotes debug library for Java (dist)
-1.2.3   {lib}		[*] PER/Unaligned encoding 7bit string has been fixed
-1.2.3   {comp}		[*] Long integer range is incorrect defined
-1.2.3   {comp}		[*] Fixed Boolean boxed type declaration
+1.2.3	{dist}		[+] Added BinaryNotes debug library for Java (dist)
+1.2.3	{lib}		[*] PER/Unaligned encoding 7bit string has been fixed
+1.2.3	{comp}		[*] Long integer range is incorrect defined
+1.2.3	{comp}		[*] Fixed Boolean boxed type declaration
 -
-1.2.2   {all}		[+] Added support for long data type (range)
-1.2.2   {all}		[+] Added simple support (based on String mapping) for UTCTime/GeneralizedTime
-1.2.2   {all}		[+] Added support for Real datatype
+1.2.2	{all}		[+] Added support for long data type (range)
+1.2.2	{all}		[+] Added simple support (based on String mapping) for UTCTime/GeneralizedTime
+1.2.2	{all}		[+] Added support for Real datatype
 -
-1.2.1 	{all}		[*] Fixed encoding the anonymous BoxedTypes
-1.2.1 	{comp}		[+] Added constructor definition when generating some BoxedTypes
-1.2.1   {lib}		[*] Fixed choice in choice encoding
+1.2.1	{all}		[*] Fixed encoding the anonymous BoxedTypes
+1.2.1	{comp}		[+] Added constructor definition when generating some BoxedTypes
+1.2.1	{lib}		[*] Fixed choice in choice encoding
 -
-1.2.0b  {comp}		[*] Unable to generate source files for some ASN.1 defines (Thanks for report to Turgay Zengin)
+1.2.0b	{comp}		[*] Unable to generate source files for some ASN.1 defines (Thanks for report to Turgay Zengin)
 1.2.0b	{all}		[+] Added support for UTF8String
-1.2.0b  {all}		[+] Added support for SizeConstraint
-1.2.0b  {all}		[+] Added support for BitString
-1.2.0b  {lib}		[*] Fixed bug in BitStream when decoding buffer (only for .NET)
-1.2.0b  {lib}		[+] Added support for DER encoding (experimental)
-1.2.0b  {all}		[+] Added support for Set/SetOf element types
+1.2.0b	{all}		[+] Added support for SizeConstraint
+1.2.0b	{all}		[+] Added support for BitString
+1.2.0b	{lib}		[*] Fixed bug in BitStream when decoding buffer (only for .NET)
+1.2.0b	{lib}		[+] Added support for DER encoding (experimental)
+1.2.0b	{all}		[+] Added support for Set/SetOf element types
 1.2.0b	{lib}		[*] Fixed encoding for uncostraint integer (only for Java)
-1.2.0b  {all}		[+] Added support for default definition (has some restriction: don't supported choice/and over boxed definitions)
-1.2.0b  {comp}		[+] Added support for noname choice generation
-1.2.0b  {comp}		[+] Added support for noname sequence generation
-1.2.0b  {comp}		[+] Added support for noname sequence of sequence generation
-1.2.0b  {lib}		[*] Incorrect encoding/decoding with constraints is not allowed now
+1.2.0b	{all}		[+] Added support for default definition (has some restriction: don't supported choice/and over boxed definitions)
+1.2.0b	{comp}		[+] Added support for noname choice generation
+1.2.0b	{comp}		[+] Added support for noname sequence generation
+1.2.0b	{comp}		[+] Added support for noname sequence of sequence generation
+1.2.0b	{lib}		[*] Incorrect encoding/decoding with constraints is not allowed now
 -
-1.1.0b2 {lib}		[*] Fixed incorrect BER SequenceOf tag generation 
-1.1.0b2 {lib}		[*] Fixed incorrect BER/PER encoding/decoding for a negative integer
-1.1.0b2 {comp}		[*] Fixed generation bug for the value range constraint with negative integer
-1.1.0b2 {lib}		[*] Fixed memory corruption bug for packets > 1Kb (Thanks to John Finley)
+1.1.0b2	{lib}		[*] Fixed incorrect BER SequenceOf tag generation 
+1.1.0b2	{lib}		[*] Fixed incorrect BER/PER encoding/decoding for a negative integer
+1.1.0b2	{comp}		[*] Fixed generation bug for the value range constraint with negative integer
+1.1.0b2	{lib}		[*] Fixed memory corruption bug for packets > 1Kb (Thanks to John Finley)
 -
-1.1.0b 	{lib}		[*] Fixed the bug for optional field encoding for unset variables (only for C#/.NET)
-1.1.0b 	{comp}		[*] Removed unnecessary variable (_ispresent) for C#
-1.1.0b 	{doc}		[+] Added a small API documentation
-1.1.0b 	{comp} 		[*] Fixed the sequence of element type annotation generating
-1.1.0b 	{lib} 		[*] Fixed the bug when decoding length (thanks to John Finley)
-1.1.0b 	{lib} 		[!] Fixed the bug when encoding/decoding for SequenceOf element
-1.1.0b 	{comp} 		[*] Fixed incorrect the ASN1String type that generates by BNCompiler for boxed types
-1.1.0b 	{comp} 		[*] Fixed incorrect URL location to BinaryNotes site for all generating files
-1.1.0b 	{comp/lib}	[+] The PER encoding is supported now
-1.1.0b 	{lib} 		[*] Unit tests is refactored for use with another encodings
-1.1.0b 	{all} 		[*] Fixed the version information & distribution package
+1.1.0b	{lib}		[*] Fixed the bug for optional field encoding for unset variables (only for C#/.NET)
+1.1.0b	{comp}		[*] Removed unnecessary variable (_ispresent) for C#
+1.1.0b	{doc}		[+] Added a small API documentation
+1.1.0b	{comp}		[*] Fixed the sequence of element type annotation generating
+1.1.0b	{lib}		[*] Fixed the bug when decoding length (thanks to John Finley)
+1.1.0b	{lib}		[!] Fixed the bug when encoding/decoding for SequenceOf element
+1.1.0b	{comp}		[*] Fixed incorrect the ASN1String type that generates by BNCompiler for boxed types
+1.1.0b	{comp}		[*] Fixed incorrect URL location to BinaryNotes site for all generating files
+1.1.0b	{comp/lib}	[+] The PER encoding is supported now
+1.1.0b	{lib}		[*] Unit tests is refactored for use with another encodings
+1.1.0b	{all}		[*] Fixed the version information & distribution package
 -
-1.0.0b {all} 		[+] The first public release.
+1.0.0b	{all}		[+] The first public release.
