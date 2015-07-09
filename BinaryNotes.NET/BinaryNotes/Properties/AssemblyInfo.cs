@@ -3,11 +3,11 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BinaryNotes Library")]
-[assembly: AssemblyDescription("BinaryNotes Library")]
+[assembly: AssemblyTitle("BinaryNotes ASN.1 Library")]
+[assembly: AssemblyDescription("ASN.1 encoding/decoding library, supporting the BER, DER and PER encodings.")]
 [assembly: AssemblyCompany("Abdulla G. Abdurakhmanov, Pavel Drasil")]
 [assembly: AssemblyProduct("BinaryNotes")]
-[assembly: AssemblyCopyright("Copyright © 2006-2015 Abdulla G. Abdurakhmanov, Pavel Drasil")]
+[assembly: AssemblyCopyright("© 2006-2015 Abdulla G. Abdurakhmanov, Pavel Drasil")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,8 +21,8 @@ using System.Reflection;
 // You can specify all the values or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6")]
-[assembly: AssemblyFileVersion("1.6")]
+[assembly: AssemblyVersion("1.6.0")]
+[assembly: AssemblyFileVersion("1.6.0")]
 
 // In order to sign your assembly you must specify a key to use. Refer to the 
 // Microsoft .NET Framework documentation for more information on assembly signing.
