@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>cz.drasil</groupId>
+        <artifactId>binarynotes-parent</artifactId>
+        <version>1.6</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <artifactId>binarynotes-dist</artifactId>
+    <packaging>pom</packaging>
+    
+    <name>BinaryNotes Distribution Package</name>
+    <description>BinaryNotes distribution package</description>
+    <url>https://github.com/drasil/BinaryNotes</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/drasil/BinaryNotes.git</connection>
+        <developerConnection>scm:git:git@github.com:drasil/BinaryNotes.git</developerConnection>
+        <url>git@github.com:drasil/BinaryNotes.git</url>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>cz.drasil</groupId>
+            <artifactId>bncompiler</artifactId>
+            <version>${project.version}</version>
+            <classifier>dist</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>cz.drasil</groupId>
+            <artifactId>binarynotes</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <!-- prepares folder structure ready for distribution -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/assembly/dist.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
